@@ -1,96 +1,33 @@
 package ar.nex.app;
 
-import ar.nex.entity.Usuario;
+import ar.nex.exceptions.ExceptionUtil;
+import ar.nex.login.LoginController;
+import ar.nex.util.DateUtils;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MainApp extends Application {
 
-    private Usuario usuario;
-
-    private static MainApp instance;
-
-    public static MainApp getInstance() {
-        return instance;
-    }
-
-    private Parent root;
-    private Scene scene;
-    private Stage stage;
-
+     private final static Logger LOGGER = LogManager.getLogger(MainApp.class.getName());
+     
     @Override
-    public void start(Stage stage) {
-        try {
-            this.usuario = null;
-            instance = this;
-            this.stage = stage;
-            
-            stage.setTitle("App by HellNeX");
-            showHome();
+    public void start(Stage stage) throws Exception {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        stage.setTitle("SAE-App");
+        Parent root = new LoginController().getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
-    }
-
-    private void showHome() {
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
-
-            scene = new Scene(root);
-            scene.getStylesheets().add("/fxml/Home.css");
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.setOnCloseRequest(e->close());
-            stage.show();
-        } catch (Exception e) {
-        }
-    }
-    
-    public void close(){
-        System.out.println("ar.nex.app.MainApp.close()");
-        this.stage.close();
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public boolean isLogin() {
-        return usuario != null;
-    }
-
-    public Parent getRoot() {
-        return root;
-    }
-
-    public void setRoot(Parent root) {
-        this.root = root;
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
+        new Thread(() -> {
+            ExceptionUtil.init();
+        }).start();
     }
 
     /**
@@ -102,7 +39,15 @@ public class MainApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Long startTime = System.currentTimeMillis();
+        LOGGER.log(Level.INFO, "SAE-App launched on {}", DateUtils.formatDateTimeString(startTime));
         launch(args);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                Long exitTime = System.currentTimeMillis();
+                LOGGER.log(Level.INFO, "SAE-App is closing on {}. Used for {} ms", DateUtils.formatDateTimeString(startTime), exitTime);
+            }
+        });
     }
-
 }

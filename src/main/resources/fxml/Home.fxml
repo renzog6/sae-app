@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpHome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">
+<BorderPane fx:id="bpHome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">
     <left>
         <VBox minHeight="200.0" minWidth="140.0" prefHeight="200.0" prefWidth="140.0" style="-fx-background-color: #3F647F;" BorderPane.alignment="CENTER">
             <children>
@@ -47,6 +47,20 @@
                         <Font size="14.0" />
                     </font>
                 </MenuButton>
+            <MenuButton fx:id="mbUsuario" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" prefHeight="40.0" prefWidth="120.0" styleClass="button-home" text="Usuarios" textAlignment="CENTER">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Lista Usuario" />
+                  <MenuItem mnemonicParsing="false" text="Grupos - Menus" />
+                  <MenuItem mnemonicParsing="false" text="xxx" />
+                  <MenuItem mnemonicParsing="false" text="xxx" />
+               </items>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
+               </VBox.margin>
+            </MenuButton>
                 
             </children>
             <BorderPane.margin>

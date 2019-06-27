@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
 
     private void config(ActionEvent e) {
         try {
-            Stage dialog = new Stage();
+            Stage stage = new Stage();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login/LoginConfig.fxml"));
             LoginConfigController controller = new LoginConfigController();
@@ -110,11 +110,11 @@ public class LoginController implements Initializable {
 
             Scene scene = new Scene(loader.load());
 
-            dialog.setScene(scene);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.resizableProperty().setValue(Boolean.FALSE);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.resizableProperty().setValue(Boolean.FALSE);
 
-            dialog.showAndWait();
+            stage.showAndWait();
         } catch (IOException ex) {
             System.err.print(ex);
         }
@@ -146,11 +146,21 @@ public class LoginController implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
             Stage stage = new Stage();
-            Scene scene = new Scene(root);            
+            Scene scene = new Scene(root);
             scene.getStylesheets().add("/fxml/Home.css");
             stage.setScene(scene);
             stage.setTitle("SAE-App");
-            stage.setMaximized(true);            
+            stage.setMaximized(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
+            stage.setOnCloseRequest(b -> {
+                boolean response = DialogController.confirmDialog("Seguro que desea SALIR?");
+                if (response) {
+                    Platform.exit();
+                }
+                b.consume();
+            });
+
             stage.show();
         } catch (Exception e) {
             DialogController.showException(e);

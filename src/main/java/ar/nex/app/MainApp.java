@@ -2,6 +2,7 @@ package ar.nex.app;
 
 import ar.nex.exceptions.ExceptionUtil;
 import ar.nex.login.LoginController;
+import ar.nex.service.JpaService;
 import ar.nex.util.DateUtils;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -14,8 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 public class MainApp extends Application {
 
-     private final static Logger LOGGER = LogManager.getLogger(MainApp.class.getName());
-     
+    private final static Logger LOGGER = LogManager.getLogger(MainApp.class.getName());
+
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -23,10 +24,14 @@ public class MainApp extends Application {
         Parent root = new LoginController().getRoot();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+
         stage.show();
+        // stage.setMinWidth(1024);
+        // stage.setMinHeight(768);
 
         new Thread(() -> {
             ExceptionUtil.init();
+            JpaService.init();
         }).start();
     }
 

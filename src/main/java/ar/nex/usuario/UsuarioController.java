@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -120,6 +121,7 @@ public class UsuarioController implements Initializable {
         colInfo.setCellValueFactory(new PropertyValueFactory<>("info"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         //colAccion;
+                
     }
 
     private void loadData() {

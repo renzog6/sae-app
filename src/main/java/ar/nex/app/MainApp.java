@@ -24,10 +24,7 @@ public class MainApp extends Application {
         Parent root = new LoginController().getRoot();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
         stage.show();
-        // stage.setMinWidth(1024);
-        // stage.setMinHeight(768);
 
         new Thread(() -> {
             ExceptionUtil.init();

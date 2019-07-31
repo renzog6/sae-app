@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
 
     private static Usuario usuario;
 
-    public Usuario getUsuario() {
+    public static Usuario getUsuario() {
         return usuario;
     }
 
@@ -46,8 +46,7 @@ public class LoginController implements Initializable {
         LoginController.usuario = usuario;
     }
 
-    public static boolean isLogin() {
-        System.out.println("ar.nex.login.LoginController.isLogin()" + (usuario != null));
+    public static boolean isLogin() {        
         return usuario != null;
     }
 
@@ -120,7 +119,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void login(ActionEvent e) {
+        private void login(ActionEvent e) {
         try {
             EntityManager em = jpa.getFactory().createEntityManager();
             Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.username = :username");
@@ -141,7 +140,7 @@ public class LoginController implements Initializable {
         }
 
     }
-
+    
     private void showHome() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
@@ -160,7 +159,6 @@ public class LoginController implements Initializable {
                 }
                 b.consume();
             });
-
             stage.show();
         } catch (Exception e) {
             DialogController.showException(e);

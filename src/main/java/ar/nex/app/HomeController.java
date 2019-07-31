@@ -1,11 +1,17 @@
 package ar.nex.app;
 
+import ar.nex.empleado.EmpleadoController;
 import ar.nex.empresa.EmpresaController;
+import ar.nex.empresa.RubroController;
+import ar.nex.entity.Usuario;
 import ar.nex.equipo.EquipoController;
+import ar.nex.gasoil.GasoilController;
+import ar.nex.login.LoginController;
 import ar.nex.pedido.PedidoController;
 import ar.nex.repuesto.RepuestoController;
 import ar.nex.usuario.UsuarioController;
 import ar.nex.repuesto.RepuestoUsoController;
+import ar.nex.ubicacion.LocalidadController;
 import ar.nex.util.DialogController;
 
 import java.net.URL;
@@ -13,7 +19,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,20 +34,16 @@ import org.apache.logging.log4j.Logger;
 public class HomeController implements Initializable {
 
     private final static Logger LOGGER = LogManager.getLogger(HomeController.class.getName());
-    
+
     public HomeController() {
     }
 
     @FXML
     private BorderPane bpHome;
-    @FXML
-    private MenuButton mbEmpresa;
-    @FXML
-    private MenuButton mbEquipo;
 
     @FXML
-    private MenuButton mbUsuario;
-            
+    private MenuBar menuBar;
+
     /**
      * Initializes the controller class.
      *
@@ -48,35 +52,106 @@ public class HomeController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("ar.nex.app.HomeController.initialize()");
+        LOGGER.info("initialize(URL url, ResourceBundle rb)");
         try {
-            DialogController.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
-            initMenuEmpresa();
-            initMenuEquipo();
-            initMenuUsuario();
+            // DialogController.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
+            initMenu(LoginController.getUsuario());
         } catch (Exception e) {
             DialogController.showException(e);
         }
     }
 
+    private void initMenu(Usuario usuario) {
+        switch (usuario.getGrupo().getCode()) {
+            case 101:
+                initMenuEmpresa();
+                initMenuEquipo();
+                initMenuEmpleado();
+                initMenuPlanta();
+                initMenuConfig();
+                break;
+            case 251:
+                initMenuEmpresa();
+                initMenuEquipo();
+                initMenuEmpleado();
+                break;
+            case 351:
+                initMenuPlanta();
+                break;
+        }
+
+    }
+
     private void initMenuEmpresa() {
-        mbEmpresa.getItems().get(0).setOnAction(e -> show(new EmpresaController().getRoot()));
+        Menu menu = new Menu("Empresa");
+
+        MenuItem item = new MenuItem("Lista de Empresas");
+        item.setOnAction(e -> show(new EmpresaController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Lista de Localidades");
+        item.setOnAction(e -> show(new LocalidadController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Lista de Rubros");
+        item.setOnAction(e -> show(new RubroController().getRoot()));
+        menu.getItems().add(item);
+
+        menuBar.getMenus().add(menu);
     }
 
     private void initMenuEquipo() {
-        mbEquipo.getItems().get(0).setOnAction(e -> show(new EquipoController().getRoot()));
-        mbEquipo.getItems().get(1).setOnAction(e -> show(new RepuestoController().getRoot()));
-        mbEquipo.getItems().get(2).setOnAction(e -> show(new PedidoController().getRoot()));
-        mbEquipo.getItems().get(3).setOnAction(e -> show(new RepuestoUsoController().getRoot()));
+        Menu menu = new Menu("Equipo");
+
+        MenuItem item = new MenuItem("Lista de Equipos");
+        item.setOnAction(e -> show(new EquipoController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Lista de Repuestos");
+        item.setOnAction(e -> show(new RepuestoController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Lista de Pedidos");
+        item.setOnAction(e -> show(new PedidoController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Uso Repuestos");
+        item.setOnAction(e -> show(new RepuestoUsoController().getRoot()));
+        menu.getItems().add(item);
+
+        menuBar.getMenus().add(menu);
     }
 
-        private void initMenuUsuario() {
-        mbUsuario.getItems().get(0).setOnAction(e -> show(new UsuarioController().getRoot()));
-//        mbEquipo.getItems().get(1).setOnAction(e -> show(new RepuestoController().getRoot()));
-//        mbEquipo.getItems().get(2).setOnAction(e -> show(new PedidoController().getRoot()));
-//        mbEquipo.getItems().get(3).setOnAction(e -> show(new RepuestoUsoController().getRoot()));
+    private void initMenuEmpleado() {
+        Menu menu = new Menu("Empledos");
+
+        MenuItem item = new MenuItem("Lista de Empleados");
+        item.setOnAction(e -> show(new EmpleadoController().getRoot()));
+        menu.getItems().add(item);
+
+        menuBar.getMenus().add(menu);
     }
-        
+
+    private void initMenuPlanta() {
+        Menu menu = new Menu("Planta");
+
+        MenuItem item = new MenuItem("Gas-Oil");
+        item.setOnAction(e -> show(new GasoilController().getRoot()));
+        menu.getItems().add(item);
+
+        menuBar.getMenus().add(menu);
+    }
+
+    private void initMenuConfig() {
+        Menu menu = new Menu("Config");
+
+        MenuItem item = new MenuItem("Lista de Usuarios");
+        item.setOnAction(e -> show(new UsuarioController().getRoot()));
+        menu.getItems().add(item);
+
+        menuBar.getMenus().add(menu);
+    }
+
     public void show(Parent root) {
         bpHome.getStylesheets().add(root.getStyle());
         bpHome.setCenter(root);

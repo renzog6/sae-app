@@ -1,6 +1,5 @@
 package ar.nex.login;
 
-import ar.nex.app.HomeController;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.io.File;
 import java.io.FileWriter;

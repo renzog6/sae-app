@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label contentDisplay="CENTER" layoutX="130.0" layoutY="14.0" text="Datos Personal" textAlignment="CENTER" underline="true">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+                
+        <Label layoutX="20.0" layoutY="50.0" prefHeight="30.0" text="Nombre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="20.0" layoutY="100.0" prefHeight="30.0" text="Apellido" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="120.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="140.0" layoutY="190.0" prefHeight="30.0" text="DNI" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="17.0" layoutY="293.0" prefHeight="30.0" text="Sexo" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="260.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="23.0" layoutY="330.0" prefHeight="30.0" text="Direccion" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="330.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="23.0" layoutY="369.0" prefHeight="30.0" text="Contacto" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="400.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+       
+        <TextField fx:id="boxNombre" alignment="CENTER" layoutX="140.0" layoutY="55.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="80.0" />
+        <TextField fx:id="boxApellido" alignment="CENTER" layoutX="170.0" layoutY="163.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="150.0" />
+        <TextField fx:id="boxCUIL" alignment="CENTER" layoutX="145.0" layoutY="220.0" prefHeight="30.0" prefWidth="110.0" promptText="12-1234567-1" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="220.0" />
+      
+        <Button fx:id="btnGuardar" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Guardar" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" />
+        <Button fx:id="btnCancelar" layoutX="207.0" layoutY="361.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Cancelar" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <Label layoutX="265.0" layoutY="190.0" prefHeight="30.0" text="CUIL" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="boxDNi" alignment="CENTER" editable="false" layoutX="263.0" layoutY="215.0" prefHeight="30.0" prefWidth="100.0" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="220.0" />
+      <TextField fx:id="boxDireccion" alignment="CENTER" disable="true" editable="false" layoutX="21.0" layoutY="360.0" prefHeight="30.0" prefWidth="350.0" promptText="Doble Click para Editar" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="360.0" />
+      <TextField fx:id="boxContacto" alignment="CENTER" disable="true" layoutX="25.0" layoutY="430.0" prefHeight="30.0" prefWidth="350.0" promptText="Doble Click para Editar" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="430.0" />
+      <DatePicker fx:id="dpFecha" layoutX="30.0" layoutY="220.0" prefHeight="30.0" prefWidth="100.0" AnchorPane.leftAnchor="25.0" />
+      <Label layoutX="25.0" layoutY="197.0" prefHeight="30.0" text="F. Nacimiento" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbSexo" layoutX="27.0" layoutY="290.0" prefHeight="30.0" prefWidth="130.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="290.0" />
+      <ComboBox fx:id="cbEstadoCivil" layoutX="180.0" layoutY="290.0" prefHeight="30.0" prefWidth="130.0" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="290.0" />
+      <Label layoutX="175.0" layoutY="260.0" prefHeight="30.0" text="Estado Civil" AnchorPane.topAnchor="260.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="boxHijos" layoutX="265.0" layoutY="293.0" prefHeight="30.0" prefWidth="50.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="290.0" />
+      <Label layoutX="325.0" layoutY="260.0" prefHeight="30.0" text="Hijos?">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+         
+        
+    </children>
+</AnchorPane>

@@ -1,12 +1,13 @@
 package ar.nex.empleado;
 
+import ar.nex.app.SaeUtils;
 import ar.nex.entity.empleado.Empleado;
-import ar.nex.entity.empleado.Persona;
 import ar.nex.login.LoginController;
 import ar.nex.service.JpaService;
 import ar.nex.util.DialogController;
 import java.io.IOException;
 import java.net.URL;
+
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -28,7 +29,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -88,32 +88,33 @@ public class EmpleadoController implements Initializable {
     @FXML
     private TableView<Empleado> table;
     @FXML
-    private TableColumn<Persona, String> colEmpleado;
+    private TableColumn<Empleado, String> colEmpleado;
     @FXML
-    private TableColumn<?, ?> colPuesto;
+    private TableColumn<Empleado, String> colPuesto;
     @FXML
-    private TableColumn<?, ?> colEmail;
+    private TableColumn<Empleado, String> colFechaAlta;
     @FXML
-    private TableColumn<?, ?> colAntiguedad;
+    private TableColumn<Empleado, String> colAntiguedad;
     @FXML
-    private TableColumn<?, ?> colMenu;
+    private TableColumn<Empleado, String> colCategoria;
     @FXML
     private TableColumn<?, ?> colInfo;
     @FXML
     private TableColumn<?, ?> colEstado;
     @FXML
-    private TableColumn<?, ?> colAccion;
+    private TableColumn<Empleado, String> colEdad;
 
     private JpaService jpa;
-    
+
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          try {
+        try {
             btnAdd.setOnAction(e -> add());
             btnEdit.setOnAction(e -> edit());
 
@@ -149,9 +150,73 @@ public class EmpleadoController implements Initializable {
 
     private void initTable() {
         try {
-            colEmpleado.setCellValueFactory(new PropertyValueFactory<>("Empleado"));
-            
-                    
+            colEmpleado.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> p) {
+                    return new SimpleStringProperty(p.getValue().getNombreCompleto());
+                }
+            });
+
+            colEdad.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        Integer edad = SaeUtils.getEdad(param.getValue().getNacimiento());
+                        return new SimpleStringProperty(edad.toString());
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("XX");
+                    }
+                }
+            });
+
+            colAntiguedad.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        Integer edad = SaeUtils.getEdad(param.getValue().getFechaAlta());
+                        return new SimpleStringProperty(edad.toString());
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("XX");
+                    }
+                }
+            });
+
+            colFechaAlta.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String date = SaeUtils.getDateString(param.getValue().getFechaAlta());
+                        return new SimpleStringProperty(date);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
+            colPuesto.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String puesto = param.getValue().getPuesto().getNombre();
+                        return new SimpleStringProperty(puesto);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
+            colCategoria.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String puesto = param.getValue().getCategoria().getNombre();
+                        return new SimpleStringProperty(puesto);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
         } catch (Exception e) {
             DialogController.showException(e);
         }
@@ -178,9 +243,9 @@ public class EmpleadoController implements Initializable {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (item.getPersona().getApellido().toLowerCase().contains(lowerCaseFilter)) {
+                if (item.getApellido().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (item.getPersona().getNombre().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (item.getNombre().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -205,8 +270,13 @@ public class EmpleadoController implements Initializable {
     private void edit() {
         try {
             Stage dialog = new Stage();
+            if (empleadoSelect != null) {
+                dialog.setTitle("Editar Datos de Empleado");
+            } else {
+                dialog.setTitle("Alta de Empleado");
+            }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/empresa/EmpleadoEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/empleado/EmpleadoEdit.fxml"));
             EmpleadoEditController controller = new EmpleadoEditController(empleadoSelect);
             loader.setController(controller);
 

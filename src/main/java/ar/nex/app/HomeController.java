@@ -5,7 +5,7 @@ import ar.nex.empresa.EmpresaController;
 import ar.nex.empresa.RubroController;
 import ar.nex.entity.Usuario;
 import ar.nex.equipo.EquipoController;
-import ar.nex.gasoil.GasoilController;
+import ar.nex.equipo.gasto.GasoilController;
 import ar.nex.login.LoginController;
 import ar.nex.pedido.PedidoController;
 import ar.nex.repuesto.RepuestoController;

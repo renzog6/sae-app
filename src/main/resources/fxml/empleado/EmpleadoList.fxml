@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpEmpleado" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.empleado.EmpleadoController">
+<BorderPane fx:id="bpEmpleado" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.empleado.EmpleadoController">
     
     <center>
         <AnchorPane minHeight="558.0" prefHeight="558.0">
@@ -21,13 +21,13 @@
                 <TableView fx:id="table" layoutX="-9.0" layoutY="14.0" minHeight="558.0" onMouseClicked="#showOnClick" prefHeight="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="colEmpleado" minWidth="50.0" prefWidth="100.0" text="Empleado" />
-                        <TableColumn fx:id="colPuesto" minWidth="50.0" prefWidth="100.0" text="Puesto" />
-                        <TableColumn fx:id="colEmail" prefWidth="102.0" text="F. Alta" />
-                        <TableColumn fx:id="colAntiguedad" prefWidth="102.0" text="Antiguedad" />
-                        <TableColumn fx:id="colMenu" prefWidth="102.0" text="Menu" />
+                        <TableColumn fx:id="colEdad" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Edad" />
+                        <TableColumn fx:id="colPuesto" maxWidth="150.0" minWidth="120.0" prefWidth="150.0" text="Puesto" />
+                        <TableColumn fx:id="colFechaAlta" maxWidth="110.0" minWidth="90.0" prefWidth="110.0" text="F. Alta" />
+                        <TableColumn fx:id="colAntiguedad" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Antiguedad" />
+                        <TableColumn fx:id="colCategoria" maxWidth="150.0" minWidth="120.0" prefWidth="150.0" text="Categoria" />
                         <TableColumn fx:id="colInfo" prefWidth="100.0" text="Info" />                        
-                        <TableColumn fx:id="colEstado" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Estado" />
-                        <TableColumn fx:id="colAccion" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" styleClass="colAccion" text="Accion" />
+                        <TableColumn fx:id="colEstado" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Estado" />                       
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

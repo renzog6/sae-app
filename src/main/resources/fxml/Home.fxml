@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="bpHome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">    
+<BorderPane fx:id="bpHome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="748.0" minWidth="1024.0" prefHeight="748.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">    
     <top>
         <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
             <menus>
             </menus>
         </MenuBar>
     </top>
+   <padding>
+      <Insets bottom="2.0" left="2.0" right="2.0" />
+   </padding>
 </BorderPane>

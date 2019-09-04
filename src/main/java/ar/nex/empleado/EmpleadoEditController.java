@@ -1,21 +1,22 @@
 package ar.nex.empleado;
 
 import ar.nex.app.SaeUtils;
+import ar.nex.entity.AdminEmpresa;
 import ar.nex.entity.empleado.Empleado;
 import ar.nex.entity.empleado.EmpleadoCategoria;
 import ar.nex.entity.empleado.EmpleadoPuesto;
+import ar.nex.entity.empleado.EstadoCivil;
+import ar.nex.entity.empleado.PersonaGenero;
+import ar.nex.entity.empresa.Empresa;
 import ar.nex.entity.ubicacion.Direccion;
-import ar.nex.equipo.gasto.GasoilMovimiento;
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.equipo.util.DialogController;
-import ar.nex.pedido.EstadoPedido;
 import ar.nex.service.JpaService;
 import ar.nex.ubicacion.DireccionEditController;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -36,6 +37,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 /**
  * FXML Controller class
@@ -82,9 +85,9 @@ public class EmpleadoEditController implements Initializable {
     private DatePicker dpFechaAlta;
 
     @FXML
-    private ComboBox<?> cbSexo;
+    private ComboBox<PersonaGenero> cbGenero;
     @FXML
-    private ComboBox<?> cbEstadoCivil;
+    private ComboBox<EstadoCivil> cbEstadoCivil;
     @FXML
     private ComboBox<EmpleadoCategoria> cbCategoria;
     @FXML
@@ -105,12 +108,14 @@ public class EmpleadoEditController implements Initializable {
     @FXML
     private Button btnContactoLaboral;
 
-    private  ObservableList<EmpleadoPuesto> dataPuesto = FXCollections.observableArrayList();
-    private  ObservableList<EmpleadoCategoria> dataCategoria = FXCollections.observableArrayList();
+    private final ObservableList<EmpleadoPuesto> dataPuesto = FXCollections.observableArrayList();
+    private final ObservableList<EmpleadoCategoria> dataCategoria = FXCollections.observableArrayList();
 
     private JpaService jpa;
     private Empleado empleado;
     private Direccion direccion;
+    private Empresa empresa;
+    private final ObservableList<AdminEmpresa> dataEmpresa = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -123,7 +128,7 @@ public class EmpleadoEditController implements Initializable {
         // TODO
         try {
             jpa = new JpaService();
-            
+
             btnCancelar.setOnAction(e -> ((Node) (e.getSource())).getScene().getWindow().hide());
             btnGuardar.setOnAction(e -> guardar(e));
 
@@ -140,11 +145,21 @@ public class EmpleadoEditController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
     }
 
     private void initControls() {
         try {
+            loadDataEmpresa();
+            AutoCompletionBinding<AdminEmpresa> autoCodigo = TextFields.bindAutoCompletion(boxEmpresa, dataEmpresa);
+            autoCodigo.setOnAutoCompleted((AutoCompletionBinding.AutoCompletionEvent<AdminEmpresa> event) -> {
+                empresa = event.getCompletion().getEmpresa();
+            }
+            );
+
+            cbGenero.getItems().addAll((ObservableList) FXCollections.observableArrayList(PersonaGenero.values()));
+            cbEstadoCivil.getItems().addAll((ObservableList) FXCollections.observableArrayList(EstadoCivil.values()));
+
             if (empleado != null) {
                 boxNombre.setText(empleado.getNombre());
                 boxApellido.setText(empleado.getApellido());
@@ -169,17 +184,24 @@ public class EmpleadoEditController implements Initializable {
                     }
                 });
 
+                cbGenero.getSelectionModel().select(empleado.getGenero());
+                cbEstadoCivil.getSelectionModel().select(empleado.getEstadoCivil());
+
                 dpFechaNacimiento.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getNacimiento()));
                 dpFechaAlta.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getFechaAlta()));
-                
-                cbPuesto.getSelectionModel().select(empleado.getPuesto());                
+
+                cbPuesto.getSelectionModel().select(empleado.getPuesto());
                 cbCategoria.getSelectionModel().select(empleado.getCategoria());
+                boxEmpresa.setText(empleado.getEmpresa().getNombre());
+
             } else {
                 empleado = new Empleado();
                 dpFechaNacimiento.setValue(LocalDate.now());
                 dpFechaAlta.setValue(LocalDate.now());
                 cbPuesto.getSelectionModel().select(dataPuesto.get(8));
                 cbCategoria.getSelectionModel().select(dataCategoria.get(4));
+                cbGenero.getSelectionModel().select(PersonaGenero.MASCULICNO);
+                cbEstadoCivil.getSelectionModel().select(EstadoCivil.SOLTERO);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,6 +227,17 @@ public class EmpleadoEditController implements Initializable {
                 dataCategoria.add(item);
             });
             cbCategoria.getItems().addAll(dataCategoria);
+        } catch (Exception e) {
+            ar.nex.util.DialogController.showException(e);
+        }
+    }
+
+    private void loadDataEmpresa() {
+        try {
+            List<AdminEmpresa> lst = jpa.getAdminEmpresa().findAdminEmpresaEntities();
+            lst.forEach((item) -> {
+                dataEmpresa.add(item);
+            });
         } catch (Exception e) {
             ar.nex.util.DialogController.showException(e);
         }
@@ -262,11 +295,13 @@ public class EmpleadoEditController implements Initializable {
     }
 
     private void guardar(ActionEvent e) {
-        try {            
+        try {
             if (!isEmptytBox()) {
-                System.out.println("ar.nex.empleado.EmpleadoEditController.guardar()::: " + SaeUtils.capitailizeString(boxNombre.getText()));
                 empleado.setNombre(SaeUtils.capitailizeString(boxNombre.getText()));
                 empleado.setApellido(SaeUtils.capitailizeString(boxApellido.getText()));
+
+                empleado.setGenero(cbGenero.getValue());
+                empleado.setEstadoCivil(cbEstadoCivil.getValue());
 
                 empleado.setHijo(Integer.parseInt(boxHijos.getText()));
 
@@ -275,6 +310,8 @@ public class EmpleadoEditController implements Initializable {
 
                 empleado.setPuesto(cbPuesto.getValue());
                 empleado.setCategoria(cbCategoria.getValue());
+
+                empleado.setEmpresa(empresa);
                 if (empleado.getIdPersona() != null) {
                     jpa.getPersona().edit(empleado);
                 } else {

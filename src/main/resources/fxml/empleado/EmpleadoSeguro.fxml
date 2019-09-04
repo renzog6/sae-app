@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bpEquipo" minHeight="600.0" minWidth="100.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.equipo.seguro.EquipoSeguroController">
+    
+    <top>          
+        <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="searchBox" layoutX="2.0" layoutY="13.0" onInputMethodTextChanged="#Search" onKeyReleased="#Search" prefHeight="30.0" prefWidth="200.0" promptText="Buscar" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0" />
+                <Label layoutX="314.0" layoutY="12.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" text="Lista de Equipos" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <ComboBox fx:id="filtroEmpresa" layoutX="294.0" layoutY="13.0" onAction="#filtroEmpresa" prefHeight="30.0" prefWidth="150.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="10.0" />
+            <MenuButton fx:id="mbMenu" layoutX="570.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Menu" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
+            </children>
+        </AnchorPane>       
+    </top>
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+                <TableView fx:id="tblSeguro" onMouseClicked="#clickEnSeguro">
+                    <columns>
+                        <TableColumn fx:id="colCompania" prefWidth="187.0" text="Compañia" />
+                        <TableColumn fx:id="colPoliza" prefWidth="187.0" text="Poliza" />
+                        <TableColumn fx:id="colDesde" prefWidth="102.0" text="Desde" />
+                        <TableColumn fx:id="colHasta" prefWidth="102.0" text="Hasta" />
+                        <TableColumn fx:id="colPrima" prefWidth="102.0" text="Prima" />
+                        <TableColumn fx:id="colMonto" prefWidth="102.0" text="Monto" />
+                        <TableColumn fx:id="colReferencia" prefWidth="102.0" text="Referencia" />
+                    </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+                </TableView>
+            <TableView fx:id="tblEquipo" onMouseClicked="#clickEnEquipo" GridPane.columnIndex="1">
+               <columns>
+                  <TableColumn fx:id="colTipo" prefWidth="187.0" text="Tipo" />
+                  <TableColumn fx:id="colModelo" prefWidth="102.0" text="Modelo" />
+                  <TableColumn fx:id="colMarca" prefWidth="102.0" text="Marca" />
+                  <TableColumn fx:id="colAnio" prefWidth="102.0" text="Año" />
+                  <TableColumn fx:id="colChasis" prefWidth="102.0" text="Chasis" />
+                  <TableColumn fx:id="colMotor" prefWidth="102.0" text="Motor" />
+                  <TableColumn fx:id="colPatente" prefWidth="102.0" text="Patente" />
+                  <TableColumn fx:id="colChofer" prefWidth="102.0" text="Chofer" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <AnchorPane fx:id="menuEquipo" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <children>
+                  <Button fx:id="btnAdd1" contentDisplay="CENTER" layoutX="609.0" layoutY="312.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="110.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                           <image>
+                              <Image url="@../../img/plus_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnEdit1" alignment="CENTER" contentDisplay="CENTER" layoutX="609.0" layoutY="359.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="60.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                           <image>
+                              <Image url="@../../img/pencil_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnDelete1" contentDisplay="CENTER" layoutX="609.0" layoutY="405.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                           <image>
+                              <Image url="@../../img/delete_64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+              <AnchorPane fx:id="menuSeguro" GridPane.rowIndex="1">
+                  <children>                   
+                      <Button fx:id="btnAdd" contentDisplay="CENTER" layoutX="609.0" layoutY="312.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+                          <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                                  <image>
+                                      <Image url="@../../img/plus_64.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>                        
+                      <Button fx:id="btnEdit" alignment="CENTER" contentDisplay="CENTER" layoutX="609.0" layoutY="359.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="60.0">
+                          <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                                  <image>
+                                      <Image url="@../../img/pencil_64.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>                        
+                      <Button fx:id="btnDelete" contentDisplay="CENTER" layoutX="609.0" layoutY="405.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="110.0">
+                          <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
+                                  <image>
+                                      <Image url="@../../img/delete_64.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>                       
+                  </children>
+              </AnchorPane>
+         </children>
+         <BorderPane.margin>
+            <Insets left="2.0" right="2.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+   
+</BorderPane>

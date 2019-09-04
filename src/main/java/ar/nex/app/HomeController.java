@@ -1,11 +1,14 @@
 package ar.nex.app;
 
 import ar.nex.empleado.EmpleadoController;
+import ar.nex.empleado.EmpleadoSeguroController;
 import ar.nex.empresa.EmpresaController;
 import ar.nex.empresa.RubroController;
 import ar.nex.entity.Usuario;
 import ar.nex.equipo.EquipoController;
 import ar.nex.equipo.gasto.GasoilController;
+import ar.nex.equipo.seguro.EquipoSeguroController;
+import ar.nex.equipo.transporte.TransporteController;
 import ar.nex.login.LoginController;
 import ar.nex.pedido.PedidoController;
 import ar.nex.repuesto.RepuestoController;
@@ -22,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -119,6 +123,13 @@ public class HomeController implements Initializable {
         item.setOnAction(e -> show(new RepuestoUsoController().getRoot()));
         menu.getItems().add(item);
 
+        SeparatorMenuItem separator = new SeparatorMenuItem();
+        menu.getItems().add(separator);
+
+        item = new MenuItem("Seguro");
+        item.setOnAction(e -> show(new EquipoSeguroController().getRoot()));
+        menu.getItems().add(item);
+
         menuBar.getMenus().add(menu);
     }
 
@@ -129,6 +140,13 @@ public class HomeController implements Initializable {
         item.setOnAction(e -> show(new EmpleadoController().getRoot()));
         menu.getItems().add(item);
 
+        SeparatorMenuItem separator = new SeparatorMenuItem();
+        menu.getItems().add(separator);
+
+        item = new MenuItem("Seguro");
+        item.setOnAction(e -> show(new EmpleadoSeguroController().getRoot()));
+        menu.getItems().add(item);
+
         menuBar.getMenus().add(menu);
     }
 
@@ -137,6 +155,10 @@ public class HomeController implements Initializable {
 
         MenuItem item = new MenuItem("Gas-Oil");
         item.setOnAction(e -> show(new GasoilController().getRoot()));
+        menu.getItems().add(item);
+
+        item = new MenuItem("Transportes");
+        item.setOnAction(e -> show(new TransporteController().getRoot()));
         menu.getItems().add(item);
 
         menuBar.getMenus().add(menu);

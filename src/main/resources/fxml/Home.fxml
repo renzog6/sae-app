@@ -4,7 +4,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="bpHome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="748.0" minWidth="1024.0" prefHeight="748.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">    
+<BorderPane fx:id="bpHome" minHeight="600.0" minWidth="800.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.app.HomeController">    
     <top>
         <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
             <menus>

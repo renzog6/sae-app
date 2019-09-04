@@ -18,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -44,7 +43,7 @@ public class UsuarioController implements Initializable {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/usuario/Usuario.fxml"));
-            root.setStyle("/fxml/usuario/Usuario.css");
+            root.setStyle("/css/usuario.css");
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

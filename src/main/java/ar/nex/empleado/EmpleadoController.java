@@ -51,7 +51,7 @@ public class EmpleadoController implements Initializable {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/empleado/EmpleadoList.fxml"));
-            root.setStyle("/fxml/usuario/Usuario.css");
+            root.setStyle("/css/usuario.css");
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

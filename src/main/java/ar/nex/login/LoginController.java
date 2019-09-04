@@ -54,7 +54,7 @@ public class LoginController implements Initializable {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/login/Login.fxml"));
-            root.setStyle("/fxml/login/Login.css");
+            root.setStyle("/css/login.css");
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -89,7 +89,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="17.0" layoutY="293.0" prefHeight="30.0" text="Catigoria" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
+                        <Label layoutX="17.0" layoutY="293.0" prefHeight="30.0" text="Categoria" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -117,7 +117,7 @@
                         </Label>
                         <ComboBox fx:id="cbCategoria" layoutX="27.0" layoutY="290.0" prefHeight="30.0" prefWidth="160.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="190.0" />
                         <ComboBox fx:id="cbPuesto" layoutX="180.0" layoutY="290.0" prefHeight="30.0" prefWidth="160.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="190.0" />
-                        <Label layoutX="217.0" layoutY="160.0" prefHeight="30.0" text="Puesto" AnchorPane.topAnchor="160.0">
+                        <Label layoutX="217.0" layoutY="160.0" prefHeight="30.0" prefWidth="160.0" text="Puesto" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="160.0">
                            <font>
                               <Font size="14.0" />
                            </font>

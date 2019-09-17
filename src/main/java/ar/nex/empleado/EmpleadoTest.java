@@ -1,6 +1,6 @@
 package ar.nex.empleado;
 
-import ar.nex.util.DateUtils;
+import ar.nex.util.UtilDate;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Parent;
@@ -18,8 +18,9 @@ public class EmpleadoTest extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("SAE-App");
-        Parent root = new EmpleadoController().getRoot();
+        Parent root = new EmpleadoController().getRoot();        
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(root.getStyle());        
         stage.setScene(scene);
    
         stage.show();       
@@ -35,13 +36,13 @@ public class EmpleadoTest extends Application {
      */
     public static void main(String[] args) {
         Long startTime = System.currentTimeMillis();
-        LOGGER.log(Level.INFO, "SAE-App launched on {}", DateUtils.formatDateTimeString(startTime));
+        LOGGER.log(Level.INFO, "SAE-App launched on {}", UtilDate.formatDateTimeString(startTime));
         launch(args);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 Long exitTime = System.currentTimeMillis();
-                LOGGER.log(Level.INFO, "SAE-App is closing on {}. Used for {} ms", DateUtils.formatDateTimeString(startTime), exitTime);
+                LOGGER.log(Level.INFO, "SAE-App is closing on {}. Used for {} ms", UtilDate.formatDateTimeString(startTime), exitTime);
             }
         });
     }

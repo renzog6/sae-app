@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpEmpleado" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.empleado.EmpleadoController">
+<BorderPane fx:id="bpEmpleado" minHeight="700.0" minWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ar.nex.empleado.EmpleadoController">
     
     <center>
         <AnchorPane minHeight="558.0" prefHeight="558.0">
             <children>
-                <TableView fx:id="table" layoutX="-9.0" layoutY="14.0" minHeight="558.0" onMouseClicked="#showOnClick" prefHeight="558.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <TableView fx:id="table" layoutX="-9.0" layoutY="14.0" onMouseClicked="#showOnClick" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                        <TableColumn fx:id="colEmpleado" minWidth="50.0" prefWidth="100.0" text="Empleado" />
+                        <TableColumn fx:id="colEmpleado" minWidth="50.0" prefWidth="100.0" styleClass="nombre" text="Empleado" />
                         <TableColumn fx:id="colEdad" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Edad" />
                         <TableColumn fx:id="colPuesto" maxWidth="150.0" minWidth="120.0" prefWidth="150.0" text="Puesto" />
                         <TableColumn fx:id="colFechaAlta" maxWidth="110.0" minWidth="90.0" prefWidth="110.0" text="F. Alta" />
@@ -60,7 +60,7 @@
         <AnchorPane fx:id="menuPane" minHeight="90.0" prefHeight="90.0" styleClass="menuPane" BorderPane.alignment="CENTER">
             <children>
              
-                <Button fx:id="btnAdd" contentDisplay="CENTER" layoutX="10.0" layoutY="210.0" mnemonicParsing="false" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="10.0">
+                <Button fx:id="btnAdd" contentDisplay="CENTER" layoutX="10.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="10.0">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -69,7 +69,7 @@
                         </ImageView>
                     </graphic>
                 </Button>                        
-                <Button fx:id="btnEdit" alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="210.0" mnemonicParsing="false" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="70.0">
+                <Button fx:id="btnEdit" alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="70.0">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -78,7 +78,7 @@
                         </ImageView>
                     </graphic>
                 </Button>                        
-                <Button fx:id="btnDelete" contentDisplay="CENTER" layoutX="110.0" layoutY="210.0" mnemonicParsing="false" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="130.0">
+                <Button fx:id="btnDelete" contentDisplay="CENTER" layoutX="110.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="130.0">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>

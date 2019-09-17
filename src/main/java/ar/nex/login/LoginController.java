@@ -2,7 +2,7 @@ package ar.nex.login;
 
 import ar.nex.entity.Usuario;
 import ar.nex.service.JpaService;
-import ar.nex.util.DialogController;
+import ar.nex.util.UtilDialog;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -127,16 +127,16 @@ public class LoginController implements Initializable {
 
             Usuario usr = (Usuario) query.getSingleResult();
             if (usr == null) {
-                DialogController.errorDialog("Login Error.", "El Usuario NO exite!!!");
+                UtilDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
             } else if (usr.getPassword().compareTo(boxPass.getText()) != 0) {
-                DialogController.errorDialog("Login Error.", "Contraseña Incorrecta!!!");
+                UtilDialog.errorDialog("Login Error.", "Contraseña Incorrecta!!!");
             } else {
                 setUsuario(usr);
                 closeStage();
                 showHome();
             }
         } catch (Exception ex) {
-            DialogController.errorDialog("Login Error.", "El Usuario NO exite!!!");
+            UtilDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
         }
 
     }
@@ -146,14 +146,14 @@ public class LoginController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-            scene.getStylesheets().add("/fxml/Home.css");
+            scene.getStylesheets().add("/css/home.css");
             stage.setScene(scene);
             stage.setTitle("SAE-App");
             stage.setMaximized(true);
             stage.setMinWidth(1024);
             stage.setMinHeight(768);
             stage.setOnCloseRequest(b -> {
-                boolean response = DialogController.confirmDialog("Seguro que desea SALIR?");
+                boolean response = UtilDialog.confirmDialog("Seguro que desea SALIR?");
                 if (response) {
                     Platform.exit();
                 }
@@ -161,7 +161,7 @@ public class LoginController implements Initializable {
             });
             stage.show();
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 

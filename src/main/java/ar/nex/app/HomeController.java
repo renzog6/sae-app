@@ -1,21 +1,22 @@
 package ar.nex.app;
 
 import ar.nex.empleado.EmpleadoController;
-import ar.nex.empleado.EmpleadoSeguroController;
+import ar.nex.seguro.SeguroEmpleadoController;
 import ar.nex.empresa.EmpresaController;
 import ar.nex.empresa.RubroController;
 import ar.nex.entity.Usuario;
 import ar.nex.equipo.EquipoController;
 import ar.nex.equipo.gasto.GasoilController;
-import ar.nex.equipo.seguro.EquipoSeguroController;
+import ar.nex.seguro.SeguroEquipoController;
 import ar.nex.equipo.transporte.TransporteController;
 import ar.nex.login.LoginController;
+import ar.nex.marca.MarcaController;
 import ar.nex.pedido.PedidoController;
 import ar.nex.repuesto.RepuestoController;
 import ar.nex.usuario.UsuarioController;
 import ar.nex.repuesto.RepuestoUsoController;
 import ar.nex.ubicacion.LocalidadController;
-import ar.nex.util.DialogController;
+import ar.nex.util.UtilDialog;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,10 +59,10 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         LOGGER.info("initialize(URL url, ResourceBundle rb)");
         try {
-            // DialogController.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
+            // UtilDialog.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
             initMenu(LoginController.getUsuario());
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 
@@ -71,13 +72,15 @@ public class HomeController implements Initializable {
                 initMenuEmpresa();
                 initMenuEquipo();
                 initMenuEmpleado();
+                initMenuSeguro();
                 initMenuPlanta();
-                initMenuConfig();
+                initMenuConfig();                
                 break;
             case 251:
                 initMenuEmpresa();
                 initMenuEquipo();
                 initMenuEmpleado();
+                initMenuSeguro();
                 break;
             case 351:
                 initMenuPlanta();
@@ -126,8 +129,8 @@ public class HomeController implements Initializable {
         SeparatorMenuItem separator = new SeparatorMenuItem();
         menu.getItems().add(separator);
 
-        item = new MenuItem("Seguro");
-        item.setOnAction(e -> show(new EquipoSeguroController().getRoot()));
+        item = new MenuItem("Marca");
+        item.setOnAction(e -> show(new MarcaController().getRoot()));
         menu.getItems().add(item);
 
         menuBar.getMenus().add(menu);
@@ -140,13 +143,20 @@ public class HomeController implements Initializable {
         item.setOnAction(e -> show(new EmpleadoController().getRoot()));
         menu.getItems().add(item);
 
-        SeparatorMenuItem separator = new SeparatorMenuItem();
-        menu.getItems().add(separator);
+        menuBar.getMenus().add(menu);
+    }
 
-        item = new MenuItem("Seguro");
-        item.setOnAction(e -> show(new EmpleadoSeguroController().getRoot()));
+    private void initMenuSeguro() {
+        Menu menu = new Menu("Seguro");
+
+        MenuItem item = new MenuItem("Seguro Empleados");
+        item.setOnAction(e -> show(new SeguroEmpleadoController().getRoot()));
         menu.getItems().add(item);
 
+        item = new MenuItem("Seguro Equipos");
+        item.setOnAction(e -> show(new SeguroEquipoController().getRoot()));
+        menu.getItems().add(item);
+        
         menuBar.getMenus().add(menu);
     }
 

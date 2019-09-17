@@ -10,7 +10,7 @@ import ar.nex.entity.empleado.PersonaGenero;
 import ar.nex.entity.empresa.Empresa;
 import ar.nex.entity.ubicacion.Direccion;
 import ar.nex.equipo.util.DateUtils;
-import ar.nex.equipo.util.DialogController;
+import ar.nex.util.UtilDialog;
 import ar.nex.service.JpaService;
 import ar.nex.ubicacion.DireccionEditController;
 import java.io.IOException;
@@ -107,7 +107,7 @@ public class EmpleadoEditController implements Initializable {
     private Button btnContactoPersonal;
     @FXML
     private Button btnContactoLaboral;
-
+    
     private final ObservableList<EmpleadoPuesto> dataPuesto = FXCollections.observableArrayList();
     private final ObservableList<EmpleadoCategoria> dataCategoria = FXCollections.observableArrayList();
 
@@ -133,7 +133,6 @@ public class EmpleadoEditController implements Initializable {
             btnGuardar.setOnAction(e -> guardar(e));
 
             tabPane = new TabPane(tbPersonal, tbLaboral);
-            //tabPane.getTabs().addAll(tbPersonal, tbLaboral);
             btnSiguiente.setOnAction(e -> tabPane.getSelectionModel().select(tbLaboral));
             btnAtras.setOnAction(e -> tabPane.getSelectionModel().select(tbPersonal));
 
@@ -216,7 +215,7 @@ public class EmpleadoEditController implements Initializable {
             });
             cbPuesto.getItems().addAll(dataPuesto);
         } catch (Exception e) {
-            ar.nex.util.DialogController.showException(e);
+            ar.nex.util.UtilDialog.showException(e);
         }
     }
 
@@ -228,7 +227,7 @@ public class EmpleadoEditController implements Initializable {
             });
             cbCategoria.getItems().addAll(dataCategoria);
         } catch (Exception e) {
-            ar.nex.util.DialogController.showException(e);
+            ar.nex.util.UtilDialog.showException(e);
         }
     }
 
@@ -239,7 +238,7 @@ public class EmpleadoEditController implements Initializable {
                 dataEmpresa.add(item);
             });
         } catch (Exception e) {
-            ar.nex.util.DialogController.showException(e);
+            ar.nex.util.UtilDialog.showException(e);
         }
     }
 
@@ -272,7 +271,7 @@ public class EmpleadoEditController implements Initializable {
 
     private boolean isEmptytBox() {
         if (boxNombre.getText().trim().isEmpty()) {
-            DialogController.errorDialog("Requiere valor", "Nombre es necesario");
+            UtilDialog.errorDialog("Requiere valor", "Nombre es necesario");
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -281,7 +280,7 @@ public class EmpleadoEditController implements Initializable {
             });
             return true;
         } else if (boxApellido.getText().trim().isEmpty()) {
-            DialogController.errorDialog("Requiere valor", "Apellido es necesario");
+            UtilDialog.errorDialog("Requiere valor", "Apellido es necesario");
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {

@@ -4,7 +4,7 @@ import ar.nex.app.SaeUtils;
 import ar.nex.entity.empleado.Empleado;
 import ar.nex.login.LoginController;
 import ar.nex.service.JpaService;
-import ar.nex.util.DialogController;
+import ar.nex.util.UtilDialog;
 import java.io.IOException;
 import java.net.URL;
 
@@ -35,6 +35,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  * FXML Controller class
@@ -51,7 +53,7 @@ public class EmpleadoController implements Initializable {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/empleado/EmpleadoList.fxml"));
-            root.setStyle("/css/usuario.css");
+            root.setStyle("/css/empleado.css");
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,7 +122,7 @@ public class EmpleadoController implements Initializable {
 
             startTask();
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 
@@ -218,20 +220,25 @@ public class EmpleadoController implements Initializable {
             });
 
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 
     private void loadData() {
         try {
             clearAll();
-            List<Empleado> lst = jpa.getEmpleado().findEmpleadoEntities();
+            EntityManager em = jpa.getFactory().createEntityManager();
+            TypedQuery<Empleado> query
+                    = em.createQuery("SELECT c FROM Empleado c"                            
+                            + " ORDER BY c.apellido ASC", Empleado.class);
+            List<Empleado> lst = query.getResultList();
+            //List<Empleado> lst = jpa.getEmpleado().findEmpleadoEntities();
             lst.forEach((item) -> {
                 data.add(item);
             });
             table.setItems(data);
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 

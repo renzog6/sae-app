@@ -1,9 +1,10 @@
-package ar.nex.empleado;
+package ar.nex.seguro;
 
 import ar.nex.entity.Seguro;
+import ar.nex.entity.SeguroTipo;
 import ar.nex.entity.equipo.Equipo;
 import ar.nex.equipo.util.DateUtils;
-import ar.nex.equipo.util.DialogController;
+import ar.nex.equipo.util.UtilDialog;
 import ar.nex.service.JpaService;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
@@ -33,25 +35,28 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.persistence.TypedQuery;
 
 /**
  * FXML Controller class
  *
  * @author Renzo
  */
-public class EmpleadoSeguroController implements Initializable {
+public class SeguroEmpleadoController implements Initializable {
 
-    public EmpleadoSeguroController() {
+    public SeguroEmpleadoController() {
     }
 
     public Parent getRoot() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/empleado/EmpleadoSeguro.fxml"));
-            root.setStyle("/css/home.css");
+            root = FXMLLoader.load(getClass().getResource("/fxml/seguro/SeguroEmpleado.fxml"));
+            root.setStyle("/css/seguro.css");
         } catch (IOException ex) {
-            Logger.getLogger(EmpleadoSeguroController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SeguroEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return root;
     }
@@ -110,19 +115,19 @@ public class EmpleadoSeguroController implements Initializable {
     @FXML
     private AnchorPane menuEquipo;
     @FXML
-    private Button btnAdd1;
-    @FXML
-    private Button btnEdit1;
-    @FXML
-    private Button btnDelete1;
-    @FXML
-    private AnchorPane menuSeguro;
-    @FXML
     private Button btnAdd;
     @FXML
     private Button btnEdit;
     @FXML
     private Button btnDelete;
+    @FXML
+    private AnchorPane menuSeguro;
+    @FXML
+    private Button btnAddSeguro;
+    @FXML
+    private Button btnEditSeguro;
+    @FXML
+    private Button btnDelSeguro;
 
     private JpaService jpa;
 
@@ -137,7 +142,7 @@ public class EmpleadoSeguroController implements Initializable {
         try {
             startTask();
         } catch (Exception e) {
-            DialogController.showException(e);
+            UtilDialog.showException(e);
         }
     }
 
@@ -147,6 +152,7 @@ public class EmpleadoSeguroController implements Initializable {
             @Override
             public void run() {
                 jpa = new JpaService();
+                initButton();
                 initTableEquipo();
                 initTableSeguro();
                 loadDataSeguro();
@@ -155,6 +161,12 @@ public class EmpleadoSeguroController implements Initializable {
         Thread backgroundThread = new Thread(task);
         backgroundThread.setDaemon(true);
         backgroundThread.start();
+    }
+
+    private void initButton() {
+        btnAddSeguro.setOnAction(e -> addSeguro());
+        btnEditSeguro.setOnAction(e -> editSeguro());
+        btnDelSeguro.setOnAction(e -> delSeguro());
     }
 
     private void initTableEquipo() {
@@ -211,7 +223,11 @@ public class EmpleadoSeguroController implements Initializable {
     private void loadDataSeguro() {
         try {
             clearAll();
-            List<Seguro> lst = jpa.getSeguro().findSeguroEntities();
+            TypedQuery<Seguro> query
+                    = jpa.getFactory().createEntityManager().createQuery("SELECT s FROM Seguro s WHERE s.tipo= :t", Seguro.class)
+                            .setParameter("t", SeguroTipo.EMPLEADO);
+            List<Seguro> lst = query.getResultList();
+
             lst.forEach((item) -> {
                 dataSeguro.add(item);
             });
@@ -268,5 +284,39 @@ public class EmpleadoSeguroController implements Initializable {
         searchBox.clear();
         equipoSelect = null;
         seguroSelect = null;
+    }
+
+    private void addSeguro() {
+        try {
+            seguroSelect = new Seguro(SeguroTipo.EMPLEADO);
+            editSeguro();
+        } catch (Exception e) {
+            seguroSelect = null;
+        }
+    }
+
+    private void editSeguro() {
+        try {
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEdit.fxml"));
+            SeguroEditController controller = new SeguroEditController(seguroSelect);
+            loader.setController(controller);
+
+            Scene scene = new Scene(loader.load());
+            Stage dialog = new Stage();
+            dialog.setTitle("Seguro");
+            dialog.setScene(scene);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.resizableProperty().setValue(Boolean.FALSE);
+
+            dialog.showAndWait();
+            clearAll();
+            loadDataSeguro();            
+        } catch (Exception e) {
+            seguroSelect = null;
+        }
+    }
+
+    private void delSeguro() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

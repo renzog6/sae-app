@@ -24,7 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,7 +53,7 @@ public class SeguroEquipoController implements Initializable {
     public Parent getRoot() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/seguro/SeguroEquipo.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/seguro/SeguroEquipoList.fxml"));
             root.setStyle("/css/seguro.css");
         } catch (IOException ex) {
             Logger.getLogger(SeguroEquipoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,8 +65,6 @@ public class SeguroEquipoController implements Initializable {
     private BorderPane bpEquipo;
     @FXML
     private TextField searchBox;
-    @FXML
-    private ComboBox<?> filtroEmpresa;
     @FXML
     private MenuButton mbMenu;
 
@@ -117,9 +115,9 @@ public class SeguroEquipoController implements Initializable {
     @FXML
     private Button btnAdd;
     @FXML
-    private Button btnEdit;
-    @FXML
     private Button btnDelete;
+    @FXML
+    private Label lblEquipo;
     @FXML
     private AnchorPane menuSeguro;
     @FXML
@@ -166,7 +164,9 @@ public class SeguroEquipoController implements Initializable {
     private void initButton() {
         btnAddSeguro.setOnAction(e -> addSeguro());
         btnEditSeguro.setOnAction(e -> editSeguro());
-        btnDelSeguro.setOnAction(e -> delSeguro());
+        //btnDelSeguro.setOnAction(e -> delSeguro());
+        btnAdd.setOnAction(e -> addEquipoAlSeguro());
+        btnDelete.setOnAction(e -> delEquipoDelSeguro());
     }
 
     private void initTableEquipo() {
@@ -274,17 +274,29 @@ public class SeguroEquipoController implements Initializable {
     private void clickEnEquipo(MouseEvent event) {
         try {
             equipoSelect = tblEquipo.getSelectionModel().getSelectedItem();
+            lblEquipo.setText(equipoSelect.toString());
         } catch (Exception e) {
             equipoSelect = null;
         }
     }
 
-    public void clearAll() {
+    private void clearAll() {
         dataEquipo.clear();
         dataSeguro.clear();
         searchBox.clear();
         equipoSelect = null;
         seguroSelect = null;
+        lblEquipo.setText("?");
+    }
+
+    private void reloadAll() {
+        try {
+            jpa.getFactory().close();
+            jpa = new JpaService();
+            loadDataSeguro();
+        } catch (Exception e) {
+
+        }
     }
 
     private void addSeguro() {
@@ -298,7 +310,7 @@ public class SeguroEquipoController implements Initializable {
 
     private void editSeguro() {
         try {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEdit.fxml"));
             SeguroEditController controller = new SeguroEditController(seguroSelect);
             loader.setController(controller);
 
@@ -311,13 +323,47 @@ public class SeguroEquipoController implements Initializable {
 
             dialog.showAndWait();
             clearAll();
-            loadDataSeguro();            
+            loadDataSeguro();
         } catch (Exception e) {
             seguroSelect = null;
         }
     }
 
-    private void delSeguro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void delEquipoDelSeguro() {
+        try {
+            if (UtilDialog.confirmDialog("Seguro que desea quietar???")) {
+                equipoSelect.setSeguro(null);
+                jpa.getEquipo().edit(equipoSelect);
+            }
+            reloadAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addEquipoAlSeguro() {
+        try {
+            if (seguroSelect != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEquipoEdit.fxml"));
+                SeguroEquipoEditController controller = new SeguroEquipoEditController(seguroSelect);
+                loader.setController(controller);
+
+                Scene scene = new Scene(loader.load());
+                Stage dialog = new Stage();
+                dialog.setTitle("Seguro");
+                dialog.setScene(scene);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.resizableProperty().setValue(Boolean.FALSE);
+
+                dialog.showAndWait();
+                clearAll();
+                loadDataSeguro();
+            } else {
+                UtilDialog.errorDialog("Error...", "Seleccionar un Seguro!!!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            seguroSelect = null;
+        }
     }
 }

@@ -1,8 +1,10 @@
 package ar.nex.seguro;
 
+import ar.nex.app.SaeUtils;
 import ar.nex.entity.Seguro;
 import ar.nex.entity.SeguroTipo;
-import ar.nex.entity.equipo.Equipo;
+import ar.nex.entity.empleado.Empleado;
+
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.equipo.util.UtilDialog;
 import ar.nex.service.JpaService;
@@ -24,7 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,7 +55,7 @@ public class SeguroEmpleadoController implements Initializable {
     public Parent getRoot() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/seguro/SeguroEmpleado.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/fxml/seguro/SeguroEmpleadoList.fxml"));
             root.setStyle("/css/seguro.css");
         } catch (IOException ex) {
             Logger.getLogger(SeguroEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,11 +64,7 @@ public class SeguroEmpleadoController implements Initializable {
     }
 
     @FXML
-    private BorderPane bpEquipo;
-    @FXML
     private TextField searchBox;
-    @FXML
-    private ComboBox<?> filtroEmpresa;
     @FXML
     private MenuButton mbMenu;
 
@@ -90,36 +88,36 @@ public class SeguroEmpleadoController implements Initializable {
     @FXML
     private TableColumn<?, ?> colReferencia;
 
-    private ObservableList<Equipo> dataEquipo = FXCollections.observableArrayList();
-    private FilteredList<Equipo> filteredDataEquipo = new FilteredList<>(dataEquipo);
-    private Equipo equipoSelect;
+    private ObservableList<Empleado> dataEmpleado = FXCollections.observableArrayList();
+    private FilteredList<Empleado> filteredDataEmpleado = new FilteredList<>(dataEmpleado);
+    private Empleado equipoSelect;
     @FXML
-    private TableView<Equipo> tblEquipo;
+    private TableView<Empleado> tblEmpleado;
     @FXML
-    private TableColumn<?, ?> colTipo;
+    private TableColumn<Empleado, String> colEmpleado;
     @FXML
-    private TableColumn<?, ?> colModelo;
+    private TableColumn<Empleado, String> colPuesto;
     @FXML
-    private TableColumn<?, ?> colMarca;
+    private TableColumn<Empleado, String> colFechaAlta;
     @FXML
-    private TableColumn<?, ?> colAnio;
+    private TableColumn<Empleado, String> colAntiguedad;
     @FXML
-    private TableColumn<?, ?> colChasis;
+    private TableColumn<Empleado, String> colCategoria;
     @FXML
-    private TableColumn<?, ?> colMotor;
+    private TableColumn<?, ?> colInfo;
     @FXML
-    private TableColumn<?, ?> colPatente;
+    private TableColumn<?, ?> colEstado;
     @FXML
-    private TableColumn<?, ?> colChofer;
+    private TableColumn<Empleado, String> colEdad;
 
     @FXML
-    private AnchorPane menuEquipo;
+    private AnchorPane menuEmpleado;
     @FXML
     private Button btnAdd;
     @FXML
-    private Button btnEdit;
-    @FXML
     private Button btnDelete;
+    @FXML
+    private Label lblEmpleado;
     @FXML
     private AnchorPane menuSeguro;
     @FXML
@@ -153,7 +151,7 @@ public class SeguroEmpleadoController implements Initializable {
             public void run() {
                 jpa = new JpaService();
                 initButton();
-                initTableEquipo();
+                initTableEmpleado();
                 initTableSeguro();
                 loadDataSeguro();
             }
@@ -166,20 +164,82 @@ public class SeguroEmpleadoController implements Initializable {
     private void initButton() {
         btnAddSeguro.setOnAction(e -> addSeguro());
         btnEditSeguro.setOnAction(e -> editSeguro());
-        btnDelSeguro.setOnAction(e -> delSeguro());
+        //btnDelSeguro.setOnAction(e -> delSeguro());
+        btnAdd.setOnAction(e -> addEmpleadoAlSeguro());
+        btnDelete.setOnAction(e -> delEmpleadoDelSeguro());
     }
 
-    private void initTableEquipo() {
-        try {
-            colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-            colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
-            colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
-            colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
-            colChasis.setCellValueFactory(new PropertyValueFactory<>("chasis"));
-            colMotor.setCellValueFactory(new PropertyValueFactory<>("motor"));
-            colPatente.setCellValueFactory(new PropertyValueFactory<>("patente"));
+    private void initTableEmpleado() {
+      try {
+            colEmpleado.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> p) {
+                    return new SimpleStringProperty(p.getValue().getNombreCompleto());
+                }
+            });
+
+            colEdad.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        Integer edad = SaeUtils.getEdad(param.getValue().getNacimiento());
+                        return new SimpleStringProperty(edad.toString());
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("XX");
+                    }
+                }
+            });
+
+            colAntiguedad.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        Integer edad = SaeUtils.getEdad(param.getValue().getFechaAlta());
+                        return new SimpleStringProperty(edad.toString());
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("XX");
+                    }
+                }
+            });
+
+            colFechaAlta.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String date = SaeUtils.getDateString(param.getValue().getFechaAlta());
+                        return new SimpleStringProperty(date);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
+            colPuesto.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String puesto = param.getValue().getPuesto().getNombre();
+                        return new SimpleStringProperty(puesto);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
+            colCategoria.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Empleado, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
+                    try {
+                        String puesto = param.getValue().getCategoria().getNombre();
+                        return new SimpleStringProperty(puesto);
+                    } catch (Exception e) {
+                        return new SimpleStringProperty("NN");
+                    }
+                }
+            });
+
         } catch (Exception e) {
-            System.err.println(e);
+            ar.nex.util.UtilDialog.showException(e);
         }
     }
 
@@ -237,13 +297,13 @@ public class SeguroEmpleadoController implements Initializable {
         }
     }
 
-    private void loadDataEquipo(List<Equipo> list) {
+    private void loadDataEmpleado(List<Empleado> list) {
         try {
-            dataEquipo.clear();
-            for (Equipo e : list) {
-                dataEquipo.add(e);
+            dataEmpleado.clear();
+            for (Empleado e : list) {
+                dataEmpleado.add(e);
             }
-            tblEquipo.setItems(dataEquipo);
+            tblEmpleado.setItems(dataEmpleado);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,30 +325,43 @@ public class SeguroEmpleadoController implements Initializable {
     private void clickEnSeguro(MouseEvent event) {
         try {
             seguroSelect = tblSeguro.getSelectionModel().getSelectedItem();
-            loadDataEquipo(seguroSelect.getEquipoList());
+            loadDataEmpleado(seguroSelect.getEmpleadoList());
         } catch (Exception e) {
         }
     }
 
     @FXML
-    private void clickEnEquipo(MouseEvent event) {
+    private void clickEnEmpleado(MouseEvent event) {
         try {
-            equipoSelect = tblEquipo.getSelectionModel().getSelectedItem();
+            equipoSelect = tblEmpleado.getSelectionModel().getSelectedItem();
+            lblEmpleado.setText(equipoSelect.toString());
         } catch (Exception e) {
+            equipoSelect = null;
         }
     }
 
-    public void clearAll() {
-        dataEquipo.clear();
+    private void clearAll() {
+        dataEmpleado.clear();
         dataSeguro.clear();
         searchBox.clear();
         equipoSelect = null;
         seguroSelect = null;
+        lblEmpleado.setText("?");
+    }
+
+    private void reloadAll() {
+        try {
+            jpa.getFactory().close();
+            jpa = new JpaService();
+            loadDataSeguro();
+        } catch (Exception e) {
+
+        }
     }
 
     private void addSeguro() {
         try {
-            seguroSelect = new Seguro(SeguroTipo.EMPLEADO);
+            seguroSelect = new Seguro(SeguroTipo.EQUIPO);
             editSeguro();
         } catch (Exception e) {
             seguroSelect = null;
@@ -297,7 +370,7 @@ public class SeguroEmpleadoController implements Initializable {
 
     private void editSeguro() {
         try {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEdit.fxml"));
             SeguroEditController controller = new SeguroEditController(seguroSelect);
             loader.setController(controller);
 
@@ -310,13 +383,47 @@ public class SeguroEmpleadoController implements Initializable {
 
             dialog.showAndWait();
             clearAll();
-            loadDataSeguro();            
+            loadDataSeguro();
         } catch (Exception e) {
             seguroSelect = null;
         }
     }
 
-    private void delSeguro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void delEmpleadoDelSeguro() {
+        try {
+            if (UtilDialog.confirmDialog("Seguro que desea quietar???")) {
+                equipoSelect.setSeguro(null);
+                jpa.getEmpleado().edit(equipoSelect);
+            }
+            reloadAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addEmpleadoAlSeguro() {
+        try {
+            if (seguroSelect != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEmpleadoEdit.fxml"));
+                SeguroEmpleadoEditController controller = new SeguroEmpleadoEditController(seguroSelect);
+                loader.setController(controller);
+
+                Scene scene = new Scene(loader.load());
+                Stage dialog = new Stage();
+                dialog.setTitle("Seguro");
+                dialog.setScene(scene);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.resizableProperty().setValue(Boolean.FALSE);
+
+                dialog.showAndWait();
+                clearAll();
+                loadDataSeguro();
+            } else {
+                UtilDialog.errorDialog("Error...", "Seleccionar un Seguro!!!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            seguroSelect = null;
+        }
     }
 }

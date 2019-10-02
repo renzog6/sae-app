@@ -6,6 +6,7 @@ import ar.nex.service.JpaService;
 import ar.nex.util.UtilDate;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -52,4 +53,5 @@ public class MainApp extends Application {
             }
         });
     }
+
 }

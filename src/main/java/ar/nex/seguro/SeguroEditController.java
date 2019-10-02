@@ -3,7 +3,6 @@ package ar.nex.seguro;
 import ar.nex.entity.Seguro;
 import ar.nex.entity.empresa.Empresa;
 import ar.nex.entity.empresa.Rubro;
-import ar.nex.entity.equipo.gasto.GasoilMovimiento;
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.equipo.util.UtilDialog;
 import ar.nex.service.JpaService;
@@ -167,6 +166,7 @@ public class SeguroEditController implements Initializable {
     private void guardar(ActionEvent e) {
         try {
             if (!isValido()) {
+                seguro.setEmpresa(jpa.getEmpresa().findEmpresa(2L));
                 seguro.setCompania(companiaSelect);
                 seguro.setPoliza(boxPoliza.getText());
                 seguro.setReferencia(boxRefencia.getText());

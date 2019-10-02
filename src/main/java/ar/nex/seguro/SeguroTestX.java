@@ -1,5 +1,6 @@
 package ar.nex.seguro;
 
+import java.util.Date;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +18,12 @@ public class SeguroTestX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEquipo.fxml"));
-            
+
+            Date date = new Date();
+            System.out.println("ar.nex.seguro.SeguroTestX.start()::: " + date);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/seguro/SeguroEmpleadoList.fxml"));
+
             Scene scene = new Scene(loader.load());
             Stage dialog = new Stage();
             dialog.setTitle("Seguro");

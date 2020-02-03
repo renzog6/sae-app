@@ -1,6 +1,6 @@
 package ar.nex.seguro;
 
-import ar.nex.app.SaeUtils;
+import ar.nex.util.SaeDate;
 import ar.nex.entity.Seguro;
 import ar.nex.entity.SeguroTipo;
 import ar.nex.entity.empleado.Empleado;
@@ -182,7 +182,7 @@ public class SeguroEmpleadoController implements Initializable {
                 @Override
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
                     try {
-                        Integer edad = SaeUtils.getEdad(param.getValue().getNacimiento());
+                        Integer edad = SaeDate.getEdad(param.getValue().getNacimiento());
                         return new SimpleStringProperty(edad.toString());
                     } catch (Exception e) {
                         return new SimpleStringProperty("XX");
@@ -194,7 +194,7 @@ public class SeguroEmpleadoController implements Initializable {
                 @Override
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
                     try {
-                        Integer edad = SaeUtils.getEdad(param.getValue().getFechaAlta());
+                        Integer edad = SaeDate.getEdad(param.getValue().getFechaAlta());
                         return new SimpleStringProperty(edad.toString());
                     } catch (Exception e) {
                         return new SimpleStringProperty("XX");
@@ -206,7 +206,7 @@ public class SeguroEmpleadoController implements Initializable {
                 @Override
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<Empleado, String> param) {
                     try {
-                        String date = SaeUtils.getDateString(param.getValue().getFechaAlta());
+                        String date = SaeDate.getDateString(param.getValue().getFechaAlta());
                         return new SimpleStringProperty(date);
                     } catch (Exception e) {
                         return new SimpleStringProperty("NN");
@@ -239,7 +239,7 @@ public class SeguroEmpleadoController implements Initializable {
             });
 
         } catch (Exception e) {
-            ar.nex.util.UtilDialog.showException(e);
+            ar.nex.util.SaeDialog.showException(e);
         }
     }
 

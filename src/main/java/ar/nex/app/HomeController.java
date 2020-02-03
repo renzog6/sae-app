@@ -16,7 +16,7 @@ import ar.nex.repuesto.RepuestoController;
 import ar.nex.usuario.UsuarioController;
 import ar.nex.repuesto.RepuestoUsoController;
 import ar.nex.ubicacion.LocalidadController;
-import ar.nex.util.UtilDialog;
+import ar.nex.util.SaeDialog;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,10 +59,10 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         LOGGER.info("initialize(URL url, ResourceBundle rb)");
         try {
-            // UtilDialog.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
+            // SaeDialog.showSuccess("Bienvenido, Vengador Mas Fuerte!!!");
             initMenu(LoginController.getUsuario());
         } catch (Exception e) {
-            UtilDialog.showException(e);
+            SaeDialog.showException(e);
         }
     }
 

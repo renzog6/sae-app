@@ -3,10 +3,9 @@ package ar.nex.app;
 import ar.nex.exceptions.ExceptionUtil;
 import ar.nex.login.LoginController;
 import ar.nex.service.JpaService;
-import ar.nex.util.UtilDate;
+import ar.nex.util.SaeDate;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -43,13 +42,13 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         Long startTime = System.currentTimeMillis();
-        LOGGER.log(Level.INFO, "SAE-App launched on {}", UtilDate.formatDateTimeString(startTime));
+        LOGGER.log(Level.INFO, "SAE-App launched on {}", SaeDate.formatDateTimeString(startTime));
         launch(args);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 Long exitTime = System.currentTimeMillis();
-                LOGGER.log(Level.INFO, "SAE-App is closing on {}. Used for {} ms", UtilDate.formatDateTimeString(startTime), exitTime);
+                LOGGER.log(Level.INFO, "SAE-App is closing on {}. Used for {} ms", SaeDate.formatDateTimeString(startTime), exitTime);
             }
         });
     }

@@ -3,6 +3,8 @@
     -fx-my-menu-color-highlighted: #455a64;      /* Change according to your needs */
     -fx-my-menu-font-color: #FFFFFF;             /* Change according to your needs */
     -fx-my-menu-font-color-highlighted: #FFFFFF; /* Change according to your needs */
+
+    -fx-font-size: 1.2em;    
 }
 
 /* MENU BAR + Top-level MENU BUTTONS */

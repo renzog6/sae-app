@@ -51,15 +51,10 @@
         <dependency>
             <groupId>ar.nex</groupId>
             <artifactId>sae-entity</artifactId>
-            <version>1-1</version>
+            <version>1-2</version>
             <type>jar</type>
         </dependency> 
-        <dependency>
-            <groupId>ar.nex</groupId>
-            <artifactId>sae-empresa</artifactId>
-            <version>1-1</version>
-            <type>jar</type>
-        </dependency>   
+
         <dependency>
             <groupId>ar.nex</groupId>
             <artifactId>sae-equipo</artifactId>

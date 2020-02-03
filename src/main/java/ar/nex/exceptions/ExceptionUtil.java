@@ -16,7 +16,7 @@ public class ExceptionUtil {
         System.setErr(createLoggingProxy(System.err));
     }
 
-    private final static Logger LOGGER = LogManager.getLogger(ExceptionUtil.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(ExceptionUtil.class);
 
     public static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
         return new PrintStream(realPrintStream) {

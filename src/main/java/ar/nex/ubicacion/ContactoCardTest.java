@@ -1,8 +1,11 @@
-package ar.nex.empleado;
+package ar.nex.ubicacion;
 
+import ar.nex.entity.ubicacion.Contacto;
 import ar.nex.util.SaeDate;
+import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,20 +13,29 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class EmpleadoTest extends Application {
+public class ContactoCardTest extends Application {
 
-    private final static Logger LOGGER = LogManager.getLogger(EmpleadoTest.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(ContactoCardTest.class.getName());
 
     @Override
     public void start(Stage stage) throws Exception {
+        try {
+            stage.setTitle("SAE-App");
 
-        stage.setTitle("SAE-App");
-        Parent root = new EmpleadoController().getRoot();        
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(root.getStyle());        
-        stage.setScene(scene);
-   
-        stage.show();       
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ubicacion/ContactoCard.fxml"));
+            ContactoCardController controller = new ContactoCardController();
+            loader.setController(controller);
+
+            Scene scene = new Scene(loader.load());
+
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

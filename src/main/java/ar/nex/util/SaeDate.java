@@ -1,13 +1,16 @@
-package ar.nex.app;
+package ar.nex.util;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-public class SaeUtils {
+/**
+ *
+ * @author Varios autores, modificado por renzog6.
+ */
+public class SaeDate {
 
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
@@ -36,10 +39,46 @@ public class SaeUtils {
         return java.sql.Date.valueOf(dateToConvert);
     }
 
-    public static Integer getEdad(Date date) { 
-        LocalDate ahora = LocalDate.now();
-        Period periodo = Period.between(convertToLocalDateViaSqlDate(date), ahora);
-        return periodo.getYears();
+    /**
+     * getEdad()
+     *
+     * @param date
+     * @return Devuelve los años entre el parametro date y la fecha actual,
+     * antes un error devulve -1
+     */
+    public static Integer getEdad(Date date) {
+        try {
+            LocalDate ahora = LocalDate.now();
+            Period periodo = Period.between(convertToLocalDateViaSqlDate(date), ahora);
+            return periodo.getYears();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return -1;
+    }
+
+    /**
+     * getAntiguedad
+     *
+     * @param inicio
+     * @param fin
+     * @return Devuelve los años entre el parametro inicio y fin, antes un error
+     * devulve -1 y devulve 0 si el inicio es es antes del fin
+     */
+    public static Integer getAntiguedad(Date inicio, Date fin) {
+        try {
+            if (inicio.before(fin)) {
+                LocalDate ldInicio = convertToLocalDateViaSqlDate(inicio);
+                LocalDate ldFin = convertToLocalDateViaSqlDate(fin);
+                Period periodo = Period.between(ldInicio, ldFin);
+                return periodo.getYears();
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return -1;
     }
 
     public static boolean validateEmailAddress(String emailID) {

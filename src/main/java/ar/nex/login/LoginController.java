@@ -2,7 +2,7 @@ package ar.nex.login;
 
 import ar.nex.entity.Usuario;
 import ar.nex.service.JpaService;
-import ar.nex.util.UtilDialog;
+import ar.nex.util.SaeDialog;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -127,16 +127,16 @@ public class LoginController implements Initializable {
 
             Usuario usr = (Usuario) query.getSingleResult();
             if (usr == null) {
-                UtilDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
+                SaeDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
             } else if (usr.getPassword().compareTo(boxPass.getText()) != 0) {
-                UtilDialog.errorDialog("Login Error.", "Contraseña Incorrecta!!!");
+                SaeDialog.errorDialog("Login Error.", "Contraseña Incorrecta!!!");
             } else {
                 setUsuario(usr);
                 closeStage();
                 showHome();
             }
         } catch (Exception ex) {
-            UtilDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
+            SaeDialog.errorDialog("Login Error.", "El Usuario NO exite!!!");
         }
 
     }
@@ -153,7 +153,7 @@ public class LoginController implements Initializable {
             stage.setMinWidth(1024);
             stage.setMinHeight(768);
             stage.setOnCloseRequest(b -> {
-                boolean response = UtilDialog.confirmDialog("Seguro que desea SALIR?");
+                boolean response = SaeDialog.confirmDialog("Seguro que desea SALIR?");
                 if (response) {
                     Platform.exit();
                 }
@@ -161,7 +161,7 @@ public class LoginController implements Initializable {
             });
             stage.show();
         } catch (Exception e) {
-            UtilDialog.showException(e);
+            SaeDialog.showException(e);
         }
     }
 

@@ -1,14 +1,9 @@
 .table-cell {     
     -fx-padding: 0.5em 0.5em 0.1em 0.3em;
     -fx-border-color: -fx-box-border -fx-box-border transparent transparent;  
-  
+    -fx-font: 14px "Segoe UI";    
     -fx-border-insets: 0;
     -fx-alignment: center; 
-}
-
-.table-cell.nombre{          
-    -fx-alignment: center-left;   
-    -fx-font-weight: bold;
 }
 
 .table-cell:hover {
@@ -17,6 +12,10 @@
 
 .table-row-cell:empty, .table-cell:empty:hover {
     -fx-background-color: whitesmoke;
+}
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
 }
 
 .table-view:row-selection .table-row-cell:filled:hover { 
@@ -38,9 +37,8 @@
 }
 
 .table-view .column-header .label{
-    -fx-text-fill: #52677A;
-    -fx-alignment: CENTER;    
-    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-alignment: CENTER;
 }
 
 .table-view .column-header:hover {
@@ -53,9 +51,52 @@
     -fx-border-color: -fx-box-border;
     -fx-border-width: 0 1 2 0;
     -fx-border-insets: 0;
+    -fx-font-size: 14; /* 12 */
 }
 
 .table-view .column-header-background {
     -fx-background-color: transparent;
 }
 
+.table-view .show-hide-columns-button {
+    -fx-background-color: white;
+    -fx-border-color: -fx-box-border;
+    -fx-border-insets: 0;
+}
+
+
+
+.table-view .button{
+    -fx-font-family:"Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 14; /* 12 */
+    -fx-text-fill: #828282;
+    -fx-font-weight: bold;
+}
+
+.table-view .button:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.table-view .button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:even {
+/*    -fx-background-color: blue;
+    -fx-text-fill: black;*/
+    -fx-font: 14px "Segoe UI";    
+}
+.list-view .list-cell:odd {
+/*    -fx-background-color: blue;
+    -fx-text-fill: black;*/
+    -fx-font: 14px "Segoe UI";    
+}
+
+.menuPane{
+    -fx-background-color: lightsteelblue;
+}

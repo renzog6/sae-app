@@ -1,6 +1,6 @@
 package ar.nex.empleado;
 
-import ar.nex.app.SaeUtils;
+import ar.nex.util.SaeDate;
 import ar.nex.entity.AdminEmpresa;
 import ar.nex.entity.empleado.Empleado;
 import ar.nex.entity.empleado.EmpleadoCategoria;
@@ -8,14 +8,17 @@ import ar.nex.entity.empleado.EmpleadoPuesto;
 import ar.nex.entity.empleado.EstadoCivil;
 import ar.nex.entity.empleado.PersonaGenero;
 import ar.nex.entity.empresa.Empresa;
+import ar.nex.entity.ubicacion.Contacto;
 import ar.nex.entity.ubicacion.Direccion;
 import ar.nex.equipo.util.DateUtils;
-import ar.nex.util.UtilDialog;
+import ar.nex.util.SaeDialog;
 import ar.nex.service.JpaService;
+import ar.nex.ubicacion.ContactoCardController;
 import ar.nex.ubicacion.DireccionEditController;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -107,7 +110,7 @@ public class EmpleadoEditController implements Initializable {
     private Button btnContactoPersonal;
     @FXML
     private Button btnContactoLaboral;
-    
+
     private final ObservableList<EmpleadoPuesto> dataPuesto = FXCollections.observableArrayList();
     private final ObservableList<EmpleadoCategoria> dataCategoria = FXCollections.observableArrayList();
 
@@ -115,6 +118,7 @@ public class EmpleadoEditController implements Initializable {
     private Empleado empleado;
     private Direccion direccion;
     private Empresa empresa;
+    private List<Contacto> contactoPersonal, contactoLaboral;
     private final ObservableList<AdminEmpresa> dataEmpresa = FXCollections.observableArrayList();
 
     /**
@@ -128,6 +132,7 @@ public class EmpleadoEditController implements Initializable {
         // TODO
         try {
             jpa = new JpaService();
+            contactoPersonal = contactoLaboral = null;
 
             btnCancelar.setOnAction(e -> ((Node) (e.getSource())).getScene().getWindow().hide());
             btnGuardar.setOnAction(e -> guardar(e));
@@ -137,6 +142,8 @@ public class EmpleadoEditController implements Initializable {
             btnAtras.setOnAction(e -> tabPane.getSelectionModel().select(tbPersonal));
 
             btnDireccion.setOnAction(e -> addDirecion());
+            btnContactoPersonal.setOnAction(e -> addContacto(true));
+            btnContactoLaboral.setOnAction(e -> addContacto(false));
 
             loadDataCatogoria();
             loadDataPuesto();
@@ -160,8 +167,11 @@ public class EmpleadoEditController implements Initializable {
             cbEstadoCivil.getItems().addAll((ObservableList) FXCollections.observableArrayList(EstadoCivil.values()));
 
             if (empleado != null) {
-                boxNombre.setText(empleado.getNombre());
+                //Datos personales
+                System.out.println("ar.nex.empleado.EmpleadoEditController.initControls():::::" + empleado.getContactoList().size());
                 boxApellido.setText(empleado.getApellido());
+                boxNombre.setText(empleado.getNombre());
+                dpFechaNacimiento.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getNacimiento()));
 
                 boxDni.setText(empleado.getDni());
                 boxDni.textProperty().addListener(new ChangeListener<String>() {
@@ -186,15 +196,22 @@ public class EmpleadoEditController implements Initializable {
                 cbGenero.getSelectionModel().select(empleado.getGenero());
                 cbEstadoCivil.getSelectionModel().select(empleado.getEstadoCivil());
 
-                dpFechaNacimiento.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getNacimiento()));
-                dpFechaAlta.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getFechaAlta()));
+                if (empleado.getDomicilio() != null) {
+                    boxDireccion.setText(empleado.getDomicilio().toString());
+                }
 
+                //Datos laborales
+                boxEmpresa.setText(empleado.getEmpresa().getNombre());
+                empresa = empleado.getEmpresa();
+                dpFechaAlta.setValue(DateUtils.convertToLocalDateViaSqlDate(empleado.getFechaAlta()));
+                boxCuil.setText(empleado.getCuil());
                 cbPuesto.getSelectionModel().select(empleado.getPuesto());
                 cbCategoria.getSelectionModel().select(empleado.getCategoria());
-                boxEmpresa.setText(empleado.getEmpresa().getNombre());
 
             } else {
                 empleado = new Empleado();
+                direccion = null;
+                boxHijos.setText("0");
                 dpFechaNacimiento.setValue(LocalDate.now());
                 dpFechaAlta.setValue(LocalDate.now());
                 cbPuesto.getSelectionModel().select(dataPuesto.get(8));
@@ -215,7 +232,7 @@ public class EmpleadoEditController implements Initializable {
             });
             cbPuesto.getItems().addAll(dataPuesto);
         } catch (Exception e) {
-            ar.nex.util.UtilDialog.showException(e);
+            ar.nex.util.SaeDialog.showException(e);
         }
     }
 
@@ -227,7 +244,7 @@ public class EmpleadoEditController implements Initializable {
             });
             cbCategoria.getItems().addAll(dataCategoria);
         } catch (Exception e) {
-            ar.nex.util.UtilDialog.showException(e);
+            ar.nex.util.SaeDialog.showException(e);
         }
     }
 
@@ -238,7 +255,7 @@ public class EmpleadoEditController implements Initializable {
                 dataEmpresa.add(item);
             });
         } catch (Exception e) {
-            ar.nex.util.UtilDialog.showException(e);
+            ar.nex.util.SaeDialog.showException(e);
         }
     }
 
@@ -269,9 +286,52 @@ public class EmpleadoEditController implements Initializable {
         }
     }
 
+    private void addContacto(boolean isPersonal) {//true=personal y false=laboral
+        try {
+            Stage dialog = new Stage();
+            dialog.setTitle("Contacto");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ubicacion/ContactoCard.fxml"));
+            ContactoCardController controller = new ContactoCardController();
+
+            if (isPersonal) {
+                controller.setNombre("Personal");
+            } else {
+                controller.setNombre("Laboral");
+            }
+
+            loader.setController(controller);
+            Scene scene = new Scene(loader.load());
+
+            dialog.setScene(scene);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.resizableProperty().setValue(Boolean.FALSE);
+
+            dialog.showAndWait();
+            if (controller.getContactoList() != null) {
+                if (isPersonal) {
+                    contactoPersonal = new ArrayList<>();
+                    contactoPersonal = controller.getContactoList();
+                    contactoPersonal.forEach((t) -> {
+                        boxContacto.setText(boxContacto.getText() + t.getTipo() + " ");
+                    });
+                } else {
+                    contactoLaboral = new ArrayList<>();
+                    contactoLaboral = controller.getContactoList();
+                    contactoLaboral.forEach((t) -> {
+                        boxContactoLaboral.setText(boxContactoLaboral.getText() + t.getTipo() + " ");
+                    });
+                }
+            }
+        } catch (IOException e) {
+            System.err.print(e);
+
+        }
+    }
+
     private boolean isEmptytBox() {
         if (boxNombre.getText().trim().isEmpty()) {
-            UtilDialog.errorDialog("Requiere valor", "Nombre es necesario");
+            SaeDialog.errorDialog("Requiere valor", "Nombre es necesario");
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -280,7 +340,7 @@ public class EmpleadoEditController implements Initializable {
             });
             return true;
         } else if (boxApellido.getText().trim().isEmpty()) {
-            UtilDialog.errorDialog("Requiere valor", "Apellido es necesario");
+            SaeDialog.errorDialog("Requiere valor", "Apellido es necesario");
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -296,21 +356,31 @@ public class EmpleadoEditController implements Initializable {
     private void guardar(ActionEvent e) {
         try {
             if (!isEmptytBox()) {
-                empleado.setNombre(SaeUtils.capitailizeString(boxNombre.getText()));
-                empleado.setApellido(SaeUtils.capitailizeString(boxApellido.getText()));
-
+                //Datos Personales
+                empleado.setApellido(SaeDate.capitailizeString(boxApellido.getText()));
+                empleado.setNombre(SaeDate.capitailizeString(boxNombre.getText()));
+                empleado.setNacimiento(SaeDate.convertToDateViaSqlDate(dpFechaNacimiento.getValue()));
                 empleado.setGenero(cbGenero.getValue());
                 empleado.setEstadoCivil(cbEstadoCivil.getValue());
-
                 empleado.setHijo(Integer.parseInt(boxHijos.getText()));
+                if (direccion != null) {
+                    jpa.getDireccion().create(direccion);
+                    empleado.setDomicilio(direccion);
+                }
 
-                empleado.setNacimiento(SaeUtils.convertToDateViaSqlDate(dpFechaNacimiento.getValue()));
-                empleado.setFechaAlta(SaeUtils.convertToDateViaSqlDate(dpFechaAlta.getValue()));
+                if (contactoPersonal != null) {
+                    Contacto c = contactoPersonal.get(0);
+                    jpa.getContacto().create(c);
+                    empleado.getContactoList().add(c);
+                }
 
-                empleado.setPuesto(cbPuesto.getValue());
-                empleado.setCategoria(cbCategoria.getValue());
-
+                //Datos Laborales
                 empleado.setEmpresa(empresa);
+                empleado.setFechaAlta(SaeDate.convertToDateViaSqlDate(dpFechaAlta.getValue()));
+                empleado.setCuil(boxCuil.getText());
+                empleado.setCategoria(cbCategoria.getValue());
+                empleado.setPuesto(cbPuesto.getValue());
+
                 if (empleado.getIdPersona() != null) {
                     jpa.getPersona().edit(empleado);
                 } else {

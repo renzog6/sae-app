@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label contentDisplay="CENTER" layoutX="130.0" layoutY="14.0" text="Nueva Empresa" textAlignment="CENTER" underline="true">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+                
+        <Label layoutX="20.0" layoutY="50.0" prefHeight="30.0" text="Nombre" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="20.0" layoutY="100.0" prefHeight="30.0" text="Razon Social" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="120.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="23.0" layoutY="240.0" prefHeight="30.0" text="CUIT" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="17.0" layoutY="293.0" prefHeight="30.0" text="Observacion" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="260.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="23.0" layoutY="330.0" prefHeight="30.0" text="Direccion" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="330.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+        <Label layoutX="23.0" layoutY="369.0" prefHeight="30.0" text="Contacto" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="400.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+       
+        <TextField fx:id="boxNombre" alignment="CENTER" layoutX="140.0" layoutY="55.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="80.0" />
+        <TextField fx:id="boxRSocial" alignment="CENTER" layoutX="170.0" layoutY="163.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="150.0" />
+        <TextField fx:id="boxCUIT" alignment="CENTER" layoutX="170.0" layoutY="205.0" prefHeight="30.0" prefWidth="120.0" promptText="12-1234567-1" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="220.0" />
+        <TextField fx:id="boxObservacion" alignment="CENTER" layoutX="175.0" layoutY="273.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="290.0" />
+      
+        <Button fx:id="btnGuardar" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Guardar" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" />
+        <Button fx:id="btnCancelar" layoutX="207.0" layoutY="361.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Cancelar" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <Label layoutX="33.0" layoutY="250.0" prefHeight="30.0" text="Rubro" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="190.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="addDireccion" layoutX="93.0" layoutY="333.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="+" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="330.0" />
+      <Button fx:id="addContacto" layoutX="87.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="+" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="400.0" />
+      <TextField fx:id="boxRubro" alignment="CENTER" editable="false" layoutX="180.0" layoutY="215.0" prefHeight="30.0" prefWidth="210.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="220.0" />
+      <Button fx:id="addRubro" layoutX="211.0" layoutY="190.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="+" AnchorPane.topAnchor="190.0" />
+      <TextField fx:id="boxDireccion" alignment="CENTER" editable="false" layoutX="21.0" layoutY="360.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="360.0" />
+      <TextField fx:id="boxContacto" alignment="CENTER" editable="false" layoutX="21.0" layoutY="430.0" prefHeight="30.0" prefWidth="350.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="430.0" />
+         
+        
+    </children>
+</AnchorPane>

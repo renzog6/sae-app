@@ -5,7 +5,7 @@ import ar.nex.entity.empresa.Empresa;
 import ar.nex.entity.empresa.Rubro;
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.equipo.util.UtilDialog;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 
 import java.net.URL;
 import java.time.LocalDate;

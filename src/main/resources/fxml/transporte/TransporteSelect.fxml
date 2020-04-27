@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" text="Selecionar" textAlignment="CENTER" underline="true" AnchorPane.topAnchor="10.0">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+      
+        <Button fx:id="btnAceptar" layoutX="135.0" layoutY="356.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Aceptar" AnchorPane.bottomAnchor="10.0">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TableView fx:id="table" layoutX="90.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
+        
+    </children>
+</AnchorPane>

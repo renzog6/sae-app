@@ -6,9 +6,11 @@
 package ar.nex.util;
 
 import ar.nex.empleado.EmpleadoController;
+import ar.nex.entity.empleado.Empleado;
 import ar.nex.entity.ubicacion.Contacto;
 import ar.nex.entity.ubicacion.ContactoTipo;
 import java.util.List;
+import javafx.collections.ObservableList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

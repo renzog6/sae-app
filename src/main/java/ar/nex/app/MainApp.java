@@ -2,7 +2,7 @@ package ar.nex.app;
 
 import ar.nex.exceptions.ExceptionUtil;
 import ar.nex.login.LoginController;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDate;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -26,9 +26,26 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
+//        Sync s = new Sync();
+//        Runnable task = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    while (true) {
+//                        s.check();
+//                        Thread.sleep(5000);
+//                    }
+//                } catch (InterruptedException ex) {
+//                    java.util.logging.Logger.getLogger(MainApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//                }
+//            }
+//        };        
+//        Thread backgroundThread = new Thread(task);
+//        backgroundThread.setDaemon(true);
+//        backgroundThread.start();
+
         new Thread(() -> {
-            ExceptionUtil.init();
-            JpaService.init();
+          ExceptionUtil.init();          
         }).start();
     }
 

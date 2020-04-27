@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane id="AnchorPane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <bottom>
+        <AnchorPane prefHeight="450.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+            <CheckBox fx:id="cbUsaGasoil" layoutX="201.0" layoutY="308.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="255.0" text="Usa Gas-Oil de Planta" />
+
+                <Label fx:id="label" layoutX="14.0" layoutY="14.0" minHeight="16" minWidth="69" text="Datos del Equipo" underline="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                
+                <Label fx:id="lblCategoria" layoutX="83.0" layoutY="51.0" minHeight="16" minWidth="69" text="Categoria" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
+                <Label fx:id="lblTipo" layoutX="341.0" layoutY="51.0" minHeight="16" minWidth="69" text="Tipo" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="50.0" />
+                <Label fx:id="lblModelo" layoutX="83.0" layoutY="104.0" minHeight="16" minWidth="69" text="Modelo" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="110.0" />
+                <Label fx:id="lblColor" layoutX="183.0" layoutY="208.0" minHeight="16" minWidth="69" text="Color" AnchorPane.topAnchor="230.0" />
+                <Label fx:id="lblAnio" layoutX="341.0" layoutY="104.0" minHeight="16" minWidth="69" text="Año" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0" />
+                <Label fx:id="lblChasis" layoutX="83.0" layoutY="154.0" minHeight="16" minWidth="69" text="Chasis / Serie" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="170.0" />
+                <Label fx:id="lblMotor" layoutX="341.0" layoutY="154.0" minHeight="16" minWidth="69" text="Motor" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="170.0" />
+                <Label fx:id="lblPatente" layoutX="83.0" layoutY="208.0" minHeight="16" minWidth="69" text="Patente" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="230.0" />
+                <Label fx:id="lblOtro" layoutX="317.0" layoutY="208.0" minHeight="16" minWidth="69" text="Descripcion" AnchorPane.leftAnchor="317.0" AnchorPane.topAnchor="230.0" />
+                <Label fx:id="lblValorCompra" layoutX="411.0" layoutY="331.0" minHeight="16" minWidth="69" text="Valor" AnchorPane.topAnchor="350.0" />
+                <Label fx:id="lblVendedor" layoutX="201.0" layoutY="331.0" minHeight="16" minWidth="69" text="Vendedor" AnchorPane.topAnchor="350.0" />
+                <Label fx:id="lblFechaCompra" layoutX="83.0" layoutY="331.0" minHeight="16" minWidth="69" text="Fecha Compra" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="350.0" />
+                <Label fx:id="lblPatente1" layoutX="75.0" layoutY="260.0" minHeight="16" minWidth="69" text="Nombre" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="290.0" />
+                <Label fx:id="lblAnio1" layoutX="415.0" layoutY="104.0" minHeight="16" minWidth="69" text="Marca" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="110.0" />
+                
+                <TextField fx:id="boxCategoria" layoutX="82.0" layoutY="68.0" prefHeight="25.0" prefWidth="185.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="70.0" />
+                <TextField fx:id="boxTipo" layoutX="341.0" layoutY="68.0" prefHeight="25.0" prefWidth="180.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="70.0" />
+                <TextField fx:id="boxModelo" layoutX="83.0" layoutY="121.0" prefHeight="25.0" prefWidth="185.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="130.0" />
+                <TextField fx:id="boxAnio" layoutX="341.0" layoutY="121.0" prefHeight="25.0" prefWidth="60.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="130.0" />
+                <TextField fx:id="boxChasis" layoutX="83.0" layoutY="171.0" prefHeight="25.0" prefWidth="215.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="190.0" />
+                <TextField fx:id="boxMotor" layoutX="341.0" layoutY="171.0" prefHeight="25.0" prefWidth="210.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="190.0" />
+                <TextField fx:id="boxPatente" layoutX="83.0" layoutY="225.0" prefHeight="25.0" prefWidth="118.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="250.0" />
+                <TextField fx:id="boxColor" layoutX="183.0" layoutY="225.0" prefHeight="25.0" prefWidth="122.0" AnchorPane.topAnchor="250.0" />
+                <TextField fx:id="boxOtro" layoutX="317.0" layoutY="225.0" prefHeight="25.0" prefWidth="235.0" AnchorPane.leftAnchor="317.0" AnchorPane.topAnchor="250.0" />                                
+                <TextField fx:id="boxNombre" layoutX="60.0" layoutY="277.0" prefHeight="25.0" prefWidth="118.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="310.0" />
+                <TextField fx:id="boxFechaCompra" layoutX="83.0" layoutY="348.0" prefHeight="25.0" prefWidth="91.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="370.0" />
+                <TextField fx:id="boxVendedor" layoutX="201.0" layoutY="348.0" prefHeight="25.0" prefWidth="198.0" AnchorPane.topAnchor="370.0" />
+                <TextField fx:id="boxValorCompra" layoutX="411.0" layoutY="348.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.topAnchor="370.0" />
+                <TextField fx:id="boxMarca" layoutX="415.0" layoutY="121.0" prefHeight="25.0" prefWidth="115.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="130.0" />
+                
+                <Button fx:id="btnAddMarca" layoutX="533.0" layoutY="121.0" text="+" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="130.0" />
+                <Button fx:id="btnAddCategoria" layoutX="239.0" layoutY="68.0" text="+" AnchorPane.topAnchor="70.0" />
+                <Button fx:id="btnAddTipo" layoutX="533.0" layoutY="68.0" text="+" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="70.0" />
+                <Button fx:id="btnAddModelo" layoutX="239.0" layoutY="121.0" text="+" AnchorPane.topAnchor="130.0" />
+                
+                <ComboBox fx:id="filtroEmpresa" layoutX="409.0" layoutY="8.0" onAction="#selectEmpresa" prefWidth="150.0" />
+                
+                <Button fx:id="btnGuardar" layoutX="442.0" layoutY="405.0" text="Guardar" AnchorPane.bottomAnchor="10.0" />
+                <Button fx:id="btnCancelar" layoutX="519.0" layoutY="415.0" text="Cancelar" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                
+            
+                
+            </children>
+        </AnchorPane>
+    </bottom>
+</BorderPane>

@@ -1,7 +1,7 @@
 package ar.nex.empresa;
 
 import ar.nex.entity.empresa.Rubro;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDialog;
 import java.io.IOException;
 import java.net.URL;

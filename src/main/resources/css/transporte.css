@@ -1,0 +1,30 @@
+.button-home{
+    -fx-background-color: #0094FF;
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-indent: 50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;      
+    -fx-pref-height: 50px;
+    -fx-pref-width: 150px;
+}
+
+.menuPane{
+    -fx-background-color: #5B8099;
+}
+
+.grid-pane{
+    -fx-padding: 0.2em 0.2em 0.1em 0.2em;
+    -fx-background-color: seashell;        
+    -fx-font: 14px "Arial";   
+    -fx-alignment: center; 
+    -fx-row-valignment:center;
+}
+
+.table-cell {     
+    -fx-padding: 0.2em 0.2em 0.1em 0.3em;
+    -fx-border-color: -fx-box-border -fx-box-border transparent transparent;  
+    -fx-font: 14px "Segoe UI";    
+    -fx-border-insets: 0;
+    -fx-alignment: center; 
+}

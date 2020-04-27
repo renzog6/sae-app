@@ -2,7 +2,7 @@ package ar.nex.empleado;
 
 import ar.nex.entity.empleado.Empleado;
 import ar.nex.entity.empleado.PersonaEstado;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDate;
 import java.net.URL;
 import java.time.LocalDate;

@@ -2,7 +2,7 @@ package ar.nex.usuario;
 
 import ar.nex.entity.Usuario;
 import ar.nex.login.LoginController;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;

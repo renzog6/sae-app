@@ -2,7 +2,7 @@ package ar.nex.ubicacion;
 
 import ar.nex.empresa.EmpresaController;
 import ar.nex.entity.ubicacion.Localidad;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDialog;
 import java.io.IOException;
 import java.net.URL;

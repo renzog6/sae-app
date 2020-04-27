@@ -3,7 +3,7 @@ package ar.nex.seguro;
 import ar.nex.entity.Seguro;
 import ar.nex.entity.equipo.Equipo;
 import ar.nex.equipo.util.UtilDialog;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;

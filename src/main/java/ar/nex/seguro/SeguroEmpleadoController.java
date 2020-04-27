@@ -7,7 +7,7 @@ import ar.nex.entity.empleado.Empleado;
 
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.equipo.util.UtilDialog;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;

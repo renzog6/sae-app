@@ -12,7 +12,7 @@ import ar.nex.entity.ubicacion.Contacto;
 import ar.nex.entity.ubicacion.Direccion;
 import ar.nex.equipo.util.DateUtils;
 import ar.nex.util.SaeDialog;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.ubicacion.ContactoCardController;
 import ar.nex.ubicacion.DireccionEditController;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import org.controlsfx.control.textfield.TextFields;
 /**
  * FXML Controller class
  *
- * @author Renzo
+ * @author Renzo O. Gorosito
  */
 public class EmpleadoEditController implements Initializable {
 

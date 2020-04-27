@@ -2,7 +2,7 @@ package ar.nex.ubicacion;
 
 import ar.nex.entity.ubicacion.Contacto;
 import ar.nex.entity.ubicacion.ContactoTipo;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

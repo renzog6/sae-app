@@ -6,7 +6,7 @@ import ar.nex.entity.empleado.Empleado;
 import ar.nex.entity.empleado.PersonaEstado;
 import ar.nex.entity.ubicacion.ContactoTipo;
 import ar.nex.login.LoginController;
-import ar.nex.service.JpaService;
+import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDialog;
 import ar.nex.util.SaeUtil;
 import java.io.IOException;
@@ -128,18 +128,21 @@ public class EmpleadoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
+        LOG.info(EmpleadoController.class.toGenericString());        
+        try {            
             btnAdd.setOnAction(e -> add());
             btnEdit.setOnAction(e -> edit());
             btnDelete.setOnAction(e -> baja());
             initFiltroEstado();
-            startTask();
+            startTask();            
         } catch (Exception e) {
-            SaeDialog.showException(e);
+            e.printStackTrace();
+           // SaeDialog.showException(e);
         }
     }
 
     private void startTask() throws Exception {
+        
         // Create a Runnable
         Runnable task = new Runnable() {
             @Override

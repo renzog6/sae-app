@@ -7,7 +7,7 @@ package ar.nex.jpa;
 
 import ar.nex.jpa.exceptions.NonexistentEntityException;
 import ar.nex.jpa.exceptions.PreexistingEntityException;
-import ar.nex.sincronizar.Actividad;
+import ar.nex.sincronizar.sync.Itemx;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,9 +21,9 @@ import javax.persistence.criteria.Root;
  *
  * @author Renzo
  */
-public class ActividadJpaController implements Serializable {
+public class ItemxJpaController implements Serializable {
 
-    public ActividadJpaController(EntityManagerFactory emf) {
+    public ItemxJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -32,16 +32,16 @@ public class ActividadJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Actividad actividad) throws PreexistingEntityException, Exception {
+    public void create(Itemx itemx) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(actividad);
+            em.persist(itemx);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findActividad(actividad.getUuid()) != null) {
-                throw new PreexistingEntityException("Actividad " + actividad + " already exists.", ex);
+            if (findItemx(itemx.getUuid()) != null) {
+                throw new PreexistingEntityException("Itemx " + itemx + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -51,19 +51,19 @@ public class ActividadJpaController implements Serializable {
         }
     }
 
-    public void edit(Actividad actividad) throws NonexistentEntityException, Exception {
+    public void edit(Itemx itemx) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            actividad = em.merge(actividad);
+            itemx = em.merge(itemx);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = actividad.getUuid();
-                if (findActividad(id) == null) {
-                    throw new NonexistentEntityException("The actividad with id " + id + " no longer exists.");
+                String id = itemx.getUuid();
+                if (findItemx(id) == null) {
+                    throw new NonexistentEntityException("The itemx with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -79,14 +79,14 @@ public class ActividadJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Actividad actividad;
+            Itemx itemx;
             try {
-                actividad = em.getReference(Actividad.class, id);
-                actividad.getUuid();
+                itemx = em.getReference(Itemx.class, id);
+                itemx.getUuid();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The actividad with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The itemx with id " + id + " no longer exists.", enfe);
             }
-            em.remove(actividad);
+            em.remove(itemx);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -95,19 +95,19 @@ public class ActividadJpaController implements Serializable {
         }
     }
 
-    public List<Actividad> findActividadEntities() {
-        return findActividadEntities(true, -1, -1);
+    public List<Itemx> findItemxEntities() {
+        return findItemxEntities(true, -1, -1);
     }
 
-    public List<Actividad> findActividadEntities(int maxResults, int firstResult) {
-        return findActividadEntities(false, maxResults, firstResult);
+    public List<Itemx> findItemxEntities(int maxResults, int firstResult) {
+        return findItemxEntities(false, maxResults, firstResult);
     }
 
-    private List<Actividad> findActividadEntities(boolean all, int maxResults, int firstResult) {
+    private List<Itemx> findItemxEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Actividad.class));
+            cq.select(cq.from(Itemx.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -119,20 +119,20 @@ public class ActividadJpaController implements Serializable {
         }
     }
 
-    public Actividad findActividad(String id) {
+    public Itemx findItemx(String id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Actividad.class, id);
+            return em.find(Itemx.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getActividadCount() {
+    public int getItemxCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Actividad> rt = cq.from(Actividad.class);
+            Root<Itemx> rt = cq.from(Itemx.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

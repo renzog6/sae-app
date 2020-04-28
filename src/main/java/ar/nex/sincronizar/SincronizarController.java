@@ -1,22 +1,13 @@
 package ar.nex.sincronizar;
 
 import ar.nex.entity.Item;
-import ar.nex.entity.Usuario;
-import ar.nex.entity.equipo.gasto.Gasoil;
-import ar.nex.equipo.util.DateUtils;
-import ar.nex.jpa.ActividadJpaController;
 import ar.nex.jpa.service.JpaService;
-import static ar.nex.sincronizar.sync.CallingService.BASE_URL;
-import ar.nex.sincronizar.sync.ItemApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.net.InetAddress;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.apache.commons.collections4.list.AbstractLinkedList;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -105,7 +96,7 @@ public class SincronizarController {
                     JSONObject jsonObject = new JSONObject(EntityUtils.toString(responseEntity));
                     Long newID = Long.parseUnsignedLong(jsonObject.get("data").toString()); //getJSONArray("data").toString();
                     //actividad.setEntityId(newID);
-                    entityUpdateID(actividad, newID);
+                   // entityUpdateID(actividad, newID);
                 }
                 //System.out.println("remoteLogin()::: " + EntityUtils.toString(entity));
                 // and ensure it is fully consumed
@@ -117,26 +108,26 @@ public class SincronizarController {
             e.printStackTrace();
         }
     }
-
-    public void entityUpdateID(Actividad actividad, Long newID) {
-        try {
-            JpaService jpa = new JpaService();
-            switch (actividad.getEntity()) {
-                case "Item": {
-//                    JSONObject jsonObject = new JSONObject(actividad.getEntityJson());
-//                    Long oldID = Long.parseUnsignedLong(jsonObject.get("id").toString());
-                    System.out.println("ar.nex.sincronizar.ActividadController.updateID()::: oldID:" + actividad.getEntityId() + " - newID:" + newID);
-                    Item item = jpa.getItem().findItem(actividad.getEntityId());
-                    item.setId(newID);
-                    jpa.getItem().edit(item);
-                    actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
-                    jpa.getActividad().edit(actividad);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    public void entityUpdateID(Actividad actividad, Long newID) {
+//        try {
+//            JpaService jpa = new JpaService();
+//            switch (actividad.getEntity()) {
+//                case "Item": {
+////                    JSONObject jsonObject = new JSONObject(actividad.getEntityJson());
+////                    Long oldID = Long.parseUnsignedLong(jsonObject.get("id").toString());
+//                    System.out.println("ar.nex.sincronizar.ActividadController.updateID()::: oldID:" + actividad.getEntityId() + " - newID:" + newID);
+//                    Item item = jpa.getItem().findItem(actividad.getEntityUuid());
+//                    item.setId(newID);
+//                    jpa.getItem().edit(item);
+//                    actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
+//                    jpa.getActividad().edit(actividad);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public List<Actividad> getPendientes() {
         try {

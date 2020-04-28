@@ -37,12 +37,10 @@
     <class>ar.nex.entity.equipo.EquipoDocumentacion</class>
     <class>ar.nex.entity.Seguro</class>
     <class>ar.nex.entity.producto.Producto</class>
-    <class>ar.nex.entity.producto.Presentacion</class>
-    <class>ar.nex.entity.Item</class>
+    <class>ar.nex.entity.producto.Presentacion</class>    
     <class>ar.nex.sincronizar.Actividad</class>
-    <class>ar.nex.entity.ItemUuid_o</class>
-    <class>ar.nex.entity.ItemUuid</class>
-    <class>ar.nex.entity.ItemUrl</class>
+    <class>ar.nex.entity.Item</class>
+    <class>ar.nex.sincronizar.sync.Itemx</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sae_app?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="saedb"/>
@@ -50,4 +48,54 @@
       <property name="javax.persistence.jdbc.password" value="sae123"/>
     </properties>
   </persistence-unit>
+  
+    <persistence-unit name="SaeRemote" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>ar.nex.entity.Marca</class>
+    <class>ar.nex.entity.Usuario</class>
+    <class>ar.nex.entity.UsuarioMenu</class>
+    <class>ar.nex.entity.UsuarioHistorial</class>
+    <class>ar.nex.entity.UsuarioGrupo</class>
+    <class>ar.nex.entity.UsuarioEvento</class>
+    <class>ar.nex.entity.ubicacion.Coordenada</class>
+    <class>ar.nex.entity.ubicacion.Direccion</class>
+    <class>ar.nex.entity.ubicacion.Localidad</class>
+    <class>ar.nex.entity.ubicacion.Provincia</class>
+    <class>ar.nex.entity.ubicacion.Contacto</class>
+    <class>ar.nex.entity.empresa.Empresa</class>
+    <class>ar.nex.entity.empresa.Rubro</class>
+    <class>ar.nex.entity.empresa.SubRubro</class>
+    <class>ar.nex.entity.equipo.Equipo</class>
+    <class>ar.nex.entity.equipo.Repuesto</class>
+    <class>ar.nex.entity.equipo.EquipoCategoria</class>
+    <class>ar.nex.entity.equipo.EquipoModelo</class>
+    <class>ar.nex.entity.equipo.Pedido</class>
+    <class>ar.nex.entity.equipo.RepuestoStockDetalle</class>
+    <class>ar.nex.entity.equipo.EquipoCompraVenta</class>
+    <class>ar.nex.entity.equipo.EquipoTipo</class>
+    <class>ar.nex.entity.empleado.Persona</class>
+    <class>ar.nex.entity.empleado.Empleado</class>
+    <class>ar.nex.entity.empleado.EmpleadoCategoria</class>
+    <class>ar.nex.entity.empleado.EmpleadoPuesto</class>
+    <class>ar.nex.entity.empleado.Familia</class>
+    <class>ar.nex.entity.equipo.Transporte</class>
+    <class>ar.nex.entity.equipo.gasto.GastoNeumatico</class>
+    <class>ar.nex.entity.equipo.gasto.Gasoil</class>
+    <class>ar.nex.entity.equipo.gasto.Gasto</class>
+    <class>ar.nex.entity.AdminEmpresa</class>
+    <class>ar.nex.entity.equipo.EquipoDocumentacion</class>
+    <class>ar.nex.entity.Seguro</class>
+    <class>ar.nex.entity.producto.Producto</class>
+    <class>ar.nex.entity.producto.Presentacion</class>   
+    <class>ar.nex.sincronizar.Actividad</class>
+    <class>ar.nex.entity.Item</class>
+    <class>ar.nex.sincronizar.sync.Itemx</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://bxtvdeoxbvp3jskyzekv-mysql.services.clever-cloud.com:3306/bxtvdeoxbvp3jskyzekv?useSSL=false"/>
+      <property name="javax.persistence.jdbc.user" value="uxqrbexixwavcqbz"/>      
+      <property name="javax.persistence.jdbc.password" value="IOmd4SIEJKdV6cl7I8Tg"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+    </properties>
+  </persistence-unit>
+  
 </persistence>

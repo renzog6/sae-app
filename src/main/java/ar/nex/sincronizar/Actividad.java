@@ -25,14 +25,10 @@ import javax.persistence.TemporalType;
 @Table(name = "actividad")
 public class Actividad implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_actividad")
-    private Long idActividad;
-    
+    @Column(name = "uuid")
+    private String uuid;
     @Basic(optional = false)
     @Column(name = "usuario")
     private String usuario;
@@ -43,11 +39,8 @@ public class Actividad implements Serializable {
     private String tipo;
     @Column(name = "entity")
     private String entity;
-    @Column(name = "entity_id")
-    private Long entityId;
-    @Lob
-    @Column(name = "entity_json")
-    private String entityJson;
+    @Column(name = "entity_uuid")
+    private String entityUuid;
     @Column(name = "sincronizacion")
     private SincronizarEstado sincronizacion;
     @Column(name = "created")
@@ -56,6 +49,7 @@ public class Actividad implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
 
     public Actividad() {
         try {
@@ -76,8 +70,6 @@ public class Actividad implements Serializable {
             this.tipo = tipo;
             this.usuario = usuario;
             this.entity = object.getClass().getSimpleName();
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
-            this.entityJson = gson.toJson(object);
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
@@ -86,12 +78,12 @@ public class Actividad implements Serializable {
         }
     }
 
-    public Long getIdActividad() {
-        return idActividad;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setIdActividad(Long idActividad) {
-        this.idActividad = idActividad;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUsuario() {
@@ -126,20 +118,12 @@ public class Actividad implements Serializable {
         this.entity = entity;
     }
 
-    public Long getEntityId() {
-        return entityId;
+    public String getEntityUuid() {
+        return entityUuid;
     }
 
-    public void setEntityId(Long entityId) {
-        this.entityId = entityId;
-    }
-
-    public String getEntityJson() {
-        return entityJson;
-    }
-
-    public void setEntityJson(String entityJson) {
-        this.entityJson = entityJson;
+    public void setEntityUuid(String entityUuid) {
+        this.entityUuid = entityUuid;
     }
 
     public SincronizarEstado getSincronizacion() {
@@ -149,6 +133,7 @@ public class Actividad implements Serializable {
     public void setSincronizacion(SincronizarEstado sincronizacion) {
         this.sincronizacion = sincronizacion;
     }
+
 
     public Date getCreated() {
         return created;
@@ -166,15 +151,10 @@ public class Actividad implements Serializable {
         this.updated = updated;
     }
 
-    @PreUpdate
-    public void setLastUpdate() {
-        this.updated = new Date();
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idActividad != null ? idActividad.hashCode() : 0);
+        hash += (uuid != null ? uuid.hashCode() : 0);
         return hash;
     }
 
@@ -185,7 +165,7 @@ public class Actividad implements Serializable {
             return false;
         }
         Actividad other = (Actividad) object;
-        if ((this.idActividad == null && other.idActividad != null) || (this.idActividad != null && !this.idActividad.equals(other.idActividad))) {
+        if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
         return true;
@@ -193,7 +173,8 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return "Actividad= " + entity + " - " + entityJson;
+        return "ar.nex.sincronizar.Actividad[ uuid=" + uuid + " ]";
     }
 
+  
 }

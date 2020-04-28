@@ -3,23 +3,9 @@ package ar.nex.sincronizar;
 import ar.nex.entity.Item;
 import ar.nex.entity.Usuario;
 import ar.nex.jpa.service.JpaService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.net.InetAddress;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -66,11 +52,11 @@ public class ActividadController {
 //        } catch (Exception e) {
 //        }
 //    }
-    public void create(Object object, Long objectID, String desde) {
+    public void create(Object object, String objectID, String desde) {
         try {
             Usuario usuario = new JpaService().getUsuario().findUsuario(1L);
             Actividad actividad = new Actividad("create - " + desde, usuario.getUsername(), object);
-            actividad.setEntityId(objectID);
+            actividad.setEntityUuid(objectID);
             if (desde.equals("Remote")) {
                 actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
             }
@@ -90,7 +76,7 @@ public class ActividadController {
 
     public void delete(Actividad actividad) {
         try {
-            new JpaService().getActividad().destroy(actividad.getIdActividad());
+            new JpaService().getActividad().destroy(actividad.getUuid());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,26 +100,6 @@ public class ActividadController {
         }
     }
 
-    public void updateID(Actividad actividad, long idNew) {
-        try {
-            JpaService jpa = new JpaService();
-            switch (actividad.getEntity()) {
-                case "Item": {
-                    JSONObject jsonObject = new JSONObject(actividad.getEntityJson());
-                    Long idd = Long.parseUnsignedLong(jsonObject.get("id").toString());
-                    System.out.println("ar.nex.sincronizar.ActividadController.updateID():::" + idd);
-                    Item item = jpa.getItem().findItem(idd);
-                    item.setId(idNew);
-                    jpa.getItem().edit(item);
-                    actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
-                    jpa.getActividad().edit(actividad);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -154,7 +120,7 @@ public class ActividadController {
                 Object ob = jpa.getFactory().getPersistenceUnitUtil().getIdentifier(item);
                 System.out.println("ar.nex.sincronizar.ActividadController.genActividad() ob::: " + ob.toString()
                 );
-                create(item, item.getId(), "Local");
+                create(item, item.getId().toString(), "Local");
             }
 
         } catch (Exception e) {

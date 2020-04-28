@@ -1,35 +1,38 @@
-package ar.nex.entity;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ar.nex.sincronizar.sync;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PreUpdate;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Renzo O. Gorosito <renzog6@gmail.com>
+ * @author Renzo
  */
 @Entity
-@Table(name = "item")
-public class Item implements Serializable {
+@Table(name = "itemx")
+@NamedQueries({
+    @NamedQuery(name = "Itemx.findAll", query = "SELECT i FROM Itemx i")})
+public class Itemx implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
-
+    @Column(name = "uuid")
+    private String uuid;
     @Column(name = "name")
     private String name;
     @Column(name = "info")
@@ -41,29 +44,20 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
-    @PreUpdate
-    public void setLastUpdate() {
-        this.updated = new Date();
+    public Itemx() {
+        this.uuid = UUID.randomUUID().toString();
     }
 
-    public Item() {
-        this.created = new Date();
-        this.updated = new Date();
+    public Itemx(String uuid) {
+        this.uuid = uuid;
     }
 
-    public Item(String name, String info) {
-        this.name = name;
-        this.info = info;
-        this.created = new Date();
-        this.updated = new Date();
+    public String getUuid() {
+        return uuid;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -101,18 +95,18 @@ public class Item implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (uuid != null ? uuid.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
+        if (!(object instanceof Itemx)) {
             return false;
         }
-        Item other = (Item) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        Itemx other = (Itemx) object;
+        if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
         return true;
@@ -120,7 +114,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return id + " - " + name + " - " + info;
+        return "ar.nex.sincronizar.sync.Itemx[ uuid=" + uuid + " ]";
     }
-
+    
 }

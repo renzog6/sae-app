@@ -18,7 +18,6 @@ import ar.nex.jpa.FamiliaJpaController;
 import ar.nex.jpa.GasoilJpaController;
 import ar.nex.jpa.GastoJpaController;
 import ar.nex.jpa.ItemJpaController;
-import ar.nex.jpa.ItemUuidJpaController;
 
 import ar.nex.jpa.LocalidadJpaController;
 import ar.nex.jpa.MarcaJpaController;
@@ -69,105 +68,111 @@ public final class JpaService {
         return factory;
     }
 
-    public void flushPersist(){
-        //this.factory.getPersistenceUnitUtil().
+    /**
+     *
+     * @return factory = Persistence.createEntityManagerFactory("SaeRemote");
+     */
+    public EntityManagerFactory getFactoryRemote() {
+        if (factory == null) {
+            this.factory = Persistence.createEntityManagerFactory("SaeRemote");
+        }
+        return factory;
     }
-    
-    
+
     public AdminEmpresaJpaController getAdminEmpresa() {
-        return new AdminEmpresaJpaController(getFactory());
+        return new AdminEmpresaJpaController(factory);
     }
 
     public EmpresaJpaController getEmpresa() {
-        return new EmpresaJpaController(getFactory());
+        return new EmpresaJpaController(factory);
     }
 
     public MarcaJpaController getMarca() {
-        return new MarcaJpaController(getFactory());
+        return new MarcaJpaController(factory);
     }
 
     public EquipoJpaController getEquipo() {
-        return new EquipoJpaController(getFactory());
+        return new EquipoJpaController(factory);
     }
 
     public EquipoDocumentacionJpaController getEquipoDocumentacion() {
-        return new EquipoDocumentacionJpaController(getFactory());
+        return new EquipoDocumentacionJpaController(factory);
     }
 
     public EquipoCategoriaJpaController getEquipoCategoria() {
-        return new EquipoCategoriaJpaController(getFactory());
+        return new EquipoCategoriaJpaController(factory);
     }
 
     public EquipoModeloJpaController getEquipoModelo() {
-        return new EquipoModeloJpaController(getFactory());
+        return new EquipoModeloJpaController(factory);
     }
 
     public EquipoTipoJpaController getEquipoTipo() {
-        return new EquipoTipoJpaController(getFactory());
+        return new EquipoTipoJpaController(factory);
     }
 
     public EquipoCompraVentaJpaController getEquipoCompraVenta() {
-        return new EquipoCompraVentaJpaController(getFactory());
+        return new EquipoCompraVentaJpaController(factory);
     }
 
     public GasoilJpaController getGasoil() {
-        return new GasoilJpaController(getFactory());
+        return new GasoilJpaController(factory);
     }
 
     public PedidoJpaController getPedido() {
-        return new PedidoJpaController(getFactory());
+        return new PedidoJpaController(factory);
     }
 
     public RepuestoJpaController getRepuesto() {
-        return new RepuestoJpaController(getFactory());
+        return new RepuestoJpaController(factory);
     }
 
     public UsuarioJpaController getUsuario() {
-        return new UsuarioJpaController(getFactory());
+        return new UsuarioJpaController(factory);
     }
 
     public EmpleadoJpaController getEmpleado() {
-        return new EmpleadoJpaController(getFactory());
+        return new EmpleadoJpaController(factory);
     }
 
     public EmpleadoCategoriaJpaController getEmpleadoCategoria() {
-        return new EmpleadoCategoriaJpaController(getFactory());
+        return new EmpleadoCategoriaJpaController(factory);
     }
 
     public EmpleadoPuestoJpaController getEmpleadoPuesto() {
-        return new EmpleadoPuestoJpaController(getFactory());
+        return new EmpleadoPuestoJpaController(factory);
     }
 
     public PersonaJpaController getPersona() {
-        return new PersonaJpaController(getFactory());
+        return new PersonaJpaController(factory);
     }
 
     public FamiliaJpaController getFamilia() {
-        return new FamiliaJpaController(getFactory());
+        return new FamiliaJpaController(factory);
     }
 
     public ProvinciaJpaController getProvincia() {
-        return new ProvinciaJpaController(getFactory());
+        return new ProvinciaJpaController(factory);
     }
 
     public LocalidadJpaController getLocalidad() {
-        return new LocalidadJpaController(getFactory());
+        return new LocalidadJpaController(factory);
     }
 
     public DireccionJpaController getDireccion() {
-        return new DireccionJpaController(getFactory());
+        return new DireccionJpaController(factory);
     }
 
     public ContactoJpaController getContacto() {
-        return new ContactoJpaController(getFactory());
+        return new ContactoJpaController(factory);
     }
 
     public RubroJpaController getRubro() {
-        return new RubroJpaController(getFactory());
+        return new RubroJpaController(factory);
     }
 
     public TransporteJpaController getTransporte() {
-        return new TransporteJpaController(getFactory());
+        return new TransporteJpaController(factory);
     }
 
     /**
@@ -175,7 +180,7 @@ public final class JpaService {
      * @return Gasto Jpa Controller
      */
     public GastoJpaController getGasto() {
-        return new GastoJpaController(getFactory());
+        return new GastoJpaController(factory);
     }
 
     /**
@@ -183,7 +188,7 @@ public final class JpaService {
      * @return Seguro Jpa Controller
      */
     public SeguroJpaController getSeguro() {
-        return new SeguroJpaController(getFactory());
+        return new SeguroJpaController(factory);
     }
 
     /**
@@ -191,19 +196,15 @@ public final class JpaService {
      * @return ItemJpaController
      */
     public ItemJpaController getItem() {
-        return new ItemJpaController(getFactory());
+        return new ItemJpaController(factory);
     }
-
-    public ItemUuidJpaController getItemUuid() {
-        return new ItemUuidJpaController(getFactory());
-    }
-
+    
     /**
      *
      * @return ActividadJpaController
      */
     public ActividadJpaController getActividad() {
-        return new ActividadJpaController(getFactory());
+        return new ActividadJpaController(factory);
     }
 
     /**
@@ -211,6 +212,6 @@ public final class JpaService {
      * @return SincronizarJpaController
      */
 //    public SincronizarJpaController getSincronizar() {
-//        return new SincronizarJpaController(getFactory());
+//        return new SincronizarJpaController(factory);
 //    }
 }

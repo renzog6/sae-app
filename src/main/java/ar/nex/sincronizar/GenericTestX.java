@@ -1,7 +1,6 @@
 package ar.nex.sincronizar;
 
 import ar.nex.entity.Item;
-import ar.nex.entity.ItemUuid;
 import ar.nex.jpa.service.JpaService;
 
 /**

@@ -110,7 +110,7 @@ public class CallingService {
                 jsonObject = new JSONObject(EntityUtils.toString(responseEntity));
             }
 
-            ItemApi itemApi = new ItemApi();
+           // ItemApi itemApi = new ItemApi();
 
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
@@ -165,7 +165,7 @@ public class CallingService {
             httpPost.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmU5Y2ZkYzZhODJkOGMzZmJlOTZjN2NjMWY5MjJhMzg5MGZlYjg3ZGU3YzZhNTJmNDk2M2YwYWY3MTExMGM2YjdhOTMxMTAzMGI4NzdmMDYiLCJpYXQiOjE1ODIwNTYyODcsIm5iZiI6MTU4MjA1NjI4NywiZXhwIjoxNjEzNjc4Njg3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.dgboElpIIBuUs1ec-UrKnYggaXnRijCZ_R7humULHXlcBYQ4QQfss3e0tNYvJPKKl14y9WasQZIxRt03SSRXrI9mLPLXvy1om9zc6jI-Xah5hSAHBCEF3LHFcSR_clrweMfuV4Rz93fbJfQkKibLlN9R8OjBMnW3nbRY_I-Ims-_rk1e6nakwixSl0THiF6D9ZjWJ8YJfFXx6UTLebwGcoJFtl5HSppwb2eq4XaseFvkhA9AQwMPxc8pZcjbeN9Eq6gl6U5gBMpWZkhjOeLXZ0MAOzC3MGPibGS9ZLtktuAWbJo2IzxW0qFiQcy42cs27f6LbXPuntj2BHRi8YaT8qU9hapvwzcox8TcEuskVpuKIjeLpwoA1Jm8s1brkYoTqnpVqWQQsNvAkd4UgJ_caqQ_quj9b8BLWu_2pZsa9BCFXuMqcnlhxIFOY3EGRDbbFcWv35h5i9uaRpEB5WD0VIa09MlzqUYeVkRtBpe0MY0rVoLo1C8a0Po21NVuhPy_yIfNwtvSzk5-79Gi5s7IVDRfIoHEO9JXpOQu-TEbcW1xGMapslRXwbpdHbCZW-nmZerCfVo23Nq3IpbM_BU_ADaF515BpCLX1G0lMqdI5Fi8T-9cv7p8JdxkLvdrWuwxGRzv94BXSSHLEaEPy7-mZgEllFy---YvgHrbjL_Ddow");
 
             // Item item = new JpaService().getItem().findItem(3L);
-            Actividad item = new JpaService().getActividad().findActividad(96L);
+            Actividad item = new JpaService().getActividad().findActividad("296L");
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
             StringEntity postingString = new StringEntity(gson.toJson(item));
             //System.out.println("Item::: " + gson.toJson(item));
@@ -179,7 +179,7 @@ public class CallingService {
                 JSONObject jsonObject = new JSONObject(EntityUtils.toString(responseEntity));
                 
                 Long idd = Long.parseUnsignedLong(jsonObject.get("data").toString()); //getJSONArray("data").toString();
-                new ActividadController().updateID(item, idd);
+                
             }
 
             //System.out.println("remoteLogin()::: " + EntityUtils.toString(entity));

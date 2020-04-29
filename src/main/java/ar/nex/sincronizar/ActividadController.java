@@ -120,7 +120,7 @@ public class ActividadController {
                 Object ob = jpa.getFactory().getPersistenceUnitUtil().getIdentifier(item);
                 System.out.println("ar.nex.sincronizar.ActividadController.genActividad() ob::: " + ob.toString()
                 );
-                create(item, item.getId().toString(), "Local");
+                create(item, item.getUuid(), "Local");
             }
 
         } catch (Exception e) {

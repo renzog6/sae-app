@@ -19,7 +19,7 @@ public class SyncTest {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Item item = new JpaService().getItem().findItem(1L);
+        Item item = null;// new JpaService().getItem().findItem(1L);
 
         // new ActividadController().create(item,"Local");
 //        System.out.println("Actividad::: " +act.toString());

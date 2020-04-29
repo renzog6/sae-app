@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,8 @@ import javax.persistence.TemporalType;
 @Table(name = "actividad")
 public class Actividad implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Basic(optional = false)
     @Column(name = "uuid")
@@ -41,6 +44,8 @@ public class Actividad implements Serializable {
     private String entity;
     @Column(name = "entity_uuid")
     private String entityUuid;
+    @Column(name = "entity_json")
+    private String entityJson;
     @Column(name = "sincronizacion")
     private SincronizarEstado sincronizacion;
     @Column(name = "created")
@@ -50,9 +55,14 @@ public class Actividad implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    @PreUpdate
+    public void setLastUpdate() {
+        this.updated = new Date();
+    }
 
     public Actividad() {
         try {
+            this.uuid = UUID.randomUUID().toString();
             //Nombre del dispositivo
             this.device = InetAddress.getLocalHost().getHostName();
             this.sincronizacion = SincronizarEstado.PENDIENTE;
@@ -65,6 +75,7 @@ public class Actividad implements Serializable {
 
     public Actividad(String tipo, String usuario, Object object) {
         try {
+            this.uuid = UUID.randomUUID().toString();
             //Nombre del dispositivo
             this.device = InetAddress.getLocalHost().getHostName();
             this.tipo = tipo;
@@ -126,6 +137,14 @@ public class Actividad implements Serializable {
         this.entityUuid = entityUuid;
     }
 
+    public String getEntityJson() {
+        return entityJson;
+    }
+
+    public void setEntityJson(String entityJson) {
+        this.entityJson = entityJson;
+    }
+
     public SincronizarEstado getSincronizacion() {
         return sincronizacion;
     }
@@ -133,7 +152,6 @@ public class Actividad implements Serializable {
     public void setSincronizacion(SincronizarEstado sincronizacion) {
         this.sincronizacion = sincronizacion;
     }
-
 
     public Date getCreated() {
         return created;
@@ -173,8 +191,7 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.nex.sincronizar.Actividad[ uuid=" + uuid + " ]";
+        return this.tipo + " - " + this.device + " - " + this.entity;
     }
 
-  
 }

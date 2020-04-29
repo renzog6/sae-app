@@ -19,7 +19,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Renzo O. Gorosito <renzog6@gmail.com>
+ * @author Renzo
  */
 public class ItemJpaController implements Serializable {
 
@@ -37,16 +37,15 @@ public class ItemJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(item);           
-            em.getTransaction().commit();     
-            //em.refresh(item);
+            em.persist(item);
+            em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findItem(item.getId()) != null) {                
-                throw new PreexistingEntityException("Item " + item + " already exists.", ex);                
+            if (findItem(item.getUuid()) != null) {
+                throw new PreexistingEntityException("Item " + item + " already exists.", ex);
             }
             throw ex;
         } finally {
-            if (em != null) {                
+            if (em != null) {
                 em.close();
             }
         }
@@ -62,7 +61,7 @@ public class ItemJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = item.getId();
+                String id = item.getUuid();
                 if (findItem(id) == null) {
                     throw new NonexistentEntityException("The item with id " + id + " no longer exists.");
                 }
@@ -75,7 +74,7 @@ public class ItemJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(String id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -83,7 +82,7 @@ public class ItemJpaController implements Serializable {
             Item item;
             try {
                 item = em.getReference(Item.class, id);
-                item.getId();
+                item.getUuid();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The item with id " + id + " no longer exists.", enfe);
             }
@@ -120,7 +119,7 @@ public class ItemJpaController implements Serializable {
         }
     }
 
-    public Item findItem(Long id) {
+    public Item findItem(String id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Item.class, id);

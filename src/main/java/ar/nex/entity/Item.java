@@ -2,13 +2,13 @@ package ar.nex.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Renzo O. Gorosito <renzog6@gmail.com>
+ * @author Renzo
  */
 @Entity
 @Table(name = "item")
@@ -25,15 +25,19 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
-
+    @Column(name = "uuid")
+    private String uuid;
     @Column(name = "name")
     private String name;
     @Column(name = "info")
     private String info;
+    @Column(name = "codigo")
+    private String codigo;
+    @Column(name = "unidad")
+    private String unidad;
+    @Column(name = "rubro")
+    private String rubro;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -41,29 +45,33 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    private void init() {
+        this.uuid = UUID.randomUUID().toString();
+        this.created = new Date();
+        this.updated = new Date();
+    }
+
     @PreUpdate
     public void setLastUpdate() {
         this.updated = new Date();
     }
 
     public Item() {
-        this.created = new Date();
-        this.updated = new Date();
+        this.init();
     }
 
     public Item(String name, String info) {
+        this.init();
         this.name = name;
         this.info = info;
-        this.created = new Date();
-        this.updated = new Date();
     }
 
-    public Long getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -80,6 +88,30 @@ public class Item implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
+    public String getRubro() {
+        return rubro;
+    }
+
+    public void setRubro(String rubro) {
+        this.rubro = rubro;
     }
 
     public Date getCreated() {
@@ -101,7 +133,7 @@ public class Item implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (uuid != null ? uuid.hashCode() : 0);
         return hash;
     }
 
@@ -112,7 +144,7 @@ public class Item implements Serializable {
             return false;
         }
         Item other = (Item) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
         return true;
@@ -120,7 +152,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return id + " - " + name + " - " + info;
+        return "uuid=" + uuid + " - " + name;
     }
 
 }

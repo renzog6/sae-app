@@ -1,9 +1,10 @@
 package ar.nex.sincronizar;
 
 import ar.nex.entity.Item;
-import ar.nex.jpa.ItemxJpaController;
+import ar.nex.jpa.ItemJpaController;
+
 import ar.nex.jpa.service.JpaService;
-import ar.nex.sincronizar.sync.Itemx;
+
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.EntityManager;
@@ -23,13 +24,13 @@ public class ActividadTestX {
         try {
             JpaService jpa = new JpaService();
 
-            ItemxJpaController jpaItemx = new ItemxJpaController(jpa.getFactory());
+            ItemJpaController jpaItem = new ItemJpaController(jpa.getFactory());
             
-            Itemx ix = new Itemx();
+            Item ix = new Item();
             ix.setName("Item UUID 333");
             ix.setInfo("UUID X 333");
             System.out.println("::: " +ix.getUuid());
-            jpaItemx.create(ix);
+            jpaItem.create(ix);
 
             //jpa.getItem().getEntityManager().setFlushMode(FlushModeType.AUTO);
             // Item i = new Item("Kote", "KKK");

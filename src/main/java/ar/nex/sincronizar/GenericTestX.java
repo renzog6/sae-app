@@ -18,11 +18,9 @@ public class GenericTestX {
             JpaService service = new JpaService();
            // ItemUuid item = new ItemUuid();
            //Item item = new Item();
-           Item item = service.getItem().findItem(150L);
-            item.setName("test date");
-            item.setInfo("update");
-            service.getItem().edit(item);
-           // service.getItem().create(item);
+           Item item = new Item("Xds", "#dd");
+            //service.getItem().edit(item);
+           service.getItem().create(item);
             //service.getItemUuid().create(item);
             System.out.println("ar.nex.sincronizar.GenericTestX.main()" + item.toString());
             

@@ -3,11 +3,11 @@ package ar.nex.login;
 import ar.nex.entity.Usuario;
 import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDialog;
-import java.io.IOException;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,11 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -46,33 +43,22 @@ public class LoginController implements Initializable {
         LoginController.usuario = usuario;
     }
 
-    public static boolean isLogin() {        
+    public static boolean isLogin() {
         return usuario != null;
     }
 
-    public Parent getRoot() {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/login/Login.fxml"));
-            root.setStyle("/css/login.css");
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return root;
-    }
-
     @FXML
-    private BorderPane bpLogin;
+    private AnchorPane apLogin;
     @FXML
-    private Button btnIniciar;
+    private Label Titulo;
     @FXML
-    private Button btnCancelar;
+    private JFXTextField boxUser;
     @FXML
-    private Button btnConfig;
+    private JFXPasswordField boxPass;
     @FXML
-    private TextField boxUser;
+    private JFXButton btnIniciar;
     @FXML
-    private PasswordField boxPass;
+    private JFXButton btnCancelar;
 
     private JpaService jpa;
 
@@ -95,33 +81,13 @@ public class LoginController implements Initializable {
         });
 
         btnCancelar.setOnAction(e -> this.close(e));
-        btnConfig.setOnAction(e -> config(e));
         btnIniciar.setOnAction(e -> login(e));
     }
 
-    private void config(ActionEvent e) {
-        try {
-            Stage stage = new Stage();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login/LoginConfig.fxml"));
-            LoginConfigController controller = new LoginConfigController();
-            loader.setController(controller);
-
-            Scene scene = new Scene(loader.load());
-
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.resizableProperty().setValue(Boolean.FALSE);
-
-            stage.showAndWait();
-        } catch (IOException ex) {
-            System.err.print(ex);
-        }
-    }
-
-        private void login(ActionEvent e) {
+    private void login(ActionEvent e) {
         try {
             EntityManager em = jpa.getFactory().createEntityManager();
+
             Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.username = :username");
             query.setParameter("username", boxUser.getText());
 
@@ -140,7 +106,7 @@ public class LoginController implements Initializable {
         }
 
     }
-    
+
     private void showHome() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));

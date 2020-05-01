@@ -9,6 +9,7 @@ import static javafx.application.Application.launch;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,9 +22,11 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("SAE-App");
-        Parent root = new LoginController().getRoot();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+       // Parent root = new LoginController().getRoot();
+      //  Scene scene = new Scene(root);
+        SceneController scene = new SceneController();        
+        stage.setScene(scene.getLogin());
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
 //        Sync s = new Sync();

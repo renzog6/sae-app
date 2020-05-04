@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -109,6 +111,8 @@ public class LoginController implements Initializable {
 
     private void showHome() {
         try {
+           // List<Window> open = Stage.getWindows().stream().filter(Window::isShowing);
+            
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root);

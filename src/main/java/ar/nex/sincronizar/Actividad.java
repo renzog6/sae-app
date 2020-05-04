@@ -1,22 +1,20 @@
 package ar.nex.sincronizar;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +23,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "actividad")
 public class Actividad implements Serializable {
+
+    @Column(name = "sincronizacion")
+    private SincronizarEstado sincronizacion;
+    
+    @OneToMany(mappedBy = "acitvidad")
+    private Collection<Sincronizar> sincronizarCollection;
 
     private static final long serialVersionUID = 1L;
 
@@ -46,8 +50,6 @@ public class Actividad implements Serializable {
     private String entityUuid;
     @Column(name = "entity_json")
     private String entityJson;
-    @Column(name = "sincronizacion")
-    private SincronizarEstado sincronizacion;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -145,13 +147,6 @@ public class Actividad implements Serializable {
         this.entityJson = entityJson;
     }
 
-    public SincronizarEstado getSincronizacion() {
-        return sincronizacion;
-    }
-
-    public void setSincronizacion(SincronizarEstado sincronizacion) {
-        this.sincronizacion = sincronizacion;
-    }
 
     public Date getCreated() {
         return created;
@@ -167,6 +162,14 @@ public class Actividad implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public SincronizarEstado getSincronizacion() {
+        return sincronizacion;
+    }
+
+    public void setSincronizacion(SincronizarEstado sincronizacion) {
+        this.sincronizacion = sincronizacion;
     }
 
     @Override
@@ -192,6 +195,15 @@ public class Actividad implements Serializable {
     @Override
     public String toString() {
         return this.tipo + " - " + this.device + " - " + this.entity;
+    }
+
+    @XmlTransient
+    public Collection<Sincronizar> getSincronizarCollection() {
+        return sincronizarCollection;
+    }
+
+    public void setSincronizarCollection(Collection<Sincronizar> sincronizarCollection) {
+        this.sincronizarCollection = sincronizarCollection;
     }
 
 }

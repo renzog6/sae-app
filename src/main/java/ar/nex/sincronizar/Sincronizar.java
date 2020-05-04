@@ -1,15 +1,13 @@
-package ar.nex.entity;
+package ar.nex.sincronizar;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.PreUpdate;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,51 +17,33 @@ import javax.persistence.TemporalType;
  * @author Renzo
  */
 @Entity
-@Table(name = "item")
-public class Item implements Serializable {
+@Table(name = "sincronizar")
+public class Sincronizar implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @Basic(optional = false)
     @Column(name = "uuid")
     private String uuid;
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "device")
+    private String device;
     @Column(name = "info")
     private String info;
-    @Column(name = "codigo")
-    private String codigo;
-    @Column(name = "unidad")
-    private String unidad;
-    @Column(name = "marca")
-    private String marca;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @JoinColumn(name = "acitvidad", referencedColumnName = "uuid")
+    @ManyToOne
+    private Actividad acitvidad;
 
-    private void init() {
-        this.uuid = UUID.randomUUID().toString();
-        this.created = new Date();
-        this.updated = new Date();
+    public Sincronizar() {
     }
 
-    @PreUpdate
-    public void setLastUpdate() {
-        this.updated = new Date();
-    }
-
-    public Item() {
-        this.init();
-    }
-
-    public Item(String name, String info) {
-        this.init();
-        this.nombre = name;
-        this.info = info;
+    public Sincronizar(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUuid() {
@@ -74,20 +54,12 @@ public class Item implements Serializable {
         this.uuid = uuid;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDevice() {
+        return device;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setDevice(String device) {
+        this.device = device;
     }
 
     public String getInfo() {
@@ -96,22 +68,6 @@ public class Item implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getUnidad() {
-        return unidad;
-    }
-
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
     }
 
     public Date getCreated() {
@@ -130,6 +86,14 @@ public class Item implements Serializable {
         this.updated = updated;
     }
 
+    public Actividad getAcitvidad() {
+        return acitvidad;
+    }
+
+    public void setAcitvidad(Actividad acitvidad) {
+        this.acitvidad = acitvidad;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -140,10 +104,10 @@ public class Item implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
+        if (!(object instanceof Sincronizar)) {
             return false;
         }
-        Item other = (Item) object;
+        Sincronizar other = (Sincronizar) object;
         if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
@@ -152,7 +116,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "uuid=" + uuid + " - " + nombre;
+        return "ar.nex.sincronizar.Sincronizar_1[ uuid=" + uuid + " ]";
     }
-
+    
 }

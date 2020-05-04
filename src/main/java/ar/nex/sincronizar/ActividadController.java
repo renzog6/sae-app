@@ -6,7 +6,6 @@ import ar.nex.jpa.service.JpaService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.json.JSONObject;
 
 /**
  *
@@ -26,32 +25,6 @@ public class ActividadController {
      * @param objectID
      * @param desde
      */
-    public void create(String entity) {
-        try {
-
-        } catch (Exception e) {
-        }
-    }
-
-//    private Long getLastObjectID(Class clazz) {
-//        try {
-//            EntityManager em = ...;
-//CriteriaBuilder cb =  jpa.getFactory().getPersistenceUnitUtil().getIdentifier()// em.getCriteriaBuilder();
-//            CriteriaQuery<Entity class  
-//
-//            
-//            > cq = cb.createQuery(Entity.class  
-//
-//            
-//            );
-//Root<Entity> from = cq.from(Entity.class);
-//            cq.select(Entity);
-//            TypedQuery<Entity> q = em.createQuery(cq);
-//            List<Entity> allitems = q.getResultList();
-//
-//        } catch (Exception e) {
-//        }
-//    }
     public void create(Object object, String objectID, String desde) {
         try {
             Usuario usuario = new JpaService().getUsuario().findUsuario(1L);
@@ -113,13 +86,9 @@ public class ActividadController {
 
     public void genActividad() {
         try {
-            for (int i = 209; i < 219; i++) {
+            for (int i = 0; i < 11; i++) {
                 Item item = new Item("name " + i, "info " + i);
                 jpa.getItem().create(item);
-
-                Object ob = jpa.getFactory().getPersistenceUnitUtil().getIdentifier(item);
-                System.out.println("ar.nex.sincronizar.ActividadController.genActividad() ob::: " + ob.toString()
-                );
                 create(item, item.getUuid(), "Local");
             }
 

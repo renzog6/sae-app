@@ -5,9 +5,18 @@ import ar.nex.jpa.service.JpaRemote;
 import ar.nex.jpa.service.JpaService;
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+import org.apache.commons.math3.analysis.function.Sin;
 
 /**
  *
@@ -22,7 +31,7 @@ public class SincronizarController {
     public static final int PORT = 8000;
     public static final String BASE_URL = "http://" + HOSTNAME + ":" + PORT;
 
-    public List<Actividad> getPendientes() {
+    public List<Actividad> getLocalPendientes() {
         try {
             EntityManager em = new JpaService().getFactory().createEntityManager();
             TypedQuery<Actividad> query
@@ -40,20 +49,77 @@ public class SincronizarController {
         }
     }
 
-    public List<Actividad> getRemoteActividad() {
+    public List<Actividad> getRemotePendientes() {
         try {
-            EntityManager em = new JpaRemote().getFactory().createEntityManager();
-            TypedQuery<Actividad> query
-                    = em.createQuery("SELECT a FROM Actividad a"
-                            + "  WHERE a.sincronizacion = :estado", Actividad.class)
-                            .setParameter("estado", SincronizarEstado.PENDIENTE);
-            List<Actividad> results = query.getResultList();
+            EntityManager em = new JpaService().getFactory().createEntityManager();
+
+            Dispositivo dp = new JpaService().getDispositivo().findDispositivo("3");
+            Query query = em.createQuery(""
+                    + "SELECT a "
+                    + "FROM Actividad a "
+                    + "WHERE :rdp NOT MEMBER OF a.dispositivoList")
+                    .setParameter("rdp", dp);
+
+            List<Actividad> resultList = query.getResultList();
+            System.out.println("row::: " + resultList.size());
+            resultList.forEach(r -> System.out.println(r.toString()));
+
+            List<Actividad> results = new ArrayList<>();//query.getResultList();
             if (!results.isEmpty()) {
                 return results;
             } else {
                 return null;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Actividad> test() {
+
+        List<Actividad> actividadList = null;
+        List<Sincronizar> syncList = null;
+        try {
+            EntityManager em = new JpaService().getFactory().createEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+
+            CriteriaQuery<Sincronizar> cq = cb.createQuery(Sincronizar.class);
+
+            if (cq != null) {
+                Root<Sincronizar> player = cq.from(Sincronizar.class);
+                Join<Sincronizar, Actividad> join = player.join("sincronizarList", JoinType.LEFT);
+                cq.where(cb.equal(join.get("device"), "Server"));
+
+                //cq.where(cb.equal(join.get("name"), "ordinary"));
+                //Join<User, Role> join = from.join("role", JoinType.LEFT);
+                // Get MetaModel from Root
+                //EntityType<Sincronizar> Sincronizar_ = player.getModel();
+                // set the where clause
+                TypedQuery<Sincronizar> tq = em.createQuery(cq);
+
+                syncList = tq.getResultList();
+            }
+//                try {
+//        CriteriaQuery<Player> cq = cb.createQuery(Player.class);
+//        if (cq != null) {
+//            Root<Player> player = cq.from(Player.class);
+//            Join<Player, Team> team = player.join(Player_.teams);
+//            Join<Team, League> league = team.join(Team_.league);
+//
+//            // Get MetaModel from Root
+//            //EntityType<Player> Player_ = player.getModel();
+//
+//            // set the where clause
+//            cq.where(cb.equal(league.get(League_.sport), sport));
+//            cq.select(player).distinct(true);
+//            TypedQuery<Player> q = em.createQuery(cq);
+//            players = q.getResultList();
+//        }
+            return actividadList;
+        } catch (Exception e) {
+            e.printStackTrace();
+
             return null;
         }
     }
@@ -61,7 +127,7 @@ public class SincronizarController {
     public void checkLocalActividad() {
         try {
             List<Actividad> pendientes = null;
-            pendientes = getPendientes();
+            pendientes = getLocalPendientes();
             if (pendientes != null) {
                 System.out.println("SincronizarController.checkLocalActividad()::: HAY " + pendientes.size() + " para sync");
                 if (hayConexion()) {
@@ -83,15 +149,24 @@ public class SincronizarController {
     public static void main(String[] args) {
         // TODO code application logic here
         //new ActividadController().remoteList();
-        //   new ActividadController().genActividad();
+        //new ActividadController().genActividad();
         //new SincronizarController().checkLocalActividad();
 
-        if (new SincronizarController().hayConexion()) {
-            System.out.println("SI SI SI::::");
-            new SincronizarController().checkLocalActividad();
-        } else {
-            System.out.println("NO NO NO::::");
+//        if (new SincronizarController().hayConexion()) {
+//            System.out.println("SI SI SI::::");
+//            new SincronizarController().checkLocalActividad();
+//        } else {
+//            System.out.println("NO NO NO::::");
+//        }
+        // List<Actividad> lst = new SincronizarController().getRemotePendientes();
+        List<Actividad> lst = new SincronizarController().getRemotePendientes();
+        if (lst != null) {
+            System.out.println("Cantidad::: " + lst.size());
+            for (Actividad a : lst) {
+                System.out.println("Actividad::: " + a.getUuid() + " - " + a.getDevice());
+            }
         }
+
     }
 
     private void remoteCreate(Actividad actividad) {
@@ -143,11 +218,16 @@ public class SincronizarController {
             if (local) {
                 new JpaService().getActividad().create(actividad);
             } else {
+                Sincronizar sync = new Sincronizar();
+                new JpaService().getSincronizar().create(sync);
+                new JpaRemote().getSincronizar().create(sync);
+                actividad.getSincronizarList().add(sync);
                 new JpaRemote().getActividad().create(actividad);
                 actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
                 jpaLocal.getActividad().edit(actividad);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -38,15 +38,15 @@ public class SincronizarJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Actividad acitvidad = sincronizar.getAcitvidad();
-            if (acitvidad != null) {
-                acitvidad = em.getReference(acitvidad.getClass(), acitvidad.getUuid());
-                sincronizar.setAcitvidad(acitvidad);
+            Actividad actividad = sincronizar.getActividad();
+            if (actividad != null) {
+                actividad = em.getReference(actividad.getClass(), actividad.getUuid());
+                sincronizar.setActividad(actividad);
             }
             em.persist(sincronizar);
-            if (acitvidad != null) {
-                acitvidad.getSincronizarCollection().add(sincronizar);
-                acitvidad = em.merge(acitvidad);
+            if (actividad != null) {
+                actividad.getSincronizarList().add(sincronizar);
+                actividad = em.merge(actividad);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -67,20 +67,20 @@ public class SincronizarJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Sincronizar persistentSincronizar = em.find(Sincronizar.class, sincronizar.getUuid());
-            Actividad acitvidadOld = persistentSincronizar.getAcitvidad();
-            Actividad acitvidadNew = sincronizar.getAcitvidad();
-            if (acitvidadNew != null) {
-                acitvidadNew = em.getReference(acitvidadNew.getClass(), acitvidadNew.getUuid());
-                sincronizar.setAcitvidad(acitvidadNew);
+            Actividad actividadOld = persistentSincronizar.getActividad();
+            Actividad actividadNew = sincronizar.getActividad();
+            if (actividadNew != null) {
+                actividadNew = em.getReference(actividadNew.getClass(), actividadNew.getUuid());
+                sincronizar.setActividad(actividadNew);
             }
             sincronizar = em.merge(sincronizar);
-            if (acitvidadOld != null && !acitvidadOld.equals(acitvidadNew)) {
-                acitvidadOld.getSincronizarCollection().remove(sincronizar);
-                acitvidadOld = em.merge(acitvidadOld);
+            if (actividadOld != null && !actividadOld.equals(actividadNew)) {
+                actividadOld.getSincronizarList().remove(sincronizar);
+                actividadOld = em.merge(actividadOld);
             }
-            if (acitvidadNew != null && !acitvidadNew.equals(acitvidadOld)) {
-                acitvidadNew.getSincronizarCollection().add(sincronizar);
-                acitvidadNew = em.merge(acitvidadNew);
+            if (actividadNew != null && !actividadNew.equals(actividadOld)) {
+                actividadNew.getSincronizarList().add(sincronizar);
+                actividadNew = em.merge(actividadNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -111,10 +111,10 @@ public class SincronizarJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The sincronizar with id " + id + " no longer exists.", enfe);
             }
-            Actividad acitvidad = sincronizar.getAcitvidad();
-            if (acitvidad != null) {
-                acitvidad.getSincronizarCollection().remove(sincronizar);
-                acitvidad = em.merge(acitvidad);
+            Actividad actividad = sincronizar.getActividad();
+            if (actividad != null) {
+                actividad.getSincronizarList().remove(sincronizar);
+                actividad = em.merge(actividad);
             }
             em.remove(sincronizar);
             em.getTransaction().commit();

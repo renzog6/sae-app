@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ar.nex.sincronizar.Sincronizar;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,27 +35,27 @@ public class ActividadJpaController implements Serializable {
     }
 
     public void create(Actividad actividad) throws PreexistingEntityException, Exception {
-        if (actividad.getSincronizarCollection() == null) {
-            actividad.setSincronizarCollection(new ArrayList<Sincronizar>());
+        if (actividad.getSincronizarList() == null) {
+            actividad.setSincronizarList(new ArrayList<Sincronizar>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Sincronizar> attachedSincronizarCollection = new ArrayList<Sincronizar>();
-            for (Sincronizar sincronizarCollectionSincronizarToAttach : actividad.getSincronizarCollection()) {
-                sincronizarCollectionSincronizarToAttach = em.getReference(sincronizarCollectionSincronizarToAttach.getClass(), sincronizarCollectionSincronizarToAttach.getUuid());
-                attachedSincronizarCollection.add(sincronizarCollectionSincronizarToAttach);
+            List<Sincronizar> attachedSincronizarList = new ArrayList<Sincronizar>();
+            for (Sincronizar sincronizarListSincronizarToAttach : actividad.getSincronizarList()) {
+                sincronizarListSincronizarToAttach = em.getReference(sincronizarListSincronizarToAttach.getClass(), sincronizarListSincronizarToAttach.getUuid());
+                attachedSincronizarList.add(sincronizarListSincronizarToAttach);
             }
-            actividad.setSincronizarCollection(attachedSincronizarCollection);
+            actividad.setSincronizarList(attachedSincronizarList);
             em.persist(actividad);
-            for (Sincronizar sincronizarCollectionSincronizar : actividad.getSincronizarCollection()) {
-                Actividad oldAcitvidadOfSincronizarCollectionSincronizar = sincronizarCollectionSincronizar.getAcitvidad();
-                sincronizarCollectionSincronizar.setAcitvidad(actividad);
-                sincronizarCollectionSincronizar = em.merge(sincronizarCollectionSincronizar);
-                if (oldAcitvidadOfSincronizarCollectionSincronizar != null) {
-                    oldAcitvidadOfSincronizarCollectionSincronizar.getSincronizarCollection().remove(sincronizarCollectionSincronizar);
-                    oldAcitvidadOfSincronizarCollectionSincronizar = em.merge(oldAcitvidadOfSincronizarCollectionSincronizar);
+            for (Sincronizar sincronizarListSincronizar : actividad.getSincronizarList()) {
+                Actividad oldActividadOfSincronizarListSincronizar = sincronizarListSincronizar.getActividad();
+                sincronizarListSincronizar.setActividad(actividad);
+                sincronizarListSincronizar = em.merge(sincronizarListSincronizar);
+                if (oldActividadOfSincronizarListSincronizar != null) {
+                    oldActividadOfSincronizarListSincronizar.getSincronizarList().remove(sincronizarListSincronizar);
+                    oldActividadOfSincronizarListSincronizar = em.merge(oldActividadOfSincronizarListSincronizar);
                 }
             }
             em.getTransaction().commit();
@@ -78,30 +77,30 @@ public class ActividadJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Actividad persistentActividad = em.find(Actividad.class, actividad.getUuid());
-            Collection<Sincronizar> sincronizarCollectionOld = persistentActividad.getSincronizarCollection();
-            Collection<Sincronizar> sincronizarCollectionNew = actividad.getSincronizarCollection();
-            Collection<Sincronizar> attachedSincronizarCollectionNew = new ArrayList<Sincronizar>();
-            for (Sincronizar sincronizarCollectionNewSincronizarToAttach : sincronizarCollectionNew) {
-                sincronizarCollectionNewSincronizarToAttach = em.getReference(sincronizarCollectionNewSincronizarToAttach.getClass(), sincronizarCollectionNewSincronizarToAttach.getUuid());
-                attachedSincronizarCollectionNew.add(sincronizarCollectionNewSincronizarToAttach);
+            List<Sincronizar> sincronizarListOld = persistentActividad.getSincronizarList();
+            List<Sincronizar> sincronizarListNew = actividad.getSincronizarList();
+            List<Sincronizar> attachedSincronizarListNew = new ArrayList<Sincronizar>();
+            for (Sincronizar sincronizarListNewSincronizarToAttach : sincronizarListNew) {
+                sincronizarListNewSincronizarToAttach = em.getReference(sincronizarListNewSincronizarToAttach.getClass(), sincronizarListNewSincronizarToAttach.getUuid());
+                attachedSincronizarListNew.add(sincronizarListNewSincronizarToAttach);
             }
-            sincronizarCollectionNew = attachedSincronizarCollectionNew;
-            actividad.setSincronizarCollection(sincronizarCollectionNew);
+            sincronizarListNew = attachedSincronizarListNew;
+            actividad.setSincronizarList(sincronizarListNew);
             actividad = em.merge(actividad);
-            for (Sincronizar sincronizarCollectionOldSincronizar : sincronizarCollectionOld) {
-                if (!sincronizarCollectionNew.contains(sincronizarCollectionOldSincronizar)) {
-                    sincronizarCollectionOldSincronizar.setAcitvidad(null);
-                    sincronizarCollectionOldSincronizar = em.merge(sincronizarCollectionOldSincronizar);
+            for (Sincronizar sincronizarListOldSincronizar : sincronizarListOld) {
+                if (!sincronizarListNew.contains(sincronizarListOldSincronizar)) {
+                    sincronizarListOldSincronizar.setActividad(null);
+                    sincronizarListOldSincronizar = em.merge(sincronizarListOldSincronizar);
                 }
             }
-            for (Sincronizar sincronizarCollectionNewSincronizar : sincronizarCollectionNew) {
-                if (!sincronizarCollectionOld.contains(sincronizarCollectionNewSincronizar)) {
-                    Actividad oldAcitvidadOfSincronizarCollectionNewSincronizar = sincronizarCollectionNewSincronizar.getAcitvidad();
-                    sincronizarCollectionNewSincronizar.setAcitvidad(actividad);
-                    sincronizarCollectionNewSincronizar = em.merge(sincronizarCollectionNewSincronizar);
-                    if (oldAcitvidadOfSincronizarCollectionNewSincronizar != null && !oldAcitvidadOfSincronizarCollectionNewSincronizar.equals(actividad)) {
-                        oldAcitvidadOfSincronizarCollectionNewSincronizar.getSincronizarCollection().remove(sincronizarCollectionNewSincronizar);
-                        oldAcitvidadOfSincronizarCollectionNewSincronizar = em.merge(oldAcitvidadOfSincronizarCollectionNewSincronizar);
+            for (Sincronizar sincronizarListNewSincronizar : sincronizarListNew) {
+                if (!sincronizarListOld.contains(sincronizarListNewSincronizar)) {
+                    Actividad oldActividadOfSincronizarListNewSincronizar = sincronizarListNewSincronizar.getActividad();
+                    sincronizarListNewSincronizar.setActividad(actividad);
+                    sincronizarListNewSincronizar = em.merge(sincronizarListNewSincronizar);
+                    if (oldActividadOfSincronizarListNewSincronizar != null && !oldActividadOfSincronizarListNewSincronizar.equals(actividad)) {
+                        oldActividadOfSincronizarListNewSincronizar.getSincronizarList().remove(sincronizarListNewSincronizar);
+                        oldActividadOfSincronizarListNewSincronizar = em.merge(oldActividadOfSincronizarListNewSincronizar);
                     }
                 }
             }
@@ -134,10 +133,10 @@ public class ActividadJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The actividad with id " + id + " no longer exists.", enfe);
             }
-            Collection<Sincronizar> sincronizarCollection = actividad.getSincronizarCollection();
-            for (Sincronizar sincronizarCollectionSincronizar : sincronizarCollection) {
-                sincronizarCollectionSincronizar.setAcitvidad(null);
-                sincronizarCollectionSincronizar = em.merge(sincronizarCollectionSincronizar);
+            List<Sincronizar> sincronizarList = actividad.getSincronizarList();
+            for (Sincronizar sincronizarListSincronizar : sincronizarList) {
+                sincronizarListSincronizar.setActividad(null);
+                sincronizarListSincronizar = em.merge(sincronizarListSincronizar);
             }
             em.remove(actividad);
             em.getTransaction().commit();

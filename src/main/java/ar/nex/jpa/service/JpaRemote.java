@@ -4,6 +4,7 @@ import ar.nex.jpa.ActividadJpaController;
 import ar.nex.jpa.AdminEmpresaJpaController;
 import ar.nex.jpa.ContactoJpaController;
 import ar.nex.jpa.DireccionJpaController;
+import ar.nex.jpa.DispositivoJpaController;
 import ar.nex.jpa.EmpleadoCategoriaJpaController;
 import ar.nex.jpa.EmpleadoJpaController;
 import ar.nex.jpa.EmpleadoPuestoJpaController;
@@ -27,6 +28,7 @@ import ar.nex.jpa.ProvinciaJpaController;
 import ar.nex.jpa.RepuestoJpaController;
 import ar.nex.jpa.RubroJpaController;
 import ar.nex.jpa.SeguroJpaController;
+import ar.nex.jpa.SincronizarJpaController;
 
 import ar.nex.jpa.TransporteJpaController;
 import ar.nex.jpa.UsuarioJpaController;
@@ -198,7 +200,7 @@ public final class JpaRemote {
     public ItemJpaController getItem() {
         return new ItemJpaController(factory);
     }
-    
+
     /**
      *
      * @return ActividadJpaController
@@ -211,7 +213,15 @@ public final class JpaRemote {
      *
      * @return SincronizarJpaController
      */
-//    public SincronizarJpaController getSincronizar() {
-//        return new SincronizarJpaController(factory);
-//    }
+    public SincronizarJpaController getSincronizar() {
+        return new SincronizarJpaController(factory);
+    }
+
+    /**
+     *
+     * @return DispositivoJpaController
+     */
+    public DispositivoJpaController getDispositivo() {
+        return new DispositivoJpaController(factory);
+    }
 }

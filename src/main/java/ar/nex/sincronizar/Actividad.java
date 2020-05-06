@@ -2,13 +2,20 @@ package ar.nex.sincronizar;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -26,9 +33,16 @@ public class Actividad implements Serializable {
 
     @Column(name = "sincronizacion")
     private SincronizarEstado sincronizacion;
-    
-    @OneToMany(mappedBy = "acitvidad")
-    private Collection<Sincronizar> sincronizarCollection;
+
+    @JoinTable(name = "actividad_dispositivo", joinColumns = {
+        @JoinColumn(name = "actividad", referencedColumnName = "uuid")}, inverseJoinColumns = {
+        @JoinColumn(name = "dispositivo", referencedColumnName = "uuid")})
+    @ManyToMany
+    private List<Dispositivo> dispositivoList;
+
+    @OneToMany(mappedBy = "actividad")
+    //@OneToMany(targetEntity = Sincronizar.class, mappedBy = "acitvidad", fetch = FetchType.LAZY)
+    private List<Sincronizar> sincronizarList;
 
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +71,10 @@ public class Actividad implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    public void initDO() {
+        this.dispositivoList = new ArrayList<>();
+    }
+
     @PreUpdate
     public void setLastUpdate() {
         this.updated = new Date();
@@ -70,6 +88,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
+            this.sincronizarList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -86,6 +105,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
+            this.sincronizarList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -147,7 +167,6 @@ public class Actividad implements Serializable {
         this.entityJson = entityJson;
     }
 
-
     public Date getCreated() {
         return created;
     }
@@ -164,12 +183,12 @@ public class Actividad implements Serializable {
         this.updated = updated;
     }
 
-    public SincronizarEstado getSincronizacion() {
-        return sincronizacion;
+    public List<Sincronizar> getSincronizarList() {
+        return sincronizarList;
     }
 
-    public void setSincronizacion(SincronizarEstado sincronizacion) {
-        this.sincronizacion = sincronizacion;
+    public void setSincronizarList(List<Sincronizar> sincronizarList) {
+        this.sincronizarList = sincronizarList;
     }
 
     @Override
@@ -194,16 +213,24 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return this.tipo + " - " + this.device + " - " + this.entity;
+        return uuid + " - " + this.tipo + " - " + this.device + " - " + this.entity;
     }
 
     @XmlTransient
-    public Collection<Sincronizar> getSincronizarCollection() {
-        return sincronizarCollection;
+    public List<Dispositivo> getDispositivoList() {
+        return dispositivoList;
     }
 
-    public void setSincronizarCollection(Collection<Sincronizar> sincronizarCollection) {
-        this.sincronizarCollection = sincronizarCollection;
+    public void setDispositivoList(List<Dispositivo> dispositivoList) {
+        this.dispositivoList = dispositivoList;
+    }
+
+    public SincronizarEstado getSincronizacion() {
+        return sincronizacion;
+    }
+
+    public void setSincronizacion(SincronizarEstado sincronizacion) {
+        this.sincronizacion = sincronizacion;
     }
 
 }

@@ -1,34 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ar.nex.sincronizar;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Renzo
  */
 @Entity
-@Table(name = "sincronizar")
-public class Sincronizar implements Serializable {
+@Table(name = "dispositivo")
+public class Dispositivo implements Serializable {
+
+    @ManyToMany(mappedBy = "dispositivoList")
+    private List<Actividad> actividadList;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "uuid")
     private String uuid;
-    @Column(name = "device")
-    private String device;
+    @Column(name = "nombre")
+    private String nombre;
     @Column(name = "info")
     private String info;
     @Column(name = "created")
@@ -37,24 +46,11 @@ public class Sincronizar implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-   
-    @JoinColumn(name = "actividad", referencedColumnName = "uuid")
-    @ManyToOne
-    private Actividad actividad;
 
-    public Sincronizar() {
-        try {
-            this.uuid = UUID.randomUUID().toString();
-            //Nombre del dispositivo
-            this.device = InetAddress.getLocalHost().getHostName();
-            this.created = new Date();
-            this.updated = new Date();
-        } catch (Exception e) {
-            this.device = "Ni idea";
-        }
+    public Dispositivo() {
     }
 
-    public Sincronizar(String uuid) {
+    public Dispositivo(String uuid) {
         this.uuid = uuid;
     }
 
@@ -66,12 +62,12 @@ public class Sincronizar implements Serializable {
         this.uuid = uuid;
     }
 
-    public String getDevice() {
-        return device;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getInfo() {
@@ -98,14 +94,6 @@ public class Sincronizar implements Serializable {
         this.updated = updated;
     }
 
-    public Actividad getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(Actividad actividad) {
-        this.actividad = actividad;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -116,10 +104,10 @@ public class Sincronizar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sincronizar)) {
+        if (!(object instanceof Dispositivo)) {
             return false;
         }
-        Sincronizar other = (Sincronizar) object;
+        Dispositivo other = (Dispositivo) object;
         if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
@@ -128,7 +116,16 @@ public class Sincronizar implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.nex.sincronizar.Sincronizar_1[ uuid=" + uuid + " ]";
+        return "Dispositivo[ " + uuid + " - " + nombre + " ]";
+    }
+
+    @XmlTransient
+    public List<Actividad> getActividadList() {
+        return actividadList;
+    }
+
+    public void setActividadList(List<Actividad> actividadList) {
+        this.actividadList = actividadList;
     }
 
 }

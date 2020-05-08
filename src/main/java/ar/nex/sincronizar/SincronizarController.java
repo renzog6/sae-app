@@ -53,17 +53,14 @@ public class SincronizarController {
         try {
             EntityManager em = new JpaService().getFactory().createEntityManager();
 
-            Dispositivo dp = new JpaService().getDispositivo().findDispositivo("3");
+            Dispositivo dp = new JpaService().getDispositivo().findDispositivo("0");
+            //System.out.println("dp::: " + dp.getNombre());
             Query query = em.createQuery(""
                     + "SELECT a "
                     + "FROM Actividad a "
                     + "WHERE :rdp NOT MEMBER OF a.dispositivoList")
                     .setParameter("rdp", dp);
-
-            List<Actividad> resultList = query.getResultList();
-            System.out.println("row::: " + resultList.size());
-            resultList.forEach(r -> System.out.println(r.toString()));
-
+            
             List<Actividad> results = new ArrayList<>();//query.getResultList();
             if (!results.isEmpty()) {
                 return results;

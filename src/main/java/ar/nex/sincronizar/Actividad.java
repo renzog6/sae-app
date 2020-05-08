@@ -1,22 +1,27 @@
 package ar.nex.sincronizar;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +30,19 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "actividad")
 public class Actividad implements Serializable {
+
+    @Column(name = "sincronizacion")
+    private SincronizarEstado sincronizacion;
+
+    @JoinTable(name = "actividad_dispositivo", joinColumns = {
+        @JoinColumn(name = "actividad", referencedColumnName = "uuid")}, inverseJoinColumns = {
+        @JoinColumn(name = "dispositivo", referencedColumnName = "uuid")})
+    @ManyToMany
+    private List<Dispositivo> dispositivoList;
+
+    @OneToMany(mappedBy = "actividad")
+    //@OneToMany(targetEntity = Sincronizar.class, mappedBy = "acitvidad", fetch = FetchType.LAZY)
+    private List<Sincronizar> sincronizarList;
 
     private static final long serialVersionUID = 1L;
 
@@ -46,14 +64,16 @@ public class Actividad implements Serializable {
     private String entityUuid;
     @Column(name = "entity_json")
     private String entityJson;
-    @Column(name = "sincronizacion")
-    private SincronizarEstado sincronizacion;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
+    public void initDO() {
+        this.dispositivoList = new ArrayList<>();
+    }
 
     @PreUpdate
     public void setLastUpdate() {
@@ -68,6 +88,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
+            this.sincronizarList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -84,6 +105,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
+            this.sincronizarList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -145,14 +167,6 @@ public class Actividad implements Serializable {
         this.entityJson = entityJson;
     }
 
-    public SincronizarEstado getSincronizacion() {
-        return sincronizacion;
-    }
-
-    public void setSincronizacion(SincronizarEstado sincronizacion) {
-        this.sincronizacion = sincronizacion;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -167,6 +181,14 @@ public class Actividad implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public List<Sincronizar> getSincronizarList() {
+        return sincronizarList;
+    }
+
+    public void setSincronizarList(List<Sincronizar> sincronizarList) {
+        this.sincronizarList = sincronizarList;
     }
 
     @Override
@@ -191,7 +213,24 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return this.tipo + " - " + this.device + " - " + this.entity;
+        return uuid + " - " + this.tipo + " - " + this.device + " - " + this.entity;
+    }
+
+    @XmlTransient
+    public List<Dispositivo> getDispositivoList() {
+        return dispositivoList;
+    }
+
+    public void setDispositivoList(List<Dispositivo> dispositivoList) {
+        this.dispositivoList = dispositivoList;
+    }
+
+    public SincronizarEstado getSincronizacion() {
+        return sincronizacion;
+    }
+
+    public void setSincronizacion(SincronizarEstado sincronizacion) {
+        this.sincronizacion = sincronizacion;
     }
 
 }

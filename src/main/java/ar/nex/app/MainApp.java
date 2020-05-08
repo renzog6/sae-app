@@ -2,7 +2,6 @@ package ar.nex.app;
 
 import ar.nex.exceptions.ExceptionUtil;
 import ar.nex.login.LoginController;
-import ar.nex.jpa.service.JpaService;
 import ar.nex.util.SaeDate;
 import javafx.application.Application;
 import static javafx.application.Application.launch;

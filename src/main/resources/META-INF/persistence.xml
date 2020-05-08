@@ -38,9 +38,13 @@
     <class>ar.nex.entity.Seguro</class>
     <class>ar.nex.entity.producto.Producto</class>
     <class>ar.nex.entity.producto.Presentacion</class>    
+    
     <class>ar.nex.sincronizar.Actividad</class>
+    <class>ar.nex.sincronizar.Sincronizar</class>
+    <class>ar.nex.sincronizar.Dispositivo</class>
+    
     <class>ar.nex.entity.Item</class>
-    <class>ar.nex.sincronizar.sync.Itemx</class>
+
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sae_app?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="saedb"/>
@@ -87,9 +91,13 @@
     <class>ar.nex.entity.Seguro</class>
     <class>ar.nex.entity.producto.Producto</class>
     <class>ar.nex.entity.producto.Presentacion</class>   
+    
     <class>ar.nex.sincronizar.Actividad</class>
+    <class>ar.nex.sincronizar.Sincronizar</class>
+    <class>ar.nex.sincronizar.Dispositivo</class>
+    
     <class>ar.nex.entity.Item</class>
-    <class>ar.nex.sincronizar.sync.Itemx</class>
+    
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://bxtvdeoxbvp3jskyzekv-mysql.services.clever-cloud.com:3306/bxtvdeoxbvp3jskyzekv?useSSL=false"/>
       <property name="javax.persistence.jdbc.user" value="uxqrbexixwavcqbz"/>      

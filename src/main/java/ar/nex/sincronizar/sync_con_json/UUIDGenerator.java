@@ -1,4 +1,4 @@
-package ar.nex.sincronizar.sync;
+package ar.nex.sincronizar.sync_con_json;
 
 /**
  *

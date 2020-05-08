@@ -41,9 +41,9 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Renzo
  */
-public final class JpaService {
+public final class JpaRemote {
 
-    private final static Logger LOGGER = LogManager.getLogger(JpaService.class.getName());
+    private final static Logger LOGGER = LogManager.getLogger(JpaRemote.class.getName());
 
     private EntityManagerFactory factory;
 
@@ -55,7 +55,7 @@ public final class JpaService {
      *
      * Constructor de JPA Services.
      */
-    public JpaService() {
+    public JpaRemote() {
         this.factory = getFactory();
     }
 
@@ -65,7 +65,7 @@ public final class JpaService {
      */
     public EntityManagerFactory getFactory() {
         if (factory == null) {
-            this.factory = Persistence.createEntityManagerFactory("SaeFxPU");
+            this.factory = Persistence.createEntityManagerFactory("SaeRemote");
         }
         return factory;
     }
@@ -216,7 +216,7 @@ public final class JpaService {
     public SincronizarJpaController getSincronizar() {
         return new SincronizarJpaController(factory);
     }
-    
+
     /**
      *
      * @return DispositivoJpaController

@@ -11,7 +11,7 @@
  Target Server Version : 100137
  File Encoding         : 65001
 
- Date: 29/04/2020 18:02:24
+ Date: 11/05/2020 17:58:23
 */
 
 SET NAMES utf8mb4;
@@ -22,33 +22,54 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `actividad`;
 CREATE TABLE `actividad`  (
-  `uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `usuario` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `device` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `entity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `entity_json` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `entity_uuid` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `uuid` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `usuario` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `device` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `tipo` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `entity` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `entity_json` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `entity_uuid` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `sincronizacion` int(1) UNSIGNED NULL DEFAULT 0,
   `created` timestamp(0) NULL DEFAULT NULL,
   `updated` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`uuid`) USING BTREE,
-  INDEX `FK_actividad_usuario`(`usuario`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+  INDEX `FK_actividad_usuario`(`usuario`) USING BTREE,
+  INDEX `device`(`device`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of actividad
 -- ----------------------------
-INSERT INTO `actividad` VALUES ('157', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:19', '2020-04-17 11:27:19');
-INSERT INTO `actividad` VALUES ('158', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('159', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('160', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('161', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('162', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('163', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('164', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('165', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
-INSERT INTO `actividad` VALUES ('166', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, NULL, 0, '2020-04-17 11:27:20', '2020-04-17 11:27:20');
+INSERT INTO `actividad` VALUES ('920fc854-b116-448b-a8f5-bd0b35e874eb', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, 'ef08f323-2e8b-4f2f-a79f-4e5bcde0fdc3', 0, '2020-05-05 17:35:09', '2020-05-06 17:03:57');
+INSERT INTO `actividad` VALUES ('b74fb96e-3a9a-4273-b38c-2376186f782a', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, 'dcb2f221-d406-4c58-a24b-6d56a52ab717', 0, '2020-05-05 17:35:09', '2020-05-06 17:04:10');
+INSERT INTO `actividad` VALUES ('b7e689e6-3c46-4bb0-be16-1ab85cb4576f', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, 'ea68d538-c5b0-4df2-a686-b754c279b3f0', 0, '2020-05-05 17:35:09', '2020-05-06 17:04:19');
+INSERT INTO `actividad` VALUES ('e3e321f9-0b5c-47fe-b1fb-30a8cd8a3b18', 'lalo', 'Ofn-Renzo', 'create - Local', 'Item', NULL, '08a4bd63-7977-4409-950f-5997fb41662b', 0, '2020-05-05 17:35:09', '2020-05-06 17:03:39');
+
+-- ----------------------------
+-- Table structure for actividad_dispositivo
+-- ----------------------------
+DROP TABLE IF EXISTS `actividad_dispositivo`;
+CREATE TABLE `actividad_dispositivo`  (
+  `actividad` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `dispositivo` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`actividad`, `dispositivo`) USING BTREE,
+  INDEX `fk_dp`(`dispositivo`) USING BTREE,
+  CONSTRAINT `fk_ac` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`uuid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_dp` FOREIGN KEY (`dispositivo`) REFERENCES `dispositivo` (`uuid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of actividad_dispositivo
+-- ----------------------------
+INSERT INTO `actividad_dispositivo` VALUES ('920fc854-b116-448b-a8f5-bd0b35e874eb', '1');
+INSERT INTO `actividad_dispositivo` VALUES ('920fc854-b116-448b-a8f5-bd0b35e874eb', '3');
+INSERT INTO `actividad_dispositivo` VALUES ('b74fb96e-3a9a-4273-b38c-2376186f782a', '1');
+INSERT INTO `actividad_dispositivo` VALUES ('b74fb96e-3a9a-4273-b38c-2376186f782a', '2');
+INSERT INTO `actividad_dispositivo` VALUES ('b74fb96e-3a9a-4273-b38c-2376186f782a', '3');
+INSERT INTO `actividad_dispositivo` VALUES ('b7e689e6-3c46-4bb0-be16-1ab85cb4576f', '1');
+INSERT INTO `actividad_dispositivo` VALUES ('b7e689e6-3c46-4bb0-be16-1ab85cb4576f', '3');
+INSERT INTO `actividad_dispositivo` VALUES ('e3e321f9-0b5c-47fe-b1fb-30a8cd8a3b18', '1');
+INSERT INTO `actividad_dispositivo` VALUES ('e3e321f9-0b5c-47fe-b1fb-30a8cd8a3b18', '2');
 
 -- ----------------------------
 -- Table structure for aux_marca
@@ -1014,6 +1035,26 @@ INSERT INTO `contacto` VALUES (1309, 'Petrolera de Galvez', 0, '3404-481897', ''
 INSERT INTO `contacto` VALUES (1312, 'Principal', 0, '0 342 4019 600', '');
 INSERT INTO `contacto` VALUES (1313, 'Sucursal Rosario', 0, '0810 222 7256?', '');
 INSERT INTO `contacto` VALUES (1314, 'Personal', 1, '12345679', NULL);
+
+-- ----------------------------
+-- Table structure for dispositivo
+-- ----------------------------
+DROP TABLE IF EXISTS `dispositivo`;
+CREATE TABLE `dispositivo`  (
+  `uuid` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` char(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `info` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `created` timestamp(0) NULL DEFAULT NULL,
+  `updated` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`uuid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of dispositivo
+-- ----------------------------
+INSERT INTO `dispositivo` VALUES ('1', 'RemoTE', 'Juan', '2020-05-06 09:18:40', '2020-05-06 09:18:43');
+INSERT INTO `dispositivo` VALUES ('2', 'Gen x', 'sas', '2020-05-05 17:35:44', '2020-05-05 17:35:44');
+INSERT INTO `dispositivo` VALUES ('3', 'Ofn-Renzo', 'ds', '2020-05-06 09:24:02', '2020-05-06 09:24:05');
 
 -- ----------------------------
 -- Table structure for doc_seguro
@@ -6148,11 +6189,11 @@ INSERT INTO `eq_transporte` VALUES (9, 148, 136, 23, '02', NULL, NULL);
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item`  (
   `uuid` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `info` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `codigo` char(6) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `unidad` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
-  `rubro` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `marca` char(36) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
   `created` timestamp(0) NULL DEFAULT NULL,
   `updated` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`uuid`) USING BTREE
@@ -6161,9 +6202,11 @@ CREATE TABLE `item`  (
 -- ----------------------------
 -- Records of item
 -- ----------------------------
-INSERT INTO `item` VALUES ('46de6eda-18f2-41cc-a1f8-4c58223ef72e', 'Item UUID 333', 'UUID X 333', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `item` VALUES ('9c588788-f2ff-4d', 'Item UUID', 'UUID X', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `item` VALUES ('c8574f7a-f0fe-4cd5-8922-c21c0cae3800', 'Xds', '#dd', NULL, NULL, NULL, '2020-04-29 10:34:20', '2020-04-29 10:34:20');
+INSERT INTO `item` VALUES ('08a4bd63-7977-4409-950f-5997fb41662b', 'name 3', 'info 3', NULL, NULL, NULL, '2020-05-05 17:35:09', '2020-05-05 17:35:09');
+INSERT INTO `item` VALUES ('4c705a68-1ada-4ee8-8dff-225101559f84', 'name 5', 'info 5', NULL, NULL, NULL, '2020-05-05 17:35:10', '2020-05-05 17:35:10');
+INSERT INTO `item` VALUES ('dcb2f221-d406-4c58-a24b-6d56a52ab717', 'name 2', 'info 2', NULL, NULL, NULL, '2020-05-05 17:35:09', '2020-05-05 17:35:09');
+INSERT INTO `item` VALUES ('ea68d538-c5b0-4df2-a686-b754c279b3f0', 'name 4', 'info 4', NULL, NULL, NULL, '2020-05-05 17:35:09', '2020-05-05 17:35:09');
+INSERT INTO `item` VALUES ('ef08f323-2e8b-4f2f-a79f-4e5bcde0fdc3', 'name 1', 'info 1', NULL, NULL, NULL, '2020-05-05 17:35:08', '2020-05-05 17:35:08');
 
 -- ----------------------------
 -- Table structure for ped_pedido
@@ -8768,22 +8811,6 @@ CREATE TABLE `rubro_sub`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Table structure for sincronizar
--- ----------------------------
-DROP TABLE IF EXISTS `sincronizar`;
-CREATE TABLE `sincronizar`  (
-  `id_sincronizar` bigint(20) UNSIGNED NOT NULL,
-  `acitvidad` bigint(20) UNSIGNED NULL DEFAULT NULL,
-  `usuario_sincornizado` bigint(20) NULL DEFAULT NULL,
-  `info` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
-  `created_at` timestamp(0) NULL DEFAULT NULL,
-  `updated_at` timestamp(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_sincronizar`) USING BTREE,
-  INDEX `FK_sincornizar_actividad`(`acitvidad`) USING BTREE,
-  INDEX `FK_usuarios_sincronizados`(`usuario_sincornizado`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = Compact;
-
--- ----------------------------
 -- Table structure for ubi_coordenada
 -- ----------------------------
 DROP TABLE IF EXISTS `ubi_coordenada`;
@@ -9964,22 +9991,5 @@ CREATE TABLE `usr_usuario_menu`  (
 -- ----------------------------
 INSERT INTO `usr_usuario_menu` VALUES (1, 1);
 INSERT INTO `usr_usuario_menu` VALUES (3, 3);
-
--- ----------------------------
--- View structure for equipo_view
--- ----------------------------
-DROP VIEW IF EXISTS `equipo_view`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `equipo_view` AS SELECT
-	eq_equipo.tipo,
-	eq_equipo.modelo,
-	eq_equipo.marca,
-	eq_equipo.anio,
-	eq_equipo.patente,
-	eq_equipo.motor,
-	eq_equipo.chasis 
-FROM
-	eq_equipo 
-ORDER BY
-	eq_equipo.tipo ASC ;
 
 SET FOREIGN_KEY_CHECKS = 1;

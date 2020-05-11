@@ -39,8 +39,7 @@
     <class>ar.nex.entity.producto.Producto</class>
     <class>ar.nex.entity.producto.Presentacion</class>    
     
-    <class>ar.nex.sincronizar.Actividad</class>
-    <class>ar.nex.sincronizar.Sincronizar</class>
+    <class>ar.nex.sincronizar.Actividad</class>    
     <class>ar.nex.sincronizar.Dispositivo</class>
     
     <class>ar.nex.entity.Item</class>
@@ -92,8 +91,7 @@
     <class>ar.nex.entity.producto.Producto</class>
     <class>ar.nex.entity.producto.Presentacion</class>   
     
-    <class>ar.nex.sincronizar.Actividad</class>
-    <class>ar.nex.sincronizar.Sincronizar</class>
+    <class>ar.nex.sincronizar.Actividad</class>    
     <class>ar.nex.sincronizar.Dispositivo</class>
     
     <class>ar.nex.entity.Item</class>

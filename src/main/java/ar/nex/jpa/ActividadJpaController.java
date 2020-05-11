@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import ar.nex.sincronizar.Sincronizar;
+import ar.nex.sincronizar.Dispositivo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,28 +35,23 @@ public class ActividadJpaController implements Serializable {
     }
 
     public void create(Actividad actividad) throws PreexistingEntityException, Exception {
-        if (actividad.getSincronizarList() == null) {
-            actividad.setSincronizarList(new ArrayList<Sincronizar>());
+        if (actividad.getDispositivoList() == null) {
+            actividad.setDispositivoList(new ArrayList<Dispositivo>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Sincronizar> attachedSincronizarList = new ArrayList<Sincronizar>();
-            for (Sincronizar sincronizarListSincronizarToAttach : actividad.getSincronizarList()) {
-                sincronizarListSincronizarToAttach = em.getReference(sincronizarListSincronizarToAttach.getClass(), sincronizarListSincronizarToAttach.getUuid());
-                attachedSincronizarList.add(sincronizarListSincronizarToAttach);
+            List<Dispositivo> attachedDispositivoList = new ArrayList<Dispositivo>();
+            for (Dispositivo dispositivoListDispositivoToAttach : actividad.getDispositivoList()) {
+                dispositivoListDispositivoToAttach = em.getReference(dispositivoListDispositivoToAttach.getClass(), dispositivoListDispositivoToAttach.getUuid());
+                attachedDispositivoList.add(dispositivoListDispositivoToAttach);
             }
-            actividad.setSincronizarList(attachedSincronizarList);
+            actividad.setDispositivoList(attachedDispositivoList);
             em.persist(actividad);
-            for (Sincronizar sincronizarListSincronizar : actividad.getSincronizarList()) {
-                Actividad oldActividadOfSincronizarListSincronizar = sincronizarListSincronizar.getActividad();
-                sincronizarListSincronizar.setActividad(actividad);
-                sincronizarListSincronizar = em.merge(sincronizarListSincronizar);
-                if (oldActividadOfSincronizarListSincronizar != null) {
-                    oldActividadOfSincronizarListSincronizar.getSincronizarList().remove(sincronizarListSincronizar);
-                    oldActividadOfSincronizarListSincronizar = em.merge(oldActividadOfSincronizarListSincronizar);
-                }
+            for (Dispositivo dispositivoListDispositivo : actividad.getDispositivoList()) {
+                dispositivoListDispositivo.getActividadList().add(actividad);
+                dispositivoListDispositivo = em.merge(dispositivoListDispositivo);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -77,31 +72,26 @@ public class ActividadJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Actividad persistentActividad = em.find(Actividad.class, actividad.getUuid());
-            List<Sincronizar> sincronizarListOld = persistentActividad.getSincronizarList();
-            List<Sincronizar> sincronizarListNew = actividad.getSincronizarList();
-            List<Sincronizar> attachedSincronizarListNew = new ArrayList<Sincronizar>();
-            for (Sincronizar sincronizarListNewSincronizarToAttach : sincronizarListNew) {
-                sincronizarListNewSincronizarToAttach = em.getReference(sincronizarListNewSincronizarToAttach.getClass(), sincronizarListNewSincronizarToAttach.getUuid());
-                attachedSincronizarListNew.add(sincronizarListNewSincronizarToAttach);
+            List<Dispositivo> dispositivoListOld = persistentActividad.getDispositivoList();
+            List<Dispositivo> dispositivoListNew = actividad.getDispositivoList();
+            List<Dispositivo> attachedDispositivoListNew = new ArrayList<Dispositivo>();
+            for (Dispositivo dispositivoListNewDispositivoToAttach : dispositivoListNew) {
+                dispositivoListNewDispositivoToAttach = em.getReference(dispositivoListNewDispositivoToAttach.getClass(), dispositivoListNewDispositivoToAttach.getUuid());
+                attachedDispositivoListNew.add(dispositivoListNewDispositivoToAttach);
             }
-            sincronizarListNew = attachedSincronizarListNew;
-            actividad.setSincronizarList(sincronizarListNew);
+            dispositivoListNew = attachedDispositivoListNew;
+            actividad.setDispositivoList(dispositivoListNew);
             actividad = em.merge(actividad);
-            for (Sincronizar sincronizarListOldSincronizar : sincronizarListOld) {
-                if (!sincronizarListNew.contains(sincronizarListOldSincronizar)) {
-                    sincronizarListOldSincronizar.setActividad(null);
-                    sincronizarListOldSincronizar = em.merge(sincronizarListOldSincronizar);
+            for (Dispositivo dispositivoListOldDispositivo : dispositivoListOld) {
+                if (!dispositivoListNew.contains(dispositivoListOldDispositivo)) {
+                    dispositivoListOldDispositivo.getActividadList().remove(actividad);
+                    dispositivoListOldDispositivo = em.merge(dispositivoListOldDispositivo);
                 }
             }
-            for (Sincronizar sincronizarListNewSincronizar : sincronizarListNew) {
-                if (!sincronizarListOld.contains(sincronizarListNewSincronizar)) {
-                    Actividad oldActividadOfSincronizarListNewSincronizar = sincronizarListNewSincronizar.getActividad();
-                    sincronizarListNewSincronizar.setActividad(actividad);
-                    sincronizarListNewSincronizar = em.merge(sincronizarListNewSincronizar);
-                    if (oldActividadOfSincronizarListNewSincronizar != null && !oldActividadOfSincronizarListNewSincronizar.equals(actividad)) {
-                        oldActividadOfSincronizarListNewSincronizar.getSincronizarList().remove(sincronizarListNewSincronizar);
-                        oldActividadOfSincronizarListNewSincronizar = em.merge(oldActividadOfSincronizarListNewSincronizar);
-                    }
+            for (Dispositivo dispositivoListNewDispositivo : dispositivoListNew) {
+                if (!dispositivoListOld.contains(dispositivoListNewDispositivo)) {
+                    dispositivoListNewDispositivo.getActividadList().add(actividad);
+                    dispositivoListNewDispositivo = em.merge(dispositivoListNewDispositivo);
                 }
             }
             em.getTransaction().commit();
@@ -133,10 +123,10 @@ public class ActividadJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The actividad with id " + id + " no longer exists.", enfe);
             }
-            List<Sincronizar> sincronizarList = actividad.getSincronizarList();
-            for (Sincronizar sincronizarListSincronizar : sincronizarList) {
-                sincronizarListSincronizar.setActividad(null);
-                sincronizarListSincronizar = em.merge(sincronizarListSincronizar);
+            List<Dispositivo> dispositivoList = actividad.getDispositivoList();
+            for (Dispositivo dispositivoListDispositivo : dispositivoList) {
+                dispositivoListDispositivo.getActividadList().remove(actividad);
+                dispositivoListDispositivo = em.merge(dispositivoListDispositivo);
             }
             em.remove(actividad);
             em.getTransaction().commit();

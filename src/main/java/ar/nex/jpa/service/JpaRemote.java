@@ -28,7 +28,6 @@ import ar.nex.jpa.ProvinciaJpaController;
 import ar.nex.jpa.RepuestoJpaController;
 import ar.nex.jpa.RubroJpaController;
 import ar.nex.jpa.SeguroJpaController;
-import ar.nex.jpa.SincronizarJpaController;
 
 import ar.nex.jpa.TransporteJpaController;
 import ar.nex.jpa.UsuarioJpaController;
@@ -207,14 +206,6 @@ public final class JpaRemote {
      */
     public ActividadJpaController getActividad() {
         return new ActividadJpaController(factory);
-    }
-
-    /**
-     *
-     * @return SincronizarJpaController
-     */
-    public SincronizarJpaController getSincronizar() {
-        return new SincronizarJpaController(factory);
     }
 
     /**

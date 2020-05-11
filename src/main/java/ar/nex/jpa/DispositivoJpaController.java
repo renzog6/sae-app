@@ -7,15 +7,17 @@ package ar.nex.jpa;
 
 import ar.nex.jpa.exceptions.NonexistentEntityException;
 import ar.nex.jpa.exceptions.PreexistingEntityException;
-import ar.nex.sincronizar.Dispositivo;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import ar.nex.sincronizar.Actividad;
+import ar.nex.sincronizar.Dispositivo;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -33,11 +35,24 @@ public class DispositivoJpaController implements Serializable {
     }
 
     public void create(Dispositivo dispositivo) throws PreexistingEntityException, Exception {
+        if (dispositivo.getActividadList() == null) {
+            dispositivo.setActividadList(new ArrayList<Actividad>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Actividad> attachedActividadList = new ArrayList<Actividad>();
+            for (Actividad actividadListActividadToAttach : dispositivo.getActividadList()) {
+                actividadListActividadToAttach = em.getReference(actividadListActividadToAttach.getClass(), actividadListActividadToAttach.getUuid());
+                attachedActividadList.add(actividadListActividadToAttach);
+            }
+            dispositivo.setActividadList(attachedActividadList);
             em.persist(dispositivo);
+            for (Actividad actividadListActividad : dispositivo.getActividadList()) {
+                actividadListActividad.getDispositivoList().add(dispositivo);
+                actividadListActividad = em.merge(actividadListActividad);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (findDispositivo(dispositivo.getUuid()) != null) {
@@ -56,7 +71,29 @@ public class DispositivoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Dispositivo persistentDispositivo = em.find(Dispositivo.class, dispositivo.getUuid());
+            List<Actividad> actividadListOld = persistentDispositivo.getActividadList();
+            List<Actividad> actividadListNew = dispositivo.getActividadList();
+            List<Actividad> attachedActividadListNew = new ArrayList<Actividad>();
+            for (Actividad actividadListNewActividadToAttach : actividadListNew) {
+                actividadListNewActividadToAttach = em.getReference(actividadListNewActividadToAttach.getClass(), actividadListNewActividadToAttach.getUuid());
+                attachedActividadListNew.add(actividadListNewActividadToAttach);
+            }
+            actividadListNew = attachedActividadListNew;
+            dispositivo.setActividadList(actividadListNew);
             dispositivo = em.merge(dispositivo);
+            for (Actividad actividadListOldActividad : actividadListOld) {
+                if (!actividadListNew.contains(actividadListOldActividad)) {
+                    actividadListOldActividad.getDispositivoList().remove(dispositivo);
+                    actividadListOldActividad = em.merge(actividadListOldActividad);
+                }
+            }
+            for (Actividad actividadListNewActividad : actividadListNew) {
+                if (!actividadListOld.contains(actividadListNewActividad)) {
+                    actividadListNewActividad.getDispositivoList().add(dispositivo);
+                    actividadListNewActividad = em.merge(actividadListNewActividad);
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -85,6 +122,11 @@ public class DispositivoJpaController implements Serializable {
                 dispositivo.getUuid();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The dispositivo with id " + id + " no longer exists.", enfe);
+            }
+            List<Actividad> actividadList = dispositivo.getActividadList();
+            for (Actividad actividadListActividad : actividadList) {
+                actividadListActividad.getDispositivoList().remove(dispositivo);
+                actividadListActividad = em.merge(actividadListActividad);
             }
             em.remove(dispositivo);
             em.getTransaction().commit();

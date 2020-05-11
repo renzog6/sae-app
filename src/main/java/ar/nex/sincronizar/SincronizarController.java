@@ -73,54 +73,6 @@ public class SincronizarController {
         }
     }
 
-    public List<Actividad> test() {
-
-        List<Actividad> actividadList = null;
-        List<Sincronizar> syncList = null;
-        try {
-            EntityManager em = new JpaService().getFactory().createEntityManager();
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-
-            CriteriaQuery<Sincronizar> cq = cb.createQuery(Sincronizar.class);
-
-            if (cq != null) {
-                Root<Sincronizar> player = cq.from(Sincronizar.class);
-                Join<Sincronizar, Actividad> join = player.join("sincronizarList", JoinType.LEFT);
-                cq.where(cb.equal(join.get("device"), "Server"));
-
-                //cq.where(cb.equal(join.get("name"), "ordinary"));
-                //Join<User, Role> join = from.join("role", JoinType.LEFT);
-                // Get MetaModel from Root
-                //EntityType<Sincronizar> Sincronizar_ = player.getModel();
-                // set the where clause
-                TypedQuery<Sincronizar> tq = em.createQuery(cq);
-
-                syncList = tq.getResultList();
-            }
-//                try {
-//        CriteriaQuery<Player> cq = cb.createQuery(Player.class);
-//        if (cq != null) {
-//            Root<Player> player = cq.from(Player.class);
-//            Join<Player, Team> team = player.join(Player_.teams);
-//            Join<Team, League> league = team.join(Team_.league);
-//
-//            // Get MetaModel from Root
-//            //EntityType<Player> Player_ = player.getModel();
-//
-//            // set the where clause
-//            cq.where(cb.equal(league.get(League_.sport), sport));
-//            cq.select(player).distinct(true);
-//            TypedQuery<Player> q = em.createQuery(cq);
-//            players = q.getResultList();
-//        }
-            return actividadList;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
     public void checkLocalActividad() {
         try {
             List<Actividad> pendientes = null;
@@ -215,10 +167,10 @@ public class SincronizarController {
             if (local) {
                 new JpaService().getActividad().create(actividad);
             } else {
-                Sincronizar sync = new Sincronizar();
-                new JpaService().getSincronizar().create(sync);
-                new JpaRemote().getSincronizar().create(sync);
-                actividad.getSincronizarList().add(sync);
+             //   Sincronizar sync = new Sincronizar();
+               // new JpaService().getSincronizar().create(sync);
+               // new JpaRemote().getSincronizar().create(sync);
+                //actividad.getSincronizarList().add(sync);
                 new JpaRemote().getActividad().create(actividad);
                 actividad.setSincronizacion(SincronizarEstado.SINCRONIZADO);
                 jpaLocal.getActividad().edit(actividad);

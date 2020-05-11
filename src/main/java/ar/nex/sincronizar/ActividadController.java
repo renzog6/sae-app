@@ -116,13 +116,6 @@ public class ActividadController {
                 a.setEntityUuid(item.getUuid());
                 a.setDevice("Gen X");
 
-                Sincronizar s = new Sincronizar();
-                s.setDevice("Gen x");
-                jpaRemote.getSincronizar().create(s);
-
-                a.getSincronizarList().add(s);
-                jpaRemote.getActividad().create(a);
-
             }
 
         } catch (Exception e) {

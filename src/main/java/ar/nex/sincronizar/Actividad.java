@@ -40,10 +40,6 @@ public class Actividad implements Serializable {
     @ManyToMany
     private List<Dispositivo> dispositivoList;
 
-    @OneToMany(mappedBy = "actividad")
-    //@OneToMany(targetEntity = Sincronizar.class, mappedBy = "acitvidad", fetch = FetchType.LAZY)
-    private List<Sincronizar> sincronizarList;
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -71,10 +67,6 @@ public class Actividad implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
-    public void initDO() {
-        this.dispositivoList = new ArrayList<>();
-    }
-
     @PreUpdate
     public void setLastUpdate() {
         this.updated = new Date();
@@ -88,7 +80,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
-            this.sincronizarList = new ArrayList<>();
+            this.dispositivoList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -105,7 +97,7 @@ public class Actividad implements Serializable {
             this.sincronizacion = SincronizarEstado.PENDIENTE;
             this.created = new Date();
             this.updated = new Date();
-            this.sincronizarList = new ArrayList<>();
+            this.dispositivoList = new ArrayList<>();
         } catch (Exception e) {
             this.device = "Ni idea";
         }
@@ -181,14 +173,6 @@ public class Actividad implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
-    }
-
-    public List<Sincronizar> getSincronizarList() {
-        return sincronizarList;
-    }
-
-    public void setSincronizarList(List<Sincronizar> sincronizarList) {
-        this.sincronizarList = sincronizarList;
     }
 
     @Override

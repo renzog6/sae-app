@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="apLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+       <Label fx:id="Titulo" alignment="CENTER" contentDisplay="CENTER" layoutX="115.0" layoutY="32.0" prefHeight="30.0" text="Bienvenido a SAE" textAlignment="CENTER" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0" />
+      <JFXTextField fx:id="boxUser" labelFloat="true" layoutX="128.0" layoutY="104.0" prefHeight="30.0" prefWidth="150.0" promptText="Usuario" unFocusColor="#4bee39" AnchorPane.topAnchor="90.0" />
+      <JFXPasswordField fx:id="boxPass" labelFloat="true" layoutX="128.0" layoutY="154.0" prefHeight="30.0" prefWidth="150.0" promptText="Contraseña" unFocusColor="#39eb53" AnchorPane.topAnchor="150.0" />
+      <JFXButton fx:id="btnIniciar" layoutX="55.0" layoutY="244.0" prefHeight="30.0" prefWidth="80.0" ripplerFill="#95d397" text="Ingresar" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" />
+      <JFXButton fx:id="btnCancelar" layoutX="216.0" layoutY="236.0" prefHeight="30.0" prefWidth="80.0" ripplerFill="#ee4949" text="Cancelar" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="50.0" />
+      <FontAwesomeIconView glyphName="USER" layoutX="100.0" layoutY="127.0" size="18" AnchorPane.topAnchor="100.0" />
+      <FontAwesomeIconView glyphName="LOCK" layoutX="100.0" layoutY="189.0" size="18" AnchorPane.topAnchor="160.0" />
+   </children>
+</AnchorPane>

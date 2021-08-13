@@ -1,29 +1,37 @@
-package ar.nex.entity;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ar.nex.sincronizar;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Renzo
  */
 @Entity
-@Table(name = "item")
-public class Item implements Serializable {
+@Table(name = "dispositivo")
+public class Dispositivo implements Serializable {
+
+    @ManyToMany(mappedBy = "dispositivoList")
+    private List<Actividad> actividadList;
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @Basic(optional = false)
     @Column(name = "uuid")
@@ -32,12 +40,6 @@ public class Item implements Serializable {
     private String nombre;
     @Column(name = "info")
     private String info;
-    @Column(name = "codigo")
-    private String codigo;
-    @Column(name = "unidad")
-    private String unidad;
-    @Column(name = "marca")
-    private String marca;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -45,25 +47,11 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
-    private void init() {
-        this.uuid = UUID.randomUUID().toString();
-        this.created = new Date();
-        this.updated = new Date();
+    public Dispositivo() {
     }
 
-    @PreUpdate
-    public void setLastUpdate() {
-        this.updated = new Date();
-    }
-
-    public Item() {
-        this.init();
-    }
-
-    public Item(String name, String info) {
-        this.init();
-        this.nombre = name;
-        this.info = info;
+    public Dispositivo(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUuid() {
@@ -82,36 +70,12 @@ public class Item implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
     public String getInfo() {
         return info;
     }
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getUnidad() {
-        return unidad;
-    }
-
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
     }
 
     public Date getCreated() {
@@ -140,10 +104,10 @@ public class Item implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
+        if (!(object instanceof Dispositivo)) {
             return false;
         }
-        Item other = (Item) object;
+        Dispositivo other = (Dispositivo) object;
         if ((this.uuid == null && other.uuid != null) || (this.uuid != null && !this.uuid.equals(other.uuid))) {
             return false;
         }
@@ -152,7 +116,16 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "uuid=" + uuid + " - " + nombre;
+        return "Dispositivo[ " + uuid + " - " + nombre + " ]";
+    }
+
+    @XmlTransient
+    public List<Actividad> getActividadList() {
+        return actividadList;
+    }
+
+    public void setActividadList(List<Actividad> actividadList) {
+        this.actividadList = actividadList;
     }
 
 }

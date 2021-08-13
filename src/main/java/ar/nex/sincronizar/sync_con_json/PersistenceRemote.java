@@ -1,4 +1,4 @@
-package ar.nex.sincronizar;
+package ar.nex.sincronizar.sync_con_json;
 
 import java.util.HashMap;
 import java.util.Map;
